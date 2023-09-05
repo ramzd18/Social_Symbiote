@@ -1,12 +1,20 @@
 import logo from './logo.svg';
 import './App.css';
 import ProfileList from './components/ProfileList.js'
-import Profile from './components/Profile.js'
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Sidebar from './components/Sidebar';
 function App() {
   return (
-    <ProfileList></ProfileList>
+    <div>
+      <Router>
+        <Sidebar />
+        <Routes>
+          <Route path='/' exact component={ProfileList} />
+          <Route path='/reports' component={ProfileList} />
+          <Route path='/products' component={ProfileList} />
+        </Routes>
+      </Router>
+    </div>
   );
 }
 
