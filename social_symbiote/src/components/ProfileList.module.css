@@ -1,0 +1,19 @@
+.rowstyle {
+  display: flex;
+  /* Display items in a row */
+  flex-wrap: nowrap;
+  /* Don't wrap to the next row */
+  justify-content: flex-start;
+  /* Start from the beginning of the row */
+  align-items: start;
+  /* Vertically center items */
+}
+
+.text {
+  text-align: center;
+}
+
+.card {
+  border-radius: 15px;
+  box-shadow: 0 8px 10px 2px #777;
+}
