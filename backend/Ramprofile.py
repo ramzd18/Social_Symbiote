@@ -8,4 +8,6 @@ filename = 'message_1(13).json'
 f = open("backend\message_1 (13).json", "r")
 data=f.read().replace('\n', '')
 keyword = json.loads(data)
-print(keyword)
+keyword=keyword["messages"]
+for x in keyword:
+        print(x.get("content"))
