@@ -15,12 +15,12 @@ from langchain.retrievers import TimeWeightedVectorStoreRetriever
 from langchain.vectorstores import FAISS
 from langchain.document_loaders import TextLoader
 import json
+import promptLLMmemories
 
 os.environ["OPENAI_API_KEY"] = "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"
 
-USER_NAME = "Person A" 
-LLM = ChatOpenAI(max_tokens=1000)  # Can be any LLM you want.
-
+LLM = ChatOpenAI(max_tokens=800)  # Can be any LLM you want.
+USER_NAME="Person A"
 def relevance_score_fn(score: float) -> float:
     """Return a similarity score on a scale [0, 1]."""
     return 1.0 - score / math.sqrt(2)
@@ -47,7 +47,10 @@ def create_new_memory_retriever():
           vectorstore=vectorstore, other_score_keys=["importance"], k=15
       )
     timevectorstore=addMemories(timevectorstore)
+    
     return timevectorstore
+def update_vectorstore_with_memories(vectorstore):
+   addMemories(vectorstore)
 def create_agent():
   ram_memory = GenerativeAgentMemory(
     llm=LLM,
@@ -65,40 +68,41 @@ def create_agent():
     memory=ram_memory,
 )
   return ram; 
-ramprofile=create_agent()
-tommie_observations = [
-    "Ram remembers his dog, Bruno, from when he was a kid",
-    "Ram feels tired from driving so far",
-    "Ram sees the new home",
-    "The new neighbors have a cat",
-    "The road is noisy at night",
-    "Ram is hungry",
-    "Ram tries to get some rest.",
-]
-for observation in tommie_observations:
-    ramprofile.memory.add_memory(observation)
+
 def interview_agent(agent: GenerativeAgent, message: str) -> str:
     new_message = f"{USER_NAME} says {message}"
     return agent.generate_dialogue_response(new_message)[1]
-stored_dict=ramprofile.__dict__
-jsonval=ramprofile.memory.to_json()
-#ramprofile.memory.format_memories_detail(ramprofile.memory.parse_file)
-jsonval=json.dumps(jsonval)
-memory=stored_dict.get('memory')
-print(type(jsonval))
-print(stored_dict.get("name"))
-print(stored_dict.get("age"))
-print(stored_dict.get("status"))
-print(stored_dict.get("llm"))
-print(stored_dict.get("verbose"))
 
 
 
+
+def get_agent_initial_data(): 
+  ramprofile=create_agent()
+  # ram_observations=promptLLMmemories.generate_relevant_memories("Generate memories for Ram. Ram is a college student who loves to watch football and play sports. He specifically spends a lot of money on basketball hoops and spikeball nets. Start the memories with Ram's name. Make each memory a full sentence")
+  # for observation in ram_observations:
+  #  ramprofile.memory.add_memory(observation)
+  stored_dict=ramprofile.__dict__
+  memory=ramprofile.memory.dict()
+  memory=json.dumps(memory,default=str)
+  print(type(memory))
+  llm=ramprofile.llm.to_json()
+  llm=json.dumps(llm)
+  print(type(llm))
+  name=stored_dict.get("name")
+  age=stored_dict.get("age")
+  status=stored_dict.get("status")
+  print(type(name))
+  print(type(age))
+  print(type(status))
+  return name,age,status,memory,llm
+
+# name,age,status,memory,llm=add_data()
+# print(name)
 # for i in stored_dict.keys():
 #     print(stored_dict.get(i))
 #print(ramprofile.memory.to_json())
 # #print(interview_agent(ramprofile, "What are your thoughts on abortion?"))  
-# #print(ramprofile.summarize_related_memories("Politics"))
+# #pint(ramprofile.summarize_related_memories("Politics"))
 # save_file = open("agentdata.json", "w")  
 # json.dump(ramprofile.json,save_file, indent = 6)  
 # save_file.close()  
