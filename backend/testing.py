@@ -10,12 +10,7 @@ Ram_agent=load_agent_database.LoadAgent('rbpeddu@gmail.com','Ram')
 # print(data)
 # data=retrieve_agent.retrieve_agents_record('rbpeddu@gmail.com','Ram')
 # print(data)
-str= """You are following a certain company on social media and you see a tweet they published. Tell me if you liked the tweet and what you would change about it. Here is the tweet: I find it pretty incredible, that a house brand golf ball from Dicks Sporting Goods has two of the best scores ever in our Ball Lab.
-There are golf ball companies who have spent millions of dollars 💵 on R&D and been making balls for decades that aren’t making a ball as consistent as a Maxfli.
-
-Credit where credit is due. Nice job to everyone making the Maxfli golf ball. 
-
-It’s a hellova a ball for a hell of a price. You are not only competing with the big boys you are kicking some of their butts.
+str= """You are being interviewed by a company about their product. Tell me what you like and do not like about the product. Here is the product: Bluetooth headphone that can detect your face movements to lower and raise volume and also end or start calls.
 """
 output=(Ram_agent._generate_reaction(str,""))
 print(output)

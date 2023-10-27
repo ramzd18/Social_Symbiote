@@ -2,13 +2,19 @@
 # from transformers import pipeline
 from langchain.prompts import PromptTemplate
 from langchain.llms import OpenAI
-
+import re
 # classifier = pipeline('zero-shot-classification')
 # text ="""This group consists of individuals who are on the cusp of becoming professional esports players. They may participate in semi-professional leagues or aspire to break into the professional scene.
 # They seek controllers that offer a competitive edge and are willing to invest in equipment to improve their gameplay."""
 # labels = ['young', 'old']
 # result = classifier(text, labels)
 # print(result)
+
+class GptMarketScrapeException(Exception):
+    "Raised when GPT market group analysis is not three groups"
+    pass
+
+
 
 def generate_target_market(productdescription,targetmarket,question): 
     llm = OpenAI(openai_api_key="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")
@@ -29,14 +35,48 @@ productdescription="A new age video game controller that optimizes gaming"
 targetmarket= """My target market is young esport gamers"""
 question="""Can you  specify three specific groups within this target market focus and for each group include a paragrap description of each group and an age range"""
 # print(generate_target_market(productdescription,targetmarket,question))
+examplestr= ['Group 1: Competitive Esports Players: This group consists of gamers who take gaming very seriously and compete in tournaments or leagues. They are typically aged between 15-25 and have an extensive knowledge of video games. They are highly involved in the gaming community', 'often streaming their games and discussing strategies with other players.\n\nGroup 2: Casual Esports Players: This group consists of gamers who enjoy playing video games as a hobby', 'but do not take part in tournaments or leagues. They are typically aged between 10-30 and are interested in having fun with video games. They typically have a moderate knowledge of video games and often seek out advice from other players.\n\nGroup 3: Professional Esports Players: This group consists of gamers who play video games professionally', 'either for teams or as individual players. They are typically aged between 18-30 and have an extensive knowledge of video games. They are highly invested in the gaming community', 'often streaming their games and discussing strategies with other players. They have invested a lot of time and effort into becoming professional gamers and are very dedicated to their craft.']
 
-example_output=['Group 1: Amateur Esports Gamers: This group consists of young people aged between 16-25 who are just beginning to explore the world of esports. They may play in informal gaming communities and are interested in competitive gaming but lack the skill and experience of more professional players. They are looking for a controller that is easy to use and can help them improve their gaming skills.\n\nGroup 2: Professional Esports Gamers: This group consists of young people aged between 16-25 who are already established in the esports world. They are experienced esports players who are actively competing in tournaments and leagues. They are looking for a controller that is highly responsive and precise', 'allowing them to make the most of their gaming skills.\n\nGroup 3: Streamers and Content Creators: This group consists of young people aged between 16-25 who are primarily focused on creating content around their gaming experiences. They are interested in a controller that allows them to create and share exciting and engaging content for their viewers. They are looking for a controller that is reliable', 'customizable', 'and allows them to easily create dynamic gameplay videos.']
 
-def scrape_gpt_target_market(output:str):
-    output=output[0]
-    list= output.splitlines()
-    print(list)
-    while("" in list):
+### Function that scrapes gpt output and return list of each target market group and their ages in a list of tuples
+def scrape_gpt_target_market(output):
+   output= ' '.join(output)
+   list=output.splitlines()
+   while("" in list):
       list.remove("")
-    
-scrape_gpt_target_market(example_output)
+   if(len(list)==3):
+      group1= list[0]
+      agerange1=(-1,-1)
+      temp = re.findall(r'\d+', group1)
+      for i in range(len(temp)-1):
+         if group1.__contains__(temp[i]+"-"+temp[i+1]):
+            agerange1=(temp[i],temp[i+1])
+            break
+      agerange2=(-1,-1)
+      group2= list[1]
+      temp1 = re.findall(r'\d+', group2)
+      for i in range(len(temp1)-1):
+         if group2.__contains__(temp1[i]+"-"+temp1[i+1]):
+            agerange2=(temp1[i],temp1[i+1])
+            break
+      agerange3=(-1,-1)
+      group3=list[2]
+      temp2 = re.findall(r'\d+', group3)
+      for i in range(len(temp2)-1):
+         if group3.__contains__(temp2[i]+"-"+temp2[i+1]):
+            agerange3=(temp2[i],temp2[i+1])
+            break
+      return([(group1,agerange1),(group2,agerange2),(group3,agerange3)])
+   else: 
+    raise GptMarketScrapeException
+
+# Function that scrapes gpt output about target market in list format and returns a list of the age ranges in tuple format for each recommended gpt group. 
+def generate_age_names_market(list_of_market_tuples): 
+   first_age_tuple=list_of_market_tuples[0]
+   second_age_tuple= list_of_market_tuples[1]
+   third_age_tuple=list_of_market_tuples[2]
+   return [first_age_tuple,second_age_tuple,third_age_tuple]
+   
+testmarket= scrape_gpt_target_market(examplestr)
+ages= generate_age_names_market(testmarket)
+
