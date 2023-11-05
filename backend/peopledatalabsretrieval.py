@@ -23,7 +23,8 @@ ES_QUERY = {
         'must': [
             {'term': {'location_country': "united states"}},
             {'term': {'job_title_role': "health"}},
-            {'exists': {'field': "twitter_url"}}
+            {'exists': {'field': "twitter_username"}},
+            {'exists':{'field': "reddit_username"}}
       ]
     }
   }

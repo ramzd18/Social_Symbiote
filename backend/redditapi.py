@@ -17,7 +17,7 @@ reddit = praw.Reddit(client_id='nj0rg_lxJnxtu-h2gE_1rw',
                      user_agent='desktop:com.example.myredditapp:v1.2.3 (by u/Rpeddu)')
 
 user = reddit.redditor('ayatilabs')
-comments = user.comments.new(limit=3)
+comments = user.comments.new()
 print("reached")
 
 for comment in comments:

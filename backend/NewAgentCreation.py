@@ -5,6 +5,7 @@ from langchain_experimental.generative_agents import (
     GenerativeAgent,
     GenerativeAgentMemory,
 )
+
 import os
 import math
 import faiss
