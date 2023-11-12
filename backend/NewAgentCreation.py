@@ -22,6 +22,7 @@ os.environ["OPENAI_API_KEY"] = "sk-LkXzo0FBOGhsOiF3b9CZT3BlbkFJFQFICEyeCF0AlhtFh
 
 LLM = ChatOpenAI(max_tokens=800)  # Can be any LLM you want.
 USER_NAME="Person A"
+
 def relevance_score_fn(score: float) -> float:
     """Return a similarity score on a scale [0, 1]."""
     return 1.0 - score / math.sqrt(2)

@@ -17,7 +17,7 @@ def push_user_info(first,last,email):
       print(count, "Record inserted successfully into mobile table")
       cur.close()
       conn.close()
-def push_agent_info(name,age,status,memory,llm,personemail):
+def push_agent_info(name,age,status,memory,llm,personemail,social_media_memory,educationwork,personalitylist,interests):
      #name,age,status,memory,llm= NewAgentCreation.add_data()
     try:
       conn = psycopg2.connect(
@@ -26,9 +26,11 @@ def push_agent_info(name,age,status,memory,llm,personemail):
       user="postgres",
       password="Jeff@2234")
       cur= conn.cursor()
-      postgres_insert_query = """ INSERT INTO user_agents_info (name, age, status,memory,llm,personemail) VALUES (%s,%s,%s,%s,%s,%s)"""
-      record_to_insert = (name,age,status,memory,llm,personemail)
+      postgres_insert_query = """ INSERT INTO user_agents_info (name, age, status,memory,llm,personemail,social_media_memory,educationwork,personalitylist,interests) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
+      record_to_insert = (name,age,status,memory,llm,personemail,social_media_memory,educationwork,personalitylist,interests)
+      print("database here")
       cur.execute(postgres_insert_query, record_to_insert)
+      print("database executed")
       conn.commit()
       count = cur.rowcount
       print(count, "Record inserted successfully into mobile table")
@@ -101,8 +103,40 @@ def altermemories(agent,agentname,personemail):
          conn.close()
          print("Postgresql connection closed")
 
+def get_all_agents(email): 
+  try:
+      conn = psycopg2.connect(
+      host="35.233.155.93",
+      database="user-agents",
+      user="postgres",
+      password="Jeff@2234")
+      cur= conn.cursor()
+      #query="""SELECT * FROM user_agents_info WHERE (SELECT email FROM user_agents_info={email})"""
+      query=f""" SELECT * FROM user_agents_info
+WHERE ((personemail='{email}'));"""
+      cur.execute(query)
+      conn.commit()
+      data= cur.fetchall(); 
+      return data
+  except (Exception, psycopg2.Error) as error:
+     print("Failed to inser record into mobile table",error)
+     return "Error"
+  finally: 
+      if conn: 
+         cur.close()
+         conn.close()
+         print("Postgresql connection closed")
+
+def scrape_user_databse(usertup:tuple): 
+   name=usertup[0]
+   age=usertup[1]
+
 # name,age,status,memory,llm= NewAgentCreation.get_agent_initial_data()
 # push_agent_info(name,age,status,memory,llm,'rbpeddu@gmail.com')
 
 # data=retrieve_agents_record("rbpeddu@gmail.com",'Ram')
 # print("This is the type of data" , data)
+data=get_all_agents('rbpeddu@gmail.com')
+print(type(data))
+print(type(data[0]))
+print(len(data))

@@ -43,11 +43,10 @@ def connect_to_endpoint(url):
     return response.json()
 
 
-def main():
-    url = create_url("sararecruiting")
+def find_user(username):
+    url = create_url(username)
     json_response = connect_to_endpoint(url)
     data=json_response['data']
-    print(data['id'])
+    return data['id']
 
 
-main()
