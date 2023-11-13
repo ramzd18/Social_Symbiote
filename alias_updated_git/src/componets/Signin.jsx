@@ -17,7 +17,7 @@ function Signin() {
     /*console.log(userObject); */
     console.log(userObject.email); 
 
-    fetch(`http://localhost:5432/checkUser?email=${userObject.email}`) // replace with the actual email
+    fetch(`http://localhost:5433/checkUser?email=${userObject.email}`) // replace with the actual email
       .then((response) => response.json()) // Try parsing response as JSON
         /* if (response.ok) {
           setIsUser(true); // Set state to allow the button to be clickable
