@@ -50,14 +50,15 @@ const pool = new Pool ({
 
 */}
 
-  app.post('/createUser', (req, res) => {
+  app.post('/createUser', async (req, res) => {
     const { given_name, family_name, email } = req.body;
     console.log('Incoming data:', given_name, family_name, email);
   
     try {
-        const userExists = checkUser(email);
+        const userExists = await checkUser(email);
+        console.log('userExists', userExists);
         if (userExists) {
-            res.status(400).send('User with this email already exists');
+            res.status(400).json('User with this email already exists');
         } else {
             pool.query(
                 'INSERT INTO user_info (firstname, lastname, email) VALUES ($1, $2, $3)',
@@ -79,8 +80,11 @@ const pool = new Pool ({
 });
 
 async function checkUser(email) {
-    const { rowCount } = await pool.query('SELECT COUNT(*) FROM user_info WHERE email = $1', [email]);
-    return rowCount > 0;
+    //const { rowCount } = await pool.query('SELECT COUNT(*) FROM user_info WHERE email = $1', [email]);
+    //console.log('rowCount', rowCount);
+    const { rows } = await pool.query('SELECT * FROM user_info WHERE email = $1', [email]);
+    console.log('User info:', rows);
+    return rows.length > 0;
 }
 
 app.get('/checkUser', (req, res) => {
