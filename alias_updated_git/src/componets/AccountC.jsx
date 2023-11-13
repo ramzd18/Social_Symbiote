@@ -53,11 +53,11 @@ function AccountC() {
         console.error('Error Message:', error.message);
       }); 
     
-      {/*}
-    fetch(`http://localhost:5432/checkUser?email=${userObject.email}`) // replace with the actual email
+
+    fetch(`http://localhost:5433/checkUser?email=${userObject.email}`) // replace with the actual email
     .then((response) => response.json()) // Try parsing response as JSON
-    comment
-      if (response.ok) {
+    
+      /* if (response.ok) {
         setIsUser(true); // Set state to allow the button to be clickable
         localStorage.setItem('loggedIn', 'true'); // Store logged-in status in local storage
         userdata = userObject;
@@ -69,7 +69,7 @@ function AccountC() {
           })
 
       
-      comment
+      */
     .then((data) => {
       console.log('Data:', data);
       if (data.token) {
@@ -85,7 +85,7 @@ function AccountC() {
     .catch((error) => {
       console.error('Error:', error);
     });  
-  */}
+
   }
 
   useEffect(() => {
