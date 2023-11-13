@@ -10,34 +10,29 @@ import random
 
 os.environ["OPENAI_API_KEY"]="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"
 llm = ChatOpenAI(max_tokens=1200)
-
-
 def chain( prompt: PromptTemplate) -> LLMChain:
         return LLMChain(
             llm=llm, prompt=prompt, verbose=False
         )
 
-def generate_relevant_description(descirption): 
+def generate_relevant_description(descirption,age,job): 
     llm = ChatOpenAI(max_tokens=1200)
 
     prompt = PromptTemplate.from_template(
             """
 Given this description of a person. 
-Description: {description}. 
+Description: {description}, and that they are {age} years old and are a {job}. 
 Fill in the followng fields with information inferring what their values would be from the description. 
-Fields: age, job, income. Only return three values representing your anwsers to the field and for the job field put a job that person may be working in now. If you think they are a student put student. Here is an example 
-return format: 30;nurse;100,000
+Fields:  status, category . Status represents what they are currently looking for. Category represents the product cateogy or field the description matches. Only return two values representing your anwsers to the field and seperate them with a semicolon. 
+For example, if I inputted (a person who wants to improve their sleep by tracking sleep perforance, 30,nurse) a example return format would be : Looking for ways to track my sleep performance ; Wearable sleep technology
 """
-        )
-        # entity_name = self._get_entity_from_observation(observation)
-        # entity_action = self._get_entity_action(observation, entity_name)
-        # q1 = f"What is the relationship between {self.name} and {entity_name}"
-        # q2 = f"{entity_name} is {entity_action}"
-        # q1=q1, queries=[q1, q2]
-      
-    result= chain(prompt=prompt).run(descirption).strip()
-    result=result.split(';')
+        )        
+    description=descirption
+    age=age
+    result= chain(prompt=prompt).run(description=description,age=age,job=job).strip()
+    result.split(';')
     return result
+
 
 
 total_job_list=[
@@ -87,14 +82,19 @@ def most_similair_job(job_text):
         first_key= random.choice(joblist)
     return first_key
 
-def final_name_age_occupation(description):
-    initial_arr= generate_relevant_description(description)
-    age=initial_arr[0]
-    job=initial_arr[1]
+def final_name_age_occupation(description,age,job):
+    initial_arr= generate_relevant_description(description,age,job)
+    initial_arr=initial_arr.split(';')
+    age=2023-int(age)
+    job=most_similair_job(job)
+    status=initial_arr[0]
+    product= initial_arr[1]
+    return (age,job,status,product)
+
          
       
 
 
-print(generate_relevant_description("My target customer is a person who is looking forward to buying their first home and needs help and advice with the process"))
+print(final_name_age_occupation("My target customer is a person who is looking forward to buying their first home and needs help and advice with the process",28,"Nurse"))
 
 # generate_relevant_memories("Generate memories for Ram. Ram is a college student who loves to watch football and play sports. He specifically spends a lot of money on basketball hoops and spikeball nets. Start the memories with Ram's name. Make each memory a full sentence")

@@ -115,8 +115,6 @@ def add_existing_memories_vectorstore(vectorstore,document_list):
     
 
 
-Ram_agent=LoadAgent('rbpeddu@gmail.com','Jason')
-akhiliyengar2004@gmail.com
 # # print(NewAgentCreation.interview_agent(Ram_agent,"What do you think about healthcare"))
 
 
