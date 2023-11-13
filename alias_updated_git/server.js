@@ -427,5 +427,5 @@ app.post('/getConversation', async (req, res) => {
   });
 
   app.get('*', (req, res) => {
-    res.sendFile(path.join('/Users/kanshruti/Documents/GitHub/alias-web/alias_updated_git/public/index.html'));
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
   });
