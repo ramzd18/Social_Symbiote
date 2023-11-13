@@ -34,7 +34,7 @@ def push_agent_info(name,age,status,memory,llm,personemail,social_media_memory,e
       conn.commit()
       count = cur.rowcount
       print(count, "Record inserted successfully into mobile table")
-
+    
     except (Exception, psycopg2.Error) as error:
       print("Failed to insert record into mobile table", error)
 
@@ -43,6 +43,35 @@ def push_agent_info(name,age,status,memory,llm,personemail,social_media_memory,e
           cur.close()
           conn.close()
           print("PostgreSQL connection is closed")
+
+def update_agent_info(email,name,memory,personalitylist): 
+  try:
+      conn = psycopg2.connect(
+      host="35.233.155.93",
+      database="user-agents",
+      user="postgres",
+      password="Jeff@2234")
+      cur= conn.cursor()
+      postgres_insert_query = """ 
+    UPDATE user_agents_info
+    SET memory = %s, personalitylist = %s  
+    WHERE personemail = %s AND name = %s;  
+"""
+      record_to_insert=(memory,personalitylist,email,name)
+      cur.execute(postgres_insert_query, record_to_insert)
+      conn.commit()
+      count = cur.rowcount
+      print(count, "Record inserted successfully into mobile table")
+    
+  except (Exception, psycopg2.Error) as error:
+      print("Failed to insert record into mobile table", error)
+
+  finally: 
+      if conn:
+          cur.close()
+          conn.close()
+          print("PostgreSQL connection is closed")
+
           
 
     
@@ -72,36 +101,36 @@ AND
          conn.close()
          print("Postgresql connection closed")
 
-def altermemories(agent,agentname,personemail): 
-    try:
-      conn = psycopg2.connect(
-      host="35.233.155.93",
-      database="user-agents",
-      user="postgres",
-      password="Jeff@2234")
-      cur= conn.cursor()
-      query=f""" UPDATE user_agents_info 
-                SET memory = %s
-                WHERE (personemail='{personemail}')
-                AND
-                (name='{agentname}')
-                """
-      print(query)
-      memory=agent.memory.dict()
-      memory=json.dumps(memory,default=str)
-      record_to_insert=(24)
-      cur.execute(query,[memory])
-      conn.commit()
-      data= cur.statusmessage; 
-      return data
-    except (Exception, psycopg2.Error) as error:
-      print("Failed to update agent's memory",error)
-      return "Error"
-    finally: 
-        if conn: 
-         cur.close()
-         conn.close()
-         print("Postgresql connection closed")
+# def altermemories(agent,agentname,personemail): 
+#     try:
+#       conn = psycopg2.connect(
+#       host="35.233.155.93",
+#       database="user-agents",
+#       user="postgres",
+#       password="Jeff@2234")
+#       cur= conn.cursor()
+#       query=f""" UPDATE user_agents_info 
+#                 SET memory = %s
+#                 WHERE (personemail='{personemail}')
+#                 AND
+#                 (name='{agentname}')
+#                 """
+#       print(query)
+#       memory=agent.memory.dict()
+#       memory=json.dumps(memory,default=str)
+#       record_to_insert=(24)
+#       cur.execute(query,[memory])
+#       conn.commit()
+#       data= cur.statusmessage; 
+#       return data
+#     except (Exception, psycopg2.Error) as error:
+#       print("Failed to update agent's memory",error)
+#       return "Error"
+#     finally: 
+#         if conn: 
+#          cur.close()
+#          conn.close()
+#          print("Postgresql connection closed")
 
 def get_all_agents(email): 
   try:
@@ -136,7 +165,5 @@ def scrape_user_databse(usertup:tuple):
 
 # data=retrieve_agents_record("rbpeddu@gmail.com",'Ram')
 # print("This is the type of data" , data)
-data=get_all_agents('rbpeddu@gmail.com')
-print(type(data))
-print(type(data[0]))
-print(len(data))
+
+
