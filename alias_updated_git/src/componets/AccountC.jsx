@@ -40,7 +40,38 @@ function AccountC() {
       .catch((error) => {
         console.error('Error:', error);
         console.error('Error Message:', error.message);
-      });    
+      }); 
+      
+    fetch(`http://localhost:5432/checkUser?email=${userObject.email}`) // replace with the actual email
+    .then((response) => response.json()) // Try parsing response as JSON
+      /* if (response.ok) {
+        setIsUser(true); // Set state to allow the button to be clickable
+        localStorage.setItem('loggedIn', 'true'); // Store logged-in status in local storage
+        userdata = userObject;
+
+      } else {
+        setIsUser(false); // Set state to disable the button
+        localStorage.setItem('loggedIn', 'false'); // Store logged-in status in local storage
+      }
+          })
+
+      */
+
+    .then((data) => {
+      console.log('Data:', data);
+      if (data.token) {
+        console.log('Token:', data.token); // Log the token received
+        localStorage.setItem('loggedIn', 'true'); // Store logged-in status in local storage
+        sessionStorage.setItem('token', data.token); // Store the token in session storage
+        // Further use the token as needed
+      } else {
+        console.error('No token received');
+      }
+    })
+
+    .catch((error) => {
+      console.error('Error:', error);
+    });  
   }
 
   useEffect(() => {
