@@ -95,6 +95,6 @@ def final_name_age_occupation(description,age,job):
       
 
 
-print(final_name_age_occupation("My target customer is a person who is looking forward to buying their first home and needs help and advice with the process",28,"Nurse"))
+# print(final_name_age_occupation("My target customer is a person who is looking forward to buying their first home and needs help and advice with the process",28,"Nurse"))
 
 # generate_relevant_memories("Generate memories for Ram. Ram is a college student who loves to watch football and play sports. He specifically spends a lot of money on basketball hoops and spikeball nets. Start the memories with Ram's name. Make each memory a full sentence")

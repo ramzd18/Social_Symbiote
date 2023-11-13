@@ -95,9 +95,11 @@ def get_users(interestslist, countsdict):
           user=reddit.redditor(authorname)
           totalkarma=1
           try: 
-            totalkarma=user.comment_karma
+            totalkarma=int(user.comment_karma)
           except: 
              ()
+          if(totalkarma>10000): 
+             continue
           submissions_text= user.submissions.new(limit=None)
           text_str=""
           comments=[]
@@ -151,15 +153,20 @@ def match_comments_with_titles(username, commentslist,name):
   return commentslist
 
 
-def find_most_relevant_submissions(interests,submissions):
+def find_most_relevant_submissions(interests,submissions,user):
+    reddit = praw.Reddit(client_id='nj0rg_lxJnxtu-h2gE_1rw',
+                          client_secret='jGGnaaNdZq7aJRPax2qJkVwPs5lTWw',
+                          user_agent='desktop:com.example.myredditapp:v1.2.3 (by u/Rpeddu)',
+                          )
+    user=reddit.redditor(user)
+    submissions_text= user.submissions.new(limit=None)
+
     dictval={}
     comments=[]
-    print("submissions length"+ str(len(submissions)))
-    for post in submissions: 
+    # print("submissions length"+ str(len(submissions)))
+    for post in submissions_text: 
       body=str(post.title)
-      comments.append(body)
-    for post in comments: 
-       dictval[post]=similairty_text(interests,post)
+      dictval[body]=similairty_text(str(interests),body)
     sorted_dict = dict(sorted(dictval.items(), key=lambda item: item[1], reverse=True))
     print(sorted_dict)
     count = 0
@@ -184,8 +191,9 @@ def similairty_text(interests_text, comment_text):
 
 
 
-interestslist= [['writing', 'children', 'languages', 'traveling', 'education', 'dancing', 'editing', 'photography', 'reading', 'music', 'poverty alleviation', 'grammar', 'human rights', 'animal welfare', 'organizing', 'health']]
-subredditslist= get_commmon_subreddit(interestslist)
-user= get_users(interestslist,subredditslist)
-print(user[0])
-print(user[1])
+# interestslist= [['writing', 'children', 'languages', 'traveling', 'education', 'dancing', 'editing', 'photography', 'reading', 'music', 'poverty alleviation', 'grammar', 'human rights', 'animal welfare', 'organizing', 'health']]
+# subredditslist= get_commmon_subreddit(interestslist)
+# user= get_users(interestslist,subredditslist)
+# print(user[0])
+# print(user[1])
+# print(find_most_relevant_submissions(interestslist,user[1],user[0]))

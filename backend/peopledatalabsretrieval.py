@@ -157,8 +157,8 @@ def initialize_person(description,age,job):
   print(age)
   print(job)
   # print(salary)
-  # persondict=get_person(age,job)
-  parsed_dict= parsepeopledata(dictval1)
+  persondict=get_person(age,job)
+  parsed_dict= parsepeopledata(persondict)
   # print(parsed_dict)
   return (parsed_dict,job,status,product)
 

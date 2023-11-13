@@ -102,7 +102,7 @@ def create_and_store_agent(description,age,job):
   user= redditusers.get_users(interestslist,subredditslist)
   comments= user[1]
   username=user[0]
-  totallist= redditusers.find_most_relevant_submissions(interestslist,comments)
+  totallist= redditusers.find_most_relevant_submissions(interestslist,comments,username)
   for memory in totallist:
     print("looped memory"+memory)
     agent.memory.add_socialmedia_memory(memory)
@@ -117,9 +117,12 @@ def create_and_store_agent(description,age,job):
         break 
     print("Finding queries")
     big_url_list.append(google_search_results.api_results(query))
-    big_url_list = [item for sublist in big_url_list for item in sublist]
+
+  
+  big_url_list = [item for sublist in big_url_list for item in sublist]
+  print("overall big url list"+ str(big_url_list))
   random.shuffle(big_url_list)
-  big_url_list=big_url_list[:6]
+  big_url_list=big_url_list[:10]
   text_url_list=google_search_results.urls_to_summarizedtext(big_url_list)
   print("finished summarizing")
   print("Overall total url list"+ str(big_url_list))
@@ -136,8 +139,8 @@ def create_and_store_agent(description,age,job):
   return agent
 
 
-# agent= create_and_store_agent("My target customer is a person who is looking forward to buying their first home and needs help and advice with the process",28,"Nurse")
-# print(agent.generate_question_response("What do you think about home financing"))
+agent= create_and_store_agent("My target customer is a person who is looking forward to buying their first home and needs help and advice with the process",28,"Nurse")
+print(agent.generate_question_response("What do you think about home financing"))
 
 
 

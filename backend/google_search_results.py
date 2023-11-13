@@ -96,7 +96,16 @@ def urls_to_summarizedtext(urllist):
   print(scraped_lists)
   new_list=[]
   for text in scraped_lists: 
-    new_list.append(summarize_batches(text))
+    text1=""
+    if (len(text.split())>1500): 
+      count=0
+      for word in text.split(): 
+        if count>1300:
+          break 
+        else:
+          text1+=" "+ word
+          count+=1
+    new_list.append(summarize_batches(text1))
   return new_list
 
 
