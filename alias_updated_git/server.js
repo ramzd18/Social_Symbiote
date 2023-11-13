@@ -24,7 +24,7 @@ const pool = new Pool ({
         user: 'postgres',
         password: 'Jeff@2234',
         database: 'user-agents',
-        port: 5432
+        port: 5433
 
 
 });
@@ -58,7 +58,7 @@ const pool = new Pool ({
         const userExists = await checkUser(email);
         console.log('userExists', userExists);
         if (userExists) {
-            res.status(400).json('User with this email already exists');
+            res.status(400).json('User with this email already exists. Please sign in.');
         } else {
             pool.query(
                 'INSERT INTO user_info (firstname, lastname, email) VALUES ($1, $2, $3)',
