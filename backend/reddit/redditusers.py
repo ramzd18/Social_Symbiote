@@ -72,7 +72,7 @@ def get_users(interestslist, countsdict):
   count=0 
   subslist=[]
   for key in subs_dict: 
-     if count>2: 
+     if count>3: 
         break 
      if key not in nonelist:
       subslist.append(key)
@@ -113,7 +113,7 @@ def get_users(interestslist, countsdict):
           if final_score>max_count:
             max_count=final_score
             max_user=authorname
-            comments_list=comments
+            comments_list=submissions_text
     except Forbidden:
        print("private subreddit")
 
@@ -153,7 +153,12 @@ def match_comments_with_titles(username, commentslist,name):
 
 def find_most_relevant_submissions(interests,submissions):
     dictval={}
+    comments=[]
+    print("submissions length"+ str(len(submissions)))
     for post in submissions: 
+      body=str(post.title)
+      comments.append(body)
+    for post in comments: 
        dictval[post]=similairty_text(interests,post)
     sorted_dict = dict(sorted(dictval.items(), key=lambda item: item[1], reverse=True))
     print(sorted_dict)
@@ -162,7 +167,7 @@ def find_most_relevant_submissions(interests,submissions):
     for key, value in sorted_dict.items():
       first_100_elements.append(key)
       count += 1
-      if count == 100:
+      if count == 200:
           break
     return first_100_elements
 
@@ -179,4 +184,8 @@ def similairty_text(interests_text, comment_text):
 
 
 
-
+interestslist= [['writing', 'children', 'languages', 'traveling', 'education', 'dancing', 'editing', 'photography', 'reading', 'music', 'poverty alleviation', 'grammar', 'human rights', 'animal welfare', 'organizing', 'health']]
+subredditslist= get_commmon_subreddit(interestslist)
+user= get_users(interestslist,subredditslist)
+print(user[0])
+print(user[1])
