@@ -3,6 +3,7 @@ import Leftsidebarperson from './Leftsidebarperson'
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { jwtDecode } from "jwt-decode";
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 function Popup() {
@@ -10,6 +11,7 @@ function Popup() {
   const [occupation, setOccupation] = useState('');
   const [description, setDescription] = useState('');
   const [isDisabled, setIsDisabled] = useState(false);
+  const [isLoading, setLoading] = useState(false); // Default loading state is true
   const token = sessionStorage.getItem('token');
   const decoded = jwtDecode(token);
   const { user: userObject } = decoded;
@@ -22,15 +24,24 @@ function Popup() {
     setDescription('');
   };
 
+  // dont create new row with data in database with passed in info - call checkrows, if rowCount < 3 then work with Ram on api
   const handleNewPersona = () => {
+
+    if (age.trim() === '' || occupation.trim() === '' || description.trim() === '') {
+      // If any field is empty, prevent the new persona action
+      alert('Please fill in all the fields to create a new persona.');
+      return;
+    }
+
+    setLoading(true);
+
     fetch(`http://localhost:5432/check-rows?personEmail=${email}`)
       .then(response => response.json())
       .then(data => {
         const rowCount = data.rowCount; // received row count from the API
         console.log('Row count:', rowCount);
-  
+
         if (rowCount < 3) {
-          // Insert new row with provided data
           fetch('http://localhost:5432/add-persona', {
             method: 'POST',
             headers: {
@@ -42,25 +53,31 @@ function Popup() {
               description: description,
               personEmail: email,
             }),
-          })  
-              .then(response => {
-                if (response.ok) {
-                  console.log('New persona added successfully');
-                } else {
-                  console.error('Failed to add new persona');
-                }
-              })
-              .catch(error => {
-                console.error('Error while adding new persona:', error);
-              });
-          } else {
-            setIsDisabled(true);
-          }
-        })
-        .catch(error => {
-          console.error('Error while checking row count:', error);
-        });
-    };    
+          })
+            .then(response => {
+              if (response.ok) {
+                console.log('New persona added successfully');
+                // Ensure loading indicator is turned off after completion
+                setLoading(false);
+              } else {
+                console.error('Failed to add new persona');
+                setLoading(false);
+              }
+            })
+            .catch(error => {
+              console.error('Error while adding new persona:', error);
+              setLoading(false);
+            });
+        } else {
+          setIsDisabled(true);
+          setLoading(false); // Turn off the loading indicator if not adding a new persona
+        }
+      })
+      .catch(error => {
+        console.error('Error while checking row count:', error);
+        setLoading(false);
+      });
+      };    
       
   return (
   
@@ -136,14 +153,18 @@ function Popup() {
         </div>  
 
         <div className='popupline'></div>
-        <div className="mbuttonarea text-center">
-            <Link to="/person">
-              <button className='customButton' disabled={isDisabled} title={isDisabled ? 'Max personas created' : undefined} onClick={handleNewPersona} >New Persona</button>
-            </Link>
-            <button onClick={clearInformation}>Clear Information</button>
-        </div>
-
-
+        <div>
+          {isLoading ? (
+            <CircularProgress />
+          ) : (
+          <div className="mbuttonarea text-center">
+              <Link to={age.trim() !== '' && occupation.trim() !== '' && description.trim() !== '' ? "/person" : "#"}>
+                <button className='customButton' disabled={isDisabled} title={isDisabled ? 'Max personas created' : undefined} onClick={handleNewPersona} >New Persona</button>
+              </Link>
+              <button onClick={clearInformation}>Clear Information</button>
+          </div>
+        )}
+        </div>  
          </div>
          </div>
            

@@ -481,12 +481,12 @@ p:after {
   height: 38px;
   background-color: #F8F8F8;
   border: 0px;
-  margin-left: 345px;
+  margin-left: 360px;
 }
 
 .big .backarrowinterface img  {
-  width: 38px;
-  height: 38px;
+  width: 24px;
+  height: 24px;
   background-color: #F8F8F8;
   border: 0px;
   margin-top: -70px;
@@ -939,14 +939,19 @@ p:after {
   margin-top: 77%;
 }
 
+.sent-messages-container, .received-messages-container {
+  max-height: calc(100vh - 200px); /* Adjust height based on your layout */
+  overflow-y: auto;
+}
+
+
 .sent-message {
-  margin-left: 340px;
-  width: 100%;
+  margin-left: 341px;
+  width: 45%;
   max-width: 1850px;
   color: black; /* Default text color */
   border-radius: 5px;
   border: 1px solid #DADADA;
-  border-bottom: 1px solid #000;
   background: white;
   padding-top: 10px;
   padding-bottom: 10px;
@@ -979,7 +984,6 @@ p:after {
   color: black; /* Default text color */
   border-radius: 5px;
   border: 1px solid rgba(126, 143, 231, 0.54);
-  border-bottom: 1px solid #000;
   background: rgba(126, 143, 231, 0.54);
   padding-top: 10px;
   padding-bottom: 10px;
@@ -1004,7 +1008,8 @@ p:after {
 }
 
 .input-box {
-  width: 95%; /* Considering the image is 10px from the left and right */
+  position: fixed;
+  width: 75%; /* Considering the image is 10px from the left and right */
   border-radius: 5px;
   border: 1.5px solid #7E8FE7;
   background: #FFF;
@@ -1014,12 +1019,14 @@ p:after {
   font-weight: 575;
   line-height: normal;
   padding: 1rem;
+  bottom: 20px;
+  left: 340px;
 }
 
 .intervieinputimgs {
-  position: absolute;
-  bottom: 25%;
-  right: 10px;
+  position: fixed;
+  bottom: 27.5px;
+  right: 40px;
 }
 
 .intervieinputs button {

@@ -14,6 +14,19 @@ function Interface() {
   const textAreaRef = useRef(null);
   const [message, setMessage] = useState('');
   const [conversation, setConversation] = useState([])
+  const [agentPics, setAgentPics] = useState([]);
+  const [agentPic, setAgentPic] = useState('');
+  const selectedAgentName = sessionStorage.getItem('selectedAgentName');
+  const selectedAgentGender = sessionStorage.getItem('selectedAgentGender');
+  const selectedAgentPic = sessionStorage.getItem('selectedAgentPic');
+  const token = sessionStorage.getItem('token');
+  const decoded = jwtDecode(token);
+  const { user: userObject } = decoded;
+  const email = userObject.email;
+
+  console.log(selectedAgentName);
+  console.log(email);
+
 
   const handleInput = (e) => {
     const text = e.target.value;
@@ -130,15 +143,6 @@ function Interface() {
 
 
   const handleBack = () => {
-    const selectedAgentName = sessionStorage.getItem('selectedAgentName');
-    const token = sessionStorage.getItem('token');
-    const decoded = jwtDecode(token);
-    const { user: userObject } = decoded;
-    const email = userObject.email;
-
-    console.log(selectedAgentName);
-    console.log(email);
-
 
     fetch('http://localhost:5432/updateChatHistory', {
       method: 'POST',
@@ -151,6 +155,18 @@ function Interface() {
       .then((data) => {
         console.log('Response from server:', data); // Check the response data
         // Further processing based on the response data
+        try {
+          const chatHistory = JSON.parse(data.chatHistory);
+    
+          // Check the parsed chatHistory object
+          console.log('Parsed chatHistory:', chatHistory);
+          
+    
+          // Further processing based on the chat history
+          // ...
+        } catch (error) {
+          console.error('Invalid JSON format for chat history:', error);
+        }
       })
       .catch((error) => {
         console.error('Error:', error); // Log any fetch errors
@@ -172,6 +188,65 @@ function Interface() {
       document.removeEventListener('keyup', handleKeyUp);
     };
   }, []);
+
+  useEffect(() => {
+    fetch('http://localhost:5432/getAgentPic', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email: userObject.email }), // Ensure the body is an object
+        })
+        .then((response) => response.json()) // Try parsing response as JSON
+        .then((data) => {
+            {/* console.log('Response:', data.name); // Log the full response
+            setAgentName(data.name);
+            */}
+            if (data.pics) {
+                console.log('Multiple pics:', data.pics);
+                // Store the array in the state or variable
+                setAgentPics(data.pics);
+                setAgentPic('');
+            } else if (data.pic) {
+                console.log('Single pic:', data.pic);
+                // Handle a single name separately
+                setAgentPic(data.pic);
+                setAgentPics([]);
+            } else {
+                console.error('Error:', data); // Log any unexpected response
+            }
+            // ... rest of your code
+        })
+        .catch((error) => console.error('Error:', error));
+  }, []);
+
+  useEffect(() => {
+    // Fetch the conversation messages on component load
+    fetch('http://localhost:5432/getConversation', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ name: selectedAgentName, personEmail: email }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log('Response from server:', data); // Check the response data
+      if (Array.isArray(data.messages) && data.messages.length > 0) {
+        const formattedMessages = data.messages.map((msg) => ({
+          content: msg.content,
+          role: msg.role,
+        }));
+        console.log('Formatted Messages:', formattedMessages);
+        setConversation(formattedMessages);
+        console.log('New conversation state:', formattedMessages);
+      }
+    })
+    .catch((error) => {
+      console.error('Error fetching conversation:', error);
+    });
+}, []);
+  
 
   return (
     <>
@@ -202,7 +277,7 @@ function Interface() {
         </div>
         */}
     </div>
-        <div class="border-line"></div>
+        {/*<div class="border-line"></div> */}
        <div className="col-md-8 big">
             <Link to="/interviews" onClick={handleBack}>
               <button className="backarrowinterface"> <img src= "./Arrow-Left.svg" /> </button>
@@ -214,7 +289,8 @@ function Interface() {
           {/*} chat history from git, render right box from git, send message from chat from git, load agent info including image from data recorded in interviews.jsx", connect agent to respond from git> */}
 
           <div className="sent-messages-container">
-            {conversation.map((message, index) => (
+            {console.log('Sent messages:', conversation)}
+            {conversation.length > 0 && conversation.map((message, index) => (
                 message.role === 'user' && (
                     <div className="sent-message" key={index}>
                         <img src="./Users Icons.svg" alt="" />
@@ -225,10 +301,11 @@ function Interface() {
         </div>
 
         <div className="received-messages-container">
-          {conversation.map((message, index) => (
+          {console.log('received messages:', conversation)}
+          {conversation.length > 0 && conversation.map((message, index) => (
             message.role === 'assistant' && (
               <div className="received-message" key={index}>
-                <img src="./Users Icons.svg" alt="" />
+                <img src={`${process.env.PUBLIC_URL}/avatars/${selectedAgentGender}/${selectedAgentPic}.svg`} alt="" />
                 <p>{message.content}</p>
               </div>
             )

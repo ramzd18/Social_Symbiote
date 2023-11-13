@@ -1,7 +1,7 @@
 import React from 'react'
 import LeftSidebarperson from './Leftsidebarperson'
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { userdata } from './Signin';
 import { jwtDecode } from "jwt-decode";
 
@@ -12,7 +12,14 @@ function Person() {
     const [agentName, setAgentName] = useState('');
     const [agentAges, setAgentAges] = useState([]);
     const [agentAge, setAgentAge] = useState('');
+    const [agentDescs, setAgentDescs] = useState([]);
+    const [agentDesc, setAgentDesc] = useState('');
+    const [agentLastInterviews, setAgentLastInterviews] = useState([]);
+    const [agentLastInterview, setAgentLastInterview] = useState('');
+    const [agentGenders, setAgentGenders] = useState([]);
+    const [agentGender, setAgentGender] = useState('');
     const token = sessionStorage.getItem('token');
+    const isFirstRun = useRef(true);
     console.log(token)
 
 
@@ -55,7 +62,96 @@ function Person() {
         })
         .catch((error) => console.error('Error:', error));
         
-                
+        fetch('http://localhost:5432/getAgentDesc', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email: userObject.email }), // Ensure the body is an object
+        })
+        .then((response) => response.json()) // Try parsing response as JSON
+        .then((data) => {
+            {/* console.log('Response:', data.name); // Log the full response
+            setAgentName(data.name);
+            */}
+            if (data.descs) {
+                console.log('Multiple Descriptions:', data.descs);
+                // Store the array in the state or variable
+                setAgentDescs(data.descs);
+                setAgentDesc('');
+            } else if (data.desc) {
+                console.log('Single Name:', data.desc);
+                // Handle a single name separately
+                setAgentDesc(data.desc);
+                setAgentDescs([]);
+            } else {
+                console.error('Error:', data); // Log any unexpected response
+            }
+            // ... rest of your code
+        })
+        .catch((error) => console.error('Error:', error));
+
+
+        fetch('http://localhost:5432/getAgentLastInterview', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email: userObject.email }), // Ensure the body is an object
+        })
+        .then((response) => response.json()) // Try parsing response as JSON
+        .then((data) => {
+            {/* console.log('Response:', data.name); // Log the full response
+            setAgentName(data.name);
+            */}
+            if (data.days) {
+                console.log('Multiple Interviews:', data.days);
+                // Store the array in the state or variable
+                setAgentLastInterviews(data.days);
+                setAgentLastInterview('');
+            } else if (data.day) {
+                console.log('Single Interview:', data.day);
+                // Handle a single name separately
+                setAgentLastInterview(data.day);
+                setAgentLastInterviews([]);
+            } else {
+                console.error('Error:', data); // Log any unexpected response
+            }
+            // ... rest of your code
+        })
+        .catch((error) => console.error('Error:', error));
+
+        fetch('http://localhost:5432/getAgentGender', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email: userObject.email }), // Ensure the body is an object
+        })
+        .then((response) => response.json()) // Try parsing response as JSON
+        .then((data) => {
+            {/* console.log('Response:', data.name); // Log the full response
+            setAgentName(data.name);
+            */}
+            if (data.genders) {
+                console.log('Multiple Genders:', data.genders);
+                // Store the array in the state or variable
+                setAgentGenders(data.genders);
+                setAgentGender('');
+            } else if (data.gender) {
+                console.log('Single Gender:', data.gender);
+                // Handle a single name separately
+                setAgentGender(data.gender);
+                setAgentGenders([]);
+            } else {
+                console.error('Error:', data); // Log any unexpected response
+            }
+            // ... rest of your code
+        })
+        .catch((error) => console.error('Error:', error));
+            
+
+
         fetch('http://localhost:5432/getAgentAge', {
             method: 'POST',
             headers: {
@@ -82,8 +178,33 @@ function Person() {
                 /* console.log('Agent Age:', data.age);
                 setAgentAge(data.age); */
             })
-            .catch((error) => console.error('Error:', error));    
-    }, []);
+            .catch((error) => console.error('Error:', error));   
+
+            }, []);
+
+            useEffect(() => {
+                if (agentNames.length > 0) {
+                    agentNames.forEach((name, index) => {
+                      console.log('Name:', name);
+                      fetch('http://localhost:5432/updateProfilePicture', {
+                        method: 'POST',
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ name: name, profile_picture: index + 1 }),
+                      })
+                        .then(response => response.json())
+                        .then(data => {
+                          console.log('Response Data:', data);
+                          // Handle any UI changes or further actions if needed
+                        })
+                        .catch(error => {
+                          console.error('Error:', error);
+                        });
+                    });
+                  }
+              }, [agentNames]);
+
 
   return (
     <>
@@ -149,15 +270,15 @@ function Person() {
                 {agentNames.map((name, index) => (
                     <div className="personcard" key={index}>
                     <div className="car1 d-flex">
-                        <img src={`${process.env.PUBLIC_URL}/avatars/M/${index + 1}.svg`} alt="" />  
+                        <img src={`${process.env.PUBLIC_URL}/avatars/${agentGenders[index]}/${index + 1}.svg`} alt="" />  
                         <div className="car1text">
                         <h5>{name}</h5>
                         <p>{agentAges[index]} yrs - Software Engineer</p>
                         </div>
                     </div>
                     <div className="car2">
-                        <p>Last Interviewed: 2 days ago</p>
-                        <p>A 22 year old college graduate struggling to pay off his student debt. </p>
+                        <p>Last Interviewed: {agentLastInterviews[index]} days ago</p>
+                        <p>{agentDescs[index]} </p>
                     </div>
                     {/*<div className="car3">
                         <img src="./Group 46.png" alt="" />
