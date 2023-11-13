@@ -186,10 +186,3 @@ def similairty_text(interests_text, comment_text):
 
 
 
-
-interestslist= [['writing', 'children', 'languages', 'traveling', 'education', 'dancing', 'editing', 'photography', 'reading', 'music', 'poverty alleviation', 'grammar', 'human rights', 'animal welfare', 'organizing', 'health']]
-subredditslist= get_commmon_subreddit("Home financing")
-user= get_users(interestslist,subredditslist)
-print(user[0])
-print(user[1])
-print(find_most_relevant_submissions(interestslist,user[1],user[0]))

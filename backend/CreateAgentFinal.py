@@ -138,16 +138,6 @@ def create_and_store_agent(description,age,job):
   agent.product_to_memory(product)
   return agent
 
-
-agent= create_and_store_agent("My target customer is a person who is looking forward to buying their first home and needs help and advice with the process",28,"Nurse")
-print(agent.generate_question_response("What do you think about home financing"))
-
-
-
-
-
-
-
 # userid= user_lookup.find_user("sararecruiting")
 # likedtweets=user_tweets.main(userid,"liked_tweets",10)
 # tweets=user_tweets.main(userid,"tweets",20)

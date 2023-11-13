@@ -2,12 +2,14 @@ from flask import Flask, session, request, redirect, url_for
 import retrieve_agent
 import load_agent_database
 import json
+import CreateAgentFinal
+import os
+
 app = Flask(__name__)
 app.secret_key = "super secret key"
 agents_dict={}
 
-
-
+os.environ['KMP_DUPLICATE_LIB_OK']='True'
 
 
 @app.route('/initialize_agents')
@@ -39,9 +41,26 @@ def update_agent():
         email=request.args.get("email").strip()
         retrieve_agent.update_agent_info(email,name,json.dumps(str(memory)),json.dumps(current_agent.memory.personalitylist))
         return "Completed"
-# @app.route('/create_agent')
-# def create_agent():
-     
+
+@app.route('/creaate_agent')
+def create_agent():
+        print("Starting")
+        email= request.args.get("name").strip()
+        description=request.args.get("description").strip()
+        age=int(request.args.get("age").strip())
+        job=request.args.get("job").strip()
+        # memory= current_agent.memory.memory_retriever.dict()
+        # del memory['vectorstore']
+        # email=request.args.get("email").strip()
+        agent=CreateAgentFinal.create_and_store_agent(description,age,job)
+        agent_memory= agent.memory.memory_retriever.dict()
+        agent_soc_memory=agent.memory.social_media_memory.dict()
+        del agent_memory['vectorstore']
+        del agent_soc_memory['vectorstore']
+        retrieve_agent.push_agent_info(agent.name,agent.age,agent.status,json.dumps(str(agent_memory)),json.dumps({}),'akhiliyengar2004@gmail.com',json.dumps(str(agent_soc_memory)),agent.education_and_work,json.dumps(agent.memory.personalitylist),agent.interests)
+        agents_dict[agent.name]=agent
+        return "Completed"
+
 
 if __name__ == '__main__':
     app.run(debug=True)
