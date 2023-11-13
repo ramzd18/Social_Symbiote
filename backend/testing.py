@@ -97,7 +97,7 @@ del ram_memory['vectorstore']
 del ram_soc_memory['vectorstore']
 # def push_agent_info(name,age,status,memory,llm,personemail,social_media_memory,educationwork,personalitylist,interests):
 
-push_agent_info(ram.name,ram.age,ram.status,json.dumps(str(ram_memory)),json.dumps({}),'rbpeddu@gmail.com', json.dumps(str(ram_soc_memory)),ram.education_and_work,json.dumps(ram.memory.personalitylist),ram.interests)
+push_agent_info(ram.name,ram.age,ram.status,json.dumps(str(ram_memory)),json.dumps({}),'akhiliyengar2004@gmail.com',json.dumps(str(ram_soc_memory)),ram.education_and_work,json.dumps(ram.memory.personalitylist),ram.interests)
 
 # dict={"tags": None, "metadata": None, "vectorstore": "<langchain.vectorstores.faiss.FAISS object at 0x000002CE9B387F50>", "search_kwargs": {"k": 100}, "memory_stream": [{"page_content": "I go to a basketball game", "metadata": {"importance": 0.12, "last_accessed_at": datetime.datetime(2023, 11, 11, 2, 30, 24, 696542), "created_at": datetime.datetime(2023, 11, 11, 2, 30, 24, 696542), "buffer_idx": 0}, "type": "Document"}, {"page_content": "I go to a football game", "metadata": {"importance": 0.12, "last_accessed_at": datetime.datetime(2023, 11, 11, 2, 30, 26, 572600), "created_at": datetime.datetime(2023, 11, 11, 2, 30, 26, 572600), "buffer_idx": 1}, "type": "Document"}, {"page_content": "I play soccer", "metadata": {"importance": 0.15, "last_accessed_at": datetime.datetime(2023, 11, 11, 2, 30, 27, 889572), "created_at": datetime.datetime(2023, 11, 11, 2, 30, 27, 889572), "buffer_idx": 2}, "type": "Document"}], "decay_rate": 0.01, "k": 5, "other_score_keys": ["importance"], "default_salience": None}
 # print(type(dict))

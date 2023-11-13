@@ -18,6 +18,9 @@ from langchain.document_loaders import TextLoader
 from langchain.docstore.document import Document
 import json
 import datetime
+import os
+
+os.environ["OPENAI_API_KEY"]="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"
 def LoadAgent(email,agent_name): 
   LLM = ChatOpenAI(max_tokens=1400)
   agent_data= retrieve_agent.retrieve_agents_record(email,agent_name)
@@ -112,7 +115,8 @@ def add_existing_memories_vectorstore(vectorstore,document_list):
     
 
 
-# Ram_agent=LoadAgent('rbpeddu@gmail.com','Ram')
+Ram_agent=LoadAgent('rbpeddu@gmail.com','Jason')
+akhiliyengar2004@gmail.com
 # # print(NewAgentCreation.interview_agent(Ram_agent,"What do you think about healthcare"))
 
 
