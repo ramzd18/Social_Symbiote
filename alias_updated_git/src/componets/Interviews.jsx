@@ -35,7 +35,7 @@ function Interviews() {
 
     useEffect(() => {
 
-        fetch('http://localhost:5432/getAgentName', {
+        fetch('http://localhost:5433/getAgentName', {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
@@ -64,7 +64,7 @@ function Interviews() {
         })
         .catch((error) => console.error('Error:', error));
 
-        fetch('http://localhost:5432/getAgentPic', {
+        fetch('http://localhost:5433/getAgentPic', {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
@@ -93,7 +93,7 @@ function Interviews() {
         })
         .catch((error) => console.error('Error:', error));
 
-        fetch('http://localhost:5432/getAgentGender', {
+        fetch('http://localhost:5433/getAgentGender', {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
@@ -123,7 +123,7 @@ function Interviews() {
         .catch((error) => console.error('Error:', error));
 
 
-        fetch('http://localhost:5432/getAgentLastInterview', {
+        fetch('http://localhost:5433/getAgentLastInterview', {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',

@@ -33,7 +33,7 @@ function Person() {
 
     useEffect(() => {
 
-        fetch('http://localhost:5432/getAgentName', {
+        fetch('http://localhost:5433/getAgentName', {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
@@ -62,7 +62,7 @@ function Person() {
         })
         .catch((error) => console.error('Error:', error));
         
-        fetch('http://localhost:5432/getAgentDesc', {
+        fetch('http://localhost:5433/getAgentDesc', {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
@@ -92,7 +92,7 @@ function Person() {
         .catch((error) => console.error('Error:', error));
 
 
-        fetch('http://localhost:5432/getAgentLastInterview', {
+        fetch('http://localhost:5433/getAgentLastInterview', {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
@@ -121,7 +121,7 @@ function Person() {
         })
         .catch((error) => console.error('Error:', error));
 
-        fetch('http://localhost:5432/getAgentGender', {
+        fetch('http://localhost:5433/getAgentGender', {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
@@ -152,7 +152,7 @@ function Person() {
             
 
 
-        fetch('http://localhost:5432/getAgentAge', {
+        fetch('http://localhost:5433/getAgentAge', {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
@@ -186,7 +186,7 @@ function Person() {
                 if (agentNames.length > 0) {
                     agentNames.forEach((name, index) => {
                       console.log('Name:', name);
-                      fetch('http://localhost:5432/updateProfilePicture', {
+                      fetch('http://localhost:5433/updateProfilePicture', {
                         method: 'POST',
                         headers: {
                           'Content-Type': 'application/json',

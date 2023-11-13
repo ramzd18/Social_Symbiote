@@ -35,14 +35,14 @@ function Popup() {
 
     setLoading(true);
 
-    fetch(`http://localhost:5432/check-rows?personEmail=${email}`)
+    fetch(`http://localhost:5433/check-rows?personEmail=${email}`)
       .then(response => response.json())
       .then(data => {
         const rowCount = data.rowCount; // received row count from the API
         console.log('Row count:', rowCount);
 
         if (rowCount < 3) {
-          fetch('http://localhost:5432/add-persona', {
+          fetch('http://localhost:5433/add-persona', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
