@@ -2,7 +2,6 @@
 import praw
 import pandas as pd
 from praw import reddit
-import logging
 
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.metrics.pairwise import linear_kernel
@@ -22,13 +21,13 @@ from fuzzywuzzy import fuzz
 ##### Given a list of the persons interests returns subreddits that may interest them. 
 def get_commmon_subreddit(interests_list):     
   # list= interests_list.split(',')
-  list=interests_list
-  listlen = len(list)
-  if (listlen>10):
-     random.shuffle(list)
-     list= list[:10]
+  # list=interests_list
+  # listlen = len(list)
+  # if (listlen>10):
+  #    random.shuffle(list)
+  #    list= list[:10]
 
-  iteramount= 10//len(list)
+  # iteramount= 10//len(list)
   reddit = praw.Reddit(client_id='nj0rg_lxJnxtu-h2gE_1rw',
                           client_secret='jGGnaaNdZq7aJRPax2qJkVwPs5lTWw',
                           user_agent='desktop:com.example.myredditapp:v1.2.3 (by u/Rpeddu)',
@@ -38,19 +37,20 @@ def get_commmon_subreddit(interests_list):
   # creating lists for storing scraped data
   subreddit_dict= {'subreddits':[]}
   count_dict={}
-  for interest in list: 
+  # for interest in list: 
     # for submission in all.search(interests_list, limit=4):
     #     submission_post = reddit.submission(id=submission.id)
     #     subreddit_name = submission_post.subreddit.display_name
-      subreddits = reddit.subreddits.search(interest, limit=iteramount)
-      subreddits= [subreddit.display_name for subreddit in subreddits]
+  subreddits = reddit.subreddits.search(interests_list, limit=4)
+  subreddits= [subreddit.display_name for subreddit in subreddits]
 
-      for subreddit in subreddits:
-        if(subreddit_dict['subreddits'].__contains__(subreddit)):
-            count_dict[subreddit]+=1
-        else :
-            count_dict[subreddit]=1
-            subreddit_dict['subreddits'].append(subreddit)
+  for subreddit in subreddits:
+      if(subreddit_dict['subreddits'].__contains__(subreddit)):
+          count_dict[subreddit]+=1
+      else :
+          count_dict[subreddit]=1
+          subreddit_dict['subreddits'].append(subreddit)
+  print(count_dict)
   return count_dict
 
 
@@ -86,7 +86,7 @@ def get_users(interestslist, countsdict):
     print("beginning loop")
     try:
       subreddit= reddit.subreddit(list)
-      new_posts= subreddit.new(limit=3)
+      new_posts= subreddit.new(limit=4)
       for submission in new_posts:
           submit= reddit.submission(submission.id)
           authorname=str(submit.author)
@@ -106,12 +106,14 @@ def get_users(interestslist, countsdict):
           count=0
           for comment in submissions_text: 
             body=str(comment.title)
-            if(count<100):
-              text_str+=". "+body
-              count+=1
+            text_str+=". "+body
+            count+=1
             comments.append(body)
-          sim_score=similairty_text(str(interestslist),text_str)
-          final_score= (count) * sim_score
+          # sim_score=similairty_text(str(interestslist),text_str)
+          # print(sim_score)
+          print(count)
+          final_score= count 
+          print(authorname+" "+str(final_score))
           if final_score>max_count:
             max_count=final_score
             max_user=authorname
@@ -128,12 +130,6 @@ def match_comments_with_titles(username, commentslist,name):
                           user_agent='desktop:com.example.myredditapp:v1.2.3 (by u/Rpeddu)',
                           )
 
-  handler = logging.StreamHandler()
-  handler.setLevel(logging.DEBUG)
-  for logger_name in ("praw", "prawcore"):
-      logger = logging.getLogger(logger_name)
-      logger.setLevel(logging.DEBUG)
-      logger.addHandler(handler)
   user = reddit.redditor(username)
   comments = user.comments.new(limit=2)  # Retrieve all comments, you can specify a limit if needed
   total_commented_posts=[]
@@ -191,9 +187,9 @@ def similairty_text(interests_text, comment_text):
 
 
 
-# interestslist= [['writing', 'children', 'languages', 'traveling', 'education', 'dancing', 'editing', 'photography', 'reading', 'music', 'poverty alleviation', 'grammar', 'human rights', 'animal welfare', 'organizing', 'health']]
-# subredditslist= get_commmon_subreddit(interestslist)
-# user= get_users(interestslist,subredditslist)
-# print(user[0])
-# print(user[1])
-# print(find_most_relevant_submissions(interestslist,user[1],user[0]))
+interestslist= [['writing', 'children', 'languages', 'traveling', 'education', 'dancing', 'editing', 'photography', 'reading', 'music', 'poverty alleviation', 'grammar', 'human rights', 'animal welfare', 'organizing', 'health']]
+subredditslist= get_commmon_subreddit("Home financing")
+user= get_users(interestslist,subredditslist)
+print(user[0])
+print(user[1])
+print(find_most_relevant_submissions(interestslist,user[1],user[0]))
