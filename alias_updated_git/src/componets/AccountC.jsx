@@ -6,6 +6,7 @@ let userdata = {};
 
 function AccountC() {
   const [user, setUser] = useState({});
+  const [userExists, setUserExists] = useState(false);
 
   function handleCallbackResponse(response) {
     /* console.log(response.credential); */
@@ -33,18 +34,30 @@ function AccountC() {
       .then((response) => {
         if (response.ok) {
           console.log('User info sent to the backend');
+          // Success handling logic
+        } else if (response.status === 400) {
+          return response.json().then(data => {
+            console.error('Error:', data);
+            setUserExists(true);
+            // Display an error message to the user
+            // For example:
+            // alert(data);
+          });
         } else {
           console.error('Failed to send user info to the backend');
+          // Other failure handling logic
         }
       })
       .catch((error) => {
         console.error('Error:', error);
         console.error('Error Message:', error.message);
       }); 
-      
+    
+      {/*}
     fetch(`http://localhost:5432/checkUser?email=${userObject.email}`) // replace with the actual email
     .then((response) => response.json()) // Try parsing response as JSON
-      /* if (response.ok) {
+    comment
+      if (response.ok) {
         setIsUser(true); // Set state to allow the button to be clickable
         localStorage.setItem('loggedIn', 'true'); // Store logged-in status in local storage
         userdata = userObject;
@@ -55,8 +68,8 @@ function AccountC() {
       }
           })
 
-      */
-
+      
+      comment
     .then((data) => {
       console.log('Data:', data);
       if (data.token) {
@@ -72,6 +85,7 @@ function AccountC() {
     .catch((error) => {
       console.error('Error:', error);
     });  
+  */}
   }
 
   useEffect(() => {
@@ -109,10 +123,13 @@ function AccountC() {
             <div className="signinbetanew">
               {hasNameAndEmail ? (
                 <Link to="/home">
-                  <button>Create Account</button>
+                  <button disabled={userExists}>Create Account</button>
                 </Link>
               ) : (
-                <button disabled>Create Account</button>
+                <button disabled={userExists}>Create Account</button>
+              )}
+              {userExists && (
+                <div className="error-message">Account already exists, please sign in.</div>
               )}
             </div>
           {/*
