@@ -1,7 +1,7 @@
 import React from 'react'
 import LeftSidebarinterviews from './Leftsidebarinterviews'
 import {useState , useEffect, useRef } from 'react';
-import toast from 'react-hot-toast'
+
 import Message from './message'
 import { Link } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
@@ -58,10 +58,7 @@ function Interface() {
   const sendMessage = async () => {
     // You can send the 'message' state to your chatbot here
     console.log('Sending message:', message);
-    if (message.length < 1) {
-      toast.error('Please enter a message.')
-      return
-    }
+
 
     const sentMessage = {
       content: message,
