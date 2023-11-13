@@ -8,6 +8,12 @@ import { Link } from 'react-router-dom';
 function Interviews() {
     const [agentNames, setAgentNames] = useState([]);
     const [agentName, setAgentName] = useState('');
+    const [agentPics, setAgentPics] = useState([]);
+    const [agentPic, setAgentPic] = useState('');
+    const [agentGenders, setAgentGenders] = useState([]);
+    const [agentGender, setAgentGender] = useState('');
+    const [agentLastInterviews, setAgentLastInterviews] = useState([]);
+    const [agentLastInterview, setAgentLastInterview] = useState('');
 
 
     const token = sessionStorage.getItem('token');
@@ -19,7 +25,11 @@ function Interviews() {
         // Handle saving the name when the button is clicked
         console.log(`Interview button clicked for ${name}`);
         sessionStorage.setItem('selectedAgentName', name);
-        console.log(sessionStorage.getItem('selectedAgentName'));
+        sessionStorage.setItem('selectedAgentGender', agentGenders[agentNames.indexOf(name)]);
+        sessionStorage.setItem('selectedAgentPic', agentPics[agentNames.indexOf(name)]);
+        console.log('selectedAgentName', sessionStorage.getItem('selectedAgentName'));
+        console.log(sessionStorage.getItem('selectedAgentGender'));
+        console.log(sessionStorage.getItem('selectedAgentPic'));
         // Further actions to save the name or navigate to a different page with this data
       };
 
@@ -47,6 +57,94 @@ function Interviews() {
                 // Handle a single name separately
                 setAgentName(data.name);
                 setAgentNames([]);
+            } else {
+                console.error('Error:', data); // Log any unexpected response
+            }
+            // ... rest of your code
+        })
+        .catch((error) => console.error('Error:', error));
+
+        fetch('http://localhost:5432/getAgentPic', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email: userObject.email }), // Ensure the body is an object
+        })
+        .then((response) => response.json()) // Try parsing response as JSON
+        .then((data) => {
+            {/* console.log('Response:', data.name); // Log the full response
+            setAgentName(data.name);
+            */}
+            if (data.pics) {
+                console.log('Multiple pics:', data.pics);
+                // Store the array in the state or variable
+                setAgentPics(data.pics);
+                setAgentPic('');
+            } else if (data.pic) {
+                console.log('Single pic:', data.pic);
+                // Handle a single name separately
+                setAgentPic(data.pic);
+                setAgentPics([]);
+            } else {
+                console.error('Error:', data); // Log any unexpected response
+            }
+            // ... rest of your code
+        })
+        .catch((error) => console.error('Error:', error));
+
+        fetch('http://localhost:5432/getAgentGender', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email: userObject.email }), // Ensure the body is an object
+        })
+        .then((response) => response.json()) // Try parsing response as JSON
+        .then((data) => {
+            {/* console.log('Response:', data.name); // Log the full response
+            setAgentName(data.name);
+            */}
+            if (data.genders) {
+                console.log('Multiple Genders:', data.genders);
+                // Store the array in the state or variable
+                setAgentGenders(data.genders);
+                setAgentGender('');
+            } else if (data.gender) {
+                console.log('Single Gender:', data.gender);
+                // Handle a single name separately
+                setAgentGender(data.gender);
+                setAgentGenders([]);
+            } else {
+                console.error('Error:', data); // Log any unexpected response
+            }
+            // ... rest of your code
+        })
+        .catch((error) => console.error('Error:', error));
+
+
+        fetch('http://localhost:5432/getAgentLastInterview', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email: userObject.email }), // Ensure the body is an object
+        })
+        .then((response) => response.json()) // Try parsing response as JSON
+        .then((data) => {
+            {/* console.log('Response:', data.name); // Log the full response
+            setAgentName(data.name);
+            */}
+            if (data.days) {
+                console.log('Multiple Interviews:', data.days);
+                // Store the array in the state or variable
+                setAgentLastInterviews(data.days);
+                setAgentLastInterview('');
+            } else if (data.day) {
+                console.log('Single Interview:', data.day);
+                // Handle a single name separately
+                setAgentLastInterview(data.day);
+                setAgentLastInterviews([]);
             } else {
                 console.error('Error:', data); // Log any unexpected response
             }
@@ -94,11 +192,12 @@ function Interviews() {
                     <div className="interviewtext" key={index}>
                         <div className="innerinterviewtext">
                             <div className="interimg">
-                                <img src={`${process.env.PUBLIC_URL}/avatars/M/${index + 1}.svg`} alt="" />
+                                <img src={`${process.env.PUBLIC_URL}/avatars/${agentGenders[index]}/${agentPics[index]}.svg`} alt="" />
                             </div>
                             <div className="intertext">
                                 <p>User Interview with {name}</p>
-                                <p>5 questions · 2 min ago</p>
+                                
+                                <p>Last Interviewed: {agentLastInterviews[index]} days ago</p>
                             </div>
                         </div>
                         <Link to="/interface" onClick={() => handleInterviewClick(name)}>
@@ -109,9 +208,11 @@ function Interviews() {
              
          </div>  
          <div className="interviewline"> </div>  
+         {/*}
          <div className="clear">
             <button>Clear Interviews</button>
          </div>   
+            */}
          </div>
 
          </div>

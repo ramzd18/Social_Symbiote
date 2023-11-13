@@ -185,6 +185,153 @@ async function getUserAge(email) {
     return rows;
 }
 
+app.post('/getAgentPic', async (req, res) => {
+  const { email } = req.body; // The logged-in user's email
+
+
+  try {
+      const userPic = await getPic(email);
+      console.log('userPic', userPic);
+
+      if (userPic && Array.isArray(userPic)) {
+          const pics = userPic.map((user) => user.profile_picture);
+          console.log('pics', pics);
+          res.status(200).json({ pics }); // Sending an array of names
+      } else if (userPic && userPic.hasOwnProperty('profile_picture')) {
+          res.status(200).json({ pic: userPic.profile_picture });
+      }    
+      else {
+          console.error('User details not found');
+          res.status(404).send('User details not found');
+      }
+      /*if (userAge) {
+          res.status(200).json({ age: userAge.age });
+      } else {
+          res.status(404).send('User details not found');
+      } */
+  } catch (error) {
+      console.error(error);
+      res.status(500).send('Error fetching picture');
+  }
+});
+
+async function getPic(email) {
+  const { rows } = await pool.query('SELECT profile_picture FROM user_agents_info WHERE personemail = $1', [email]);
+  return rows;
+}
+
+app.post('/getAgentDesc', async (req, res) => {
+  const { email } = req.body; // The logged-in user's email
+
+  try {
+      const userDesc = await getUserDesc(email);
+
+      if (userDesc && Array.isArray(userDesc)) {
+          const descs = userDesc.map((user) => user.user_description);
+          console.log('descriptions', descs);
+          res.status(200).json({ descs }); // Sending an array of names
+      } else if (userDesc && userDesc.hasOwnProperty('user_description')) {
+          res.status(200).json({ desc: userDesc.user_description });
+      }    
+      else {
+          console.error('User details not found');
+          res.status(404).send('User details not found');
+      }
+      /*if (userAge) {
+          res.status(200).json({ age: userAge.age });
+      } else {
+          res.status(404).send('User details not found');
+      } */
+  } catch (error) {
+      console.error(error);
+      res.status(500).send('Error fetching user desciption');
+  }
+});
+
+async function getUserDesc(email) {
+  const { rows } = await pool.query('SELECT user_description FROM user_agents_info WHERE personemail = $1', [email]);
+  return rows;
+}
+
+app.post('/getAgentGender', async (req, res) => {
+  const { email } = req.body; // The logged-in user's email
+
+  try {
+      const userGender = await getUserGender(email);
+
+      if (userGender && Array.isArray(userGender)) {
+          const genders = userGender.map((user) => user.gender);
+          console.log('genders', genders);
+          res.status(200).json({ genders }); // Sending an array of names
+      } else if (userGender && userGender.hasOwnProperty('gender')) {
+          res.status(200).json({ gender: userGender.gender });
+      }    
+      else {
+          console.error('User genders not found');
+          res.status(404).send('User genders not found');
+      }
+      /*if (userAge) {
+          res.status(200).json({ age: userAge.age });
+      } else {
+          res.status(404).send('User details not found');
+      } */
+  } catch (error) {
+      console.error(error);
+      res.status(500).send('Error fetching gender');
+  }
+});
+
+async function getUserGender(email) {
+  const { rows } = await pool.query('SELECT gender FROM user_agents_info WHERE personemail = $1', [email]);
+  return rows;
+}
+
+app.post('/updateProfilePicture', (req, res) => {
+  const { name, profile_picture } = req.body;
+  console.log('Incoming pic data:', name, profile_picture);
+
+  pool.query('UPDATE user_agents_info SET profile_picture = $1 WHERE name = $2', [profile_picture, name], (error, results) => {
+    if (error) {
+        res.status(500).send('Error updating profile picture');
+    } else {
+        res.status(200).send('Profile picture updated successfully');
+    }
+  });
+});
+
+app.post('/getAgentLastInterview', async (req, res) => {
+  const { email } = req.body; // The logged-in user's email
+
+  try {
+      const userLastInterview = await getUserInterview(email);
+
+      if (userLastInterview && Array.isArray(userLastInterview)) {
+          const days = userLastInterview.map((user) => user.last_chatted);
+          console.log('last interviewed days', days);
+          res.status(200).json({ days }); // Sending an array of names
+      } else if (userLastInterview && userLastInterview.hasOwnProperty('last_chatted')) {
+          res.status(200).json({ day: userLastInterview.last_chatted });
+      }    
+      else {
+          console.error('User interview days not found');
+          res.status(404).send('User interview days not found');
+      }
+      /*if (userAge) {
+          res.status(200).json({ age: userAge.age });
+      } else {
+          res.status(404).send('User details not found');
+      } */
+  } catch (error) {
+      console.error(error);
+      res.status(500).send('Error fetching user interview day');
+  }
+});
+
+async function getUserInterview(email) {
+  const { rows } = await pool.query('SELECT last_chatted FROM user_agents_info WHERE personemail = $1', [email]);
+  return rows;
+}
+
 
 
 app.post('/updateChatHistory', async (req, res) => {
@@ -193,25 +340,46 @@ app.post('/updateChatHistory', async (req, res) => {
     console.log('Incoming data chat:', name, personEmail, conversation);
   
     try {
-      const updateQuery = `
-        UPDATE user_agents_info
-        SET chat_history = $1
-        WHERE name = $2 AND personemail = $3
-      `;
-      
-      const result = await pool.query(updateQuery, [conversation, name, personEmail]);
+      const updateQuery = `UPDATE user_agents_info SET chat_history = $1 WHERE name = $2 AND personemail = $3`;
+      const result = await pool.query(updateQuery, [JSON.stringify(conversation), name, personEmail]);
 
-      console.log('result', result);
-  
       if (result.rowCount > 0) {
-        res.status(200).json('Chat history updated successfully');
+          // Fetch the updated chat history after the update
+          const fetchQuery = `SELECT chat_history FROM user_agents_info WHERE name = $1 AND personemail = $2`;
+          const fetchResult = await pool.query(fetchQuery, [name, personEmail]);
+
+          if (fetchResult.rows.length > 0) {
+            const chatHistory = JSON.parse(fetchResult.rows[0].chat_history);
+            res.status(200).send({ message: 'Chat history updated successfully', chatHistory });
+          } else {
+              res.status(404).send('No rows found after update');
+          }
       } else {
-        res.status(404).json('No rows updated');
+          res.status(404).json('No rows updated');
       }
-    } catch (error) {
+  } catch (error) {
       res.status(500).json('An error occurred while updating chat history');
+  }
+});
+
+app.post('/getConversation', async (req, res) => {
+  const { name, personEmail } = req.body;
+
+  try {
+    const { rows } = await pool.query('SELECT chat_history FROM user_agents_info WHERE name = $1 AND personemail = $2', [name, personEmail]);
+
+    if (rows.length > 0) {
+      console.log('Fetched conversation:', rows[0].chat_history);
+      res.status(200).json({ messages: JSON.parse(rows[0].chat_history) });
+    } else {
+      console.log('No conversation found for:', name, personEmail);
+      res.status(404).json({ message: 'No conversation found' });
     }
-  });
+  } catch (error) {
+    console.error('Error fetching conversation from the database:', error);
+    res.status(500).json({ message: 'Error fetching conversation from the database' });
+  }
+});
 
   app.get('/check-rows', async (req, res) => {
     const { personEmail } = req.query;
