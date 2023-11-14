@@ -502,7 +502,7 @@ p:after {
 }
 
 .big-inner-child {
-  width: 20%;
+  width: 1000px;
   margin-left: 17%;
   max-width: 100%;
 }

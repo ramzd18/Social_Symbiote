@@ -56,7 +56,6 @@ function Interface() {
   }  
 
   const sendMessage = async () => {
-    // You can send the 'message' state to your chatbot here
     console.log('Sending message:', message);
 
 
@@ -65,9 +64,34 @@ function Interface() {
       role: 'user',
     };
 
+    
+
     setConversation([...(conversation), sentMessage]);
 
-    console.log(conversation);
+    fetch(`http://127.0.0.1:5000/load_response?name=${selectedAgentName}&email=${email}&question=${message}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })  
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Response from server:', data); // Check the response data
+  
+        try {
+          const receivedMessage = {
+            content: message,
+            role: 'assistant',
+          };
+      
+          setConversation([...(conversation), receivedMessage]);
+        } catch (error) {
+          console.error('Invalid JSON format for chat history:', error);
+        }
+      });
+
+    // console.log(conversation);
+
 
     setMessage('');
 
@@ -141,7 +165,7 @@ function Interface() {
 
   const handleBack = () => {
 
-    fetch('http://localhost:5432/updateChatHistory', {
+    fetch('http://localhost:5433/updateChatHistory', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -172,6 +196,7 @@ function Interface() {
     sessionStorage.removeItem('selectedAgentName');
   }
 
+
   useEffect(() => {
     const handleKeyUp = (event) => {
       if (event.keyCode === 13 && event.target.id === 'interviewInput' && !event.shiftKey) {
@@ -187,7 +212,7 @@ function Interface() {
   }, []);
 
   useEffect(() => {
-    fetch('http://localhost:5432/getAgentPic', {
+    fetch('http://localhost:5433/getAgentPic', {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
@@ -219,7 +244,7 @@ function Interface() {
 
   useEffect(() => {
     // Fetch the conversation messages on component load
-    fetch('http://localhost:5432/getConversation', {
+    fetch('http://localhost:5433/getConversation', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
