@@ -1,4 +1,6 @@
 from flask import Flask, session, request, redirect, url_for
+from flask_cors import CORS, cross_origin
+
 import retrieve_agent
 import load_agent_database
 import json
@@ -7,6 +9,8 @@ import os
 
 app = Flask(__name__)
 app.secret_key = "super secret key"
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 agents_dict={}
 
 os.environ['KMP_DUPLICATE_LIB_OK']='True'
@@ -42,10 +46,10 @@ def update_agent():
         retrieve_agent.update_agent_info(email,name,json.dumps(str(memory)),json.dumps(current_agent.memory.personalitylist))
         return "Completed"
 
-@app.route('/creaate_agent')
+@app.route('/create_agent')
 def create_agent():
         print("Starting")
-        email= request.args.get("name").strip()
+        email= request.args.get("email").strip()
         description=request.args.get("description").strip()
         age=int(request.args.get("age").strip())
         job=request.args.get("job").strip()
@@ -57,7 +61,7 @@ def create_agent():
         agent_soc_memory=agent.memory.social_media_memory.dict()
         del agent_memory['vectorstore']
         del agent_soc_memory['vectorstore']
-        retrieve_agent.push_agent_info(agent.name,agent.age,agent.status,json.dumps(str(agent_memory)),json.dumps({}),'akhiliyengar2004@gmail.com',json.dumps(str(agent_soc_memory)),agent.education_and_work,json.dumps(agent.memory.personalitylist),agent.interests)
+        retrieve_agent.push_agent_info(agent.name,agent.age,agent.status,json.dumps(str(agent_memory)),json.dumps({}),email,json.dumps(str(agent_soc_memory)),agent.education_and_work,json.dumps(agent.memory.personalitylist),agent.interests)
         agents_dict[agent.name]=agent
         return "Completed"
 
