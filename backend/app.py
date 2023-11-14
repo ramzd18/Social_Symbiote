@@ -32,7 +32,6 @@ def generate_response():
     
         name= request.args.get("name").strip()
         question=str(request.args.get("question"))
-        print (question)
         current_agent= agents_dict[name]
         return str(current_agent.generate_question_response(question))
 @app.route('/update_agent')
