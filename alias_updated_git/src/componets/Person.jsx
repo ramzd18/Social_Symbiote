@@ -18,6 +18,8 @@ function Person() {
     const [agentLastInterview, setAgentLastInterview] = useState('');
     const [agentGenders, setAgentGenders] = useState([]);
     const [agentGender, setAgentGender] = useState('');
+    const [agentJobs, setAgentJobs] = useState([]);
+    const [agentJob, setAgentJob] = useState('');
     const token = sessionStorage.getItem('token');
     const isFirstRun = useRef(true);
     console.log(token)
@@ -84,6 +86,35 @@ function Person() {
                 // Handle a single name separately
                 setAgentDesc(data.desc);
                 setAgentDescs([]);
+            } else {
+                console.error('Error:', data); // Log any unexpected response
+            }
+            // ... rest of your code
+        })
+        .catch((error) => console.error('Error:', error));
+
+        fetch('http://localhost:5433/getAgentJob', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email: userObject.email }), // Ensure the body is an object
+        })
+        .then((response) => response.json()) // Try parsing response as JSON
+        .then((data) => {
+            {/* console.log('Response:', data.name); // Log the full response
+            setAgentName(data.name);
+            */}
+            if (data.jobs) {
+                console.log('Multiple Jobs:', data.jobs);
+                // Store the array in the state or variable
+                setAgentJobs(data.jobs);
+                setAgentJob('');
+            } else if (data.job) {
+                console.log('Single Job:', data.job);
+                // Handle a single name separately
+                setAgentJob(data.desc);
+                setAgentJobs([]);
             } else {
                 console.error('Error:', data); // Log any unexpected response
             }
@@ -237,8 +268,8 @@ function Person() {
         */}
     </div>
         {/*</div>*/}
-        <div className="col-md-8 big">
-         <div className="big-inner-childs">
+        <div className="col-md-8 bperson">
+         <div className="bperson-inner-childs">
              {/*}
            <div className="project">
 
@@ -273,7 +304,7 @@ function Person() {
                         <img src={`${process.env.PUBLIC_URL}/avatars/${agentGenders[index]}/${index + 1}.svg`} alt="" />  
                         <div className="car1text">
                         <h5>{name}</h5>
-                        <p>{agentAges[index]} yrs - Software Engineer</p>
+                        <p>{agentAges[index]} yrs - {agentJobs[index]}</p>
                         </div>
                     </div>
                     <div className="car2">
