@@ -167,10 +167,11 @@ def parsepeopledata(dictval):
   education= dictval["education"]
   for school in education:
       if "majors" in school: 
-          print (school)
-          educationstr+="Attended this school: "+ school["school"]["name"]
-          educationstr+="   Majored in these subjects:"+ str(school["majors"]) 
-          educationstr+="\n"
+          if school["school"]!=None:
+            print (school)
+            educationstr+="Attended this school: "+ school["school"]["name"]
+            educationstr+="   Majored in these subjects:"+ str(school["majors"]) 
+            educationstr+="\n"
 
       # if(school["school"])
       # for key in school:
