@@ -60,7 +60,7 @@ def create_agent():
         agent_soc_memory=agent.memory.social_media_memory.dict()
         del agent_memory['vectorstore']
         del agent_soc_memory['vectorstore']
-        retrieve_agent.push_agent_info(agent.name,agent.age,agent.status,json.dumps(str(agent_memory)),json.dumps({}),email,json.dumps(str(agent_soc_memory)),agent.education_and_work,json.dumps(agent.memory.personalitylist),agent.interests,gender,jobval)
+        retrieve_agent.push_agent_info(agent.name,agent.age,agent.status,json.dumps(str(agent_memory)),json.dumps({}),email,json.dumps(str(agent_soc_memory)),agent.education_and_work,json.dumps(agent.memory.personalitylist),agent.interests,gender,jobval,description)
         agents_dict[agent.name]=agent
         return "Completed"
 
