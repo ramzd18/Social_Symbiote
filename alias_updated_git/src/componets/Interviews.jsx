@@ -196,8 +196,9 @@ function Interviews() {
                             </div>
                             <div className="intertext">
                                 <p>User Interview with {name}</p>
+                                <p> Chat with {name} today.</p>
                                 
-                                <p>Last Interviewed: {agentLastInterviews[index]} days ago</p>
+                                {/* <p>Last Interviewed: {agentLastInterviews[index]} days ago</p> */}
                             </div>
                         </div>
                         <Link to="/interface" onClick={() => handleInterviewClick(name)}>

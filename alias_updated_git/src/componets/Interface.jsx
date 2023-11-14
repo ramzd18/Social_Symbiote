@@ -16,6 +16,7 @@ function Interface() {
   const [conversation, setConversation] = useState([])
   const [agentPics, setAgentPics] = useState([]);
   const [agentPic, setAgentPic] = useState('');
+  const [isInterviewActive, setIsInterviewActive] = useState(true);
   const selectedAgentName = sessionStorage.getItem('selectedAgentName');
   const selectedAgentGender = sessionStorage.getItem('selectedAgentGender');
   const selectedAgentPic = sessionStorage.getItem('selectedAgentPic');
@@ -66,34 +67,25 @@ function Interface() {
 
     
 
-    setConversation([...(conversation), sentMessage]);
-
-    fetch(`http://127.0.0.1:5000/load_response?name=${selectedAgentName}&email=${email}&question=${message}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })  
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Response from server:', data); // Check the response data
-  
-        try {
-          const receivedMessage = {
-            content: message,
-            role: 'assistant',
-          };
-      
-          setConversation([...(conversation), receivedMessage]);
-        } catch (error) {
-          console.error('Invalid JSON format for chat history:', error);
-        }
-      });
-
-    // console.log(conversation);
-
-
+    setConversation(prevConversation => [...prevConversation, sentMessage]);
     setMessage('');
+
+  try {
+    const response = await fetch(`http://127.0.0.1:5000/load_response?name=${selectedAgentName}&email=${email}&question=${message}`);
+    const data = await response.text();
+    
+    console.log('Response from server:', data);
+
+    const receivedMessage = {
+      content: data,
+      role: 'assistant',
+    };
+
+    setConversation(prevConversation => [...prevConversation, receivedMessage]);
+  } catch (error) {
+    console.error('Error processing response:', error);
+  }
+};
 
 
 
@@ -146,7 +138,7 @@ function Interface() {
 
   */}
 
-  };
+
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -198,76 +190,85 @@ function Interface() {
 
 
   useEffect(() => {
-    const handleKeyUp = (event) => {
-      if (event.keyCode === 13 && event.target.id === 'interviewInput' && !event.shiftKey) {
+    const handleKeyPress = (event) => {
+      if (event.key === 'Enter' && event.target.id === 'interviewInput' && !event.shiftKey) {
+        event.preventDefault();
         sendMessage();
       }
     };
-
-    document.addEventListener('keyup', handleKeyUp);
-
+  
+    const interviewInput = document.getElementById('interviewInput');
+  
+    if (interviewInput) {
+      interviewInput.addEventListener('keypress', handleKeyPress);
+    }
+  
     return () => {
-      document.removeEventListener('keyup', handleKeyUp);
+      if (interviewInput) {
+        interviewInput.removeEventListener('keypress', handleKeyPress);
+      }
     };
-  }, []);
+  }, [sendMessage]);
 
-  useEffect(() => {
-    fetch('http://localhost:5433/getAgentPic', {
-            method: 'POST',
-            headers: {
-            'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email: userObject.email }), // Ensure the body is an object
-        })
-        .then((response) => response.json()) // Try parsing response as JSON
-        .then((data) => {
-            {/* console.log('Response:', data.name); // Log the full response
-            setAgentName(data.name);
-            */}
-            if (data.pics) {
-                console.log('Multiple pics:', data.pics);
-                // Store the array in the state or variable
-                setAgentPics(data.pics);
-                setAgentPic('');
-            } else if (data.pic) {
-                console.log('Single pic:', data.pic);
-                // Handle a single name separately
-                setAgentPic(data.pic);
-                setAgentPics([]);
-            } else {
-                console.error('Error:', data); // Log any unexpected response
-            }
-            // ... rest of your code
-        })
-        .catch((error) => console.error('Error:', error));
-  }, []);
+
+  // useEffect(() => {
+  //   fetch('http://localhost:5433/getAgentPic', {
+  //           method: 'POST',
+  //           headers: {
+  //           'Content-Type': 'application/json',
+  //           },
+  //           body: JSON.stringify({ email: userObject.email }), // Ensure the body is an object
+  //       })
+  //       .then((response) => response.json()) // Try parsing response as JSON
+  //       .then((data) => {
+  //           {/* console.log('Response:', data.name); // Log the full response
+  //           setAgentName(data.name);
+  //           */}
+  //           if (data.pics) {
+  //               console.log('Multiple pics:', data.pics);
+  //               // Store the array in the state or variable
+  //               setAgentPics(data.pics);
+  //               setAgentPic('');
+  //           } else if (data.pic) {
+  //               console.log('Single pic:', data.pic);
+  //               // Handle a single name separately
+  //               setAgentPic(data.pic);
+  //               setAgentPics([]);
+  //           } else {
+  //               console.error('Error:', data); // Log any unexpected response
+  //           }
+  //           // ... rest of your code
+  //       })
+  //       .catch((error) => console.error('Error:', error));
+  // }, []);
 
   useEffect(() => {
     // Fetch the conversation messages on component load
-    fetch('http://localhost:5433/getConversation', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ name: selectedAgentName, personEmail: email }),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log('Response from server:', data); // Check the response data
-      if (Array.isArray(data.messages) && data.messages.length > 0) {
-        const formattedMessages = data.messages.map((msg) => ({
-          content: msg.content,
-          role: msg.role,
-        }));
-        console.log('Formatted Messages:', formattedMessages);
-        setConversation(formattedMessages);
-        console.log('New conversation state:', formattedMessages);
-      }
+    if (isInterviewActive) {
+      fetch('http://localhost:5433/getConversation', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name: selectedAgentName, personEmail: email }),
     })
-    .catch((error) => {
-      console.error('Error fetching conversation:', error);
-    });
-}, []);
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Response from server:', data); // Check the response data
+        if (Array.isArray(data.messages) && data.messages.length > 0) {
+          const formattedMessages = data.messages.map((msg) => ({
+            content: msg.content,
+            role: msg.role,
+          }));
+          setConversation(formattedMessages);
+          setIsInterviewActive(false);
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching conversation:', error);
+      });
+    }
+}, [isInterviewActive]);
   
 
   return (
@@ -310,7 +311,16 @@ function Interface() {
 
           {/*} chat history from git, render right box from git, send message from chat from git, load agent info including image from data recorded in interviews.jsx", connect agent to respond from git> */}
 
-          <div className="sent-messages-container">
+          <div className="chat-container">
+            {conversation.map((message, index) => (
+              <div key={index} className={message.role === 'user' ? 'sent-message' : 'received-message'}>
+                <img src={message.role === 'user' ? './Users Icons.svg' : `${process.env.PUBLIC_URL}/avatars/${selectedAgentGender}/${selectedAgentPic}.svg`} alt="" />
+                <p>{message.content}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* <div className="sent-messages-container">
             {console.log('Sent messages:', conversation)}
             {conversation.length > 0 && conversation.map((message, index) => (
                 message.role === 'user' && (
@@ -332,7 +342,7 @@ function Interface() {
               </div>
             )
           ))}
-        </div>
+        </div> */}
 
           {/*}  
            <div className="interviewtext">

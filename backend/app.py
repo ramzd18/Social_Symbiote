@@ -4,7 +4,7 @@ from flask_cors import CORS, cross_origin
 import retrieve_agent
 import load_agent_database
 import json
-import CreateAgentFinal
+# import CreateAgentFinal
 import os
 
 app = Flask(__name__)
@@ -32,7 +32,6 @@ def generate_response():
     
         name= request.args.get("name").strip()
         question=str(request.args.get("question"))
-        print (question)
         current_agent= agents_dict[name]
         return str(current_agent.generate_question_response(question))
 @app.route('/update_agent')
@@ -46,24 +45,24 @@ def update_agent():
         retrieve_agent.update_agent_info(email,name,json.dumps(str(memory)),json.dumps(current_agent.memory.personalitylist))
         return "Completed"
 
-@app.route('/create_agent')
-def create_agent():
-        print("Starting")
-        email= request.args.get("email").strip()
-        description=request.args.get("description").strip()
-        age=int(request.args.get("age").strip())
-        job=request.args.get("job").strip()
-        # memory= current_agent.memory.memory_retriever.dict()
-        # del memory['vectorstore']
-        # email=request.args.get("email").strip()
-        agent=CreateAgentFinal.create_and_store_agent(description,age,job)
-        agent_memory= agent.memory.memory_retriever.dict()
-        agent_soc_memory=agent.memory.social_media_memory.dict()
-        del agent_memory['vectorstore']
-        del agent_soc_memory['vectorstore']
-        retrieve_agent.push_agent_info(agent.name,agent.age,agent.status,json.dumps(str(agent_memory)),json.dumps({}),email,json.dumps(str(agent_soc_memory)),agent.education_and_work,json.dumps(agent.memory.personalitylist),agent.interests)
-        agents_dict[agent.name]=agent
-        return "Completed"
+# @app.route('/create_agent')
+# def create_agent():
+#         print("Starting")
+#         email= request.args.get("email").strip()
+#         description=request.args.get("description").strip()
+#         age=int(request.args.get("age").strip())
+#         job=request.args.get("job").strip()
+#         # memory= current_agent.memory.memory_retriever.dict()
+#         # del memory['vectorstore']
+#         # email=request.args.get("email").strip()
+#         agent=CreateAgentFinal.create_and_store_agent(description,age,job)
+#         agent_memory= agent.memory.memory_retriever.dict()
+#         agent_soc_memory=agent.memory.social_media_memory.dict()
+#         del agent_memory['vectorstore']
+#         del agent_soc_memory['vectorstore']
+#         retrieve_agent.push_agent_info(agent.name,agent.age,agent.status,json.dumps(str(agent_memory)),json.dumps({}),email,json.dumps(str(agent_soc_memory)),agent.education_and_work,json.dumps(agent.memory.personalitylist),agent.interests)
+#         agents_dict[agent.name]=agent
+#         return "Completed"
 
 
 if __name__ == '__main__':

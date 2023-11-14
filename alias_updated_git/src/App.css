@@ -939,7 +939,7 @@ p:after {
   margin-top: 77%;
 }
 
-.sent-messages-container, .received-messages-container {
+.chat-container {
   max-height: calc(100vh - 200px); /* Adjust height based on your layout */
   overflow-y: auto;
 }
