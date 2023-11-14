@@ -53,10 +53,10 @@ def relevance_score_fn(score: float) -> float:
 
 
 
-def create_and_store_agent(description,age,job):
+def create_and_store_agent(description,age,job1):
   os.environ["OPENAI_API_KEY"]="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"
   LLM = ChatOpenAI(model_name="gpt-3.5-turbo-1106") 
-  usertup= peopledatalabsretrieval.initialize_person(description,age,job)
+  usertup= peopledatalabsretrieval.initialize_person(description,age,job1)
   job=usertup[1]
   persondict= usertup[0]
   status=usertup[2]
@@ -69,7 +69,11 @@ def create_and_store_agent(description,age,job):
   interestsliststr= str(interestslist)
   interestsliststr=interestsliststr.replace('[','')
   interestsliststr=interestsliststr.replace(']','')
-
+  gender=persondict['gender']
+  if gender=='female':
+     gender='F'
+  else: 
+     gender='M'
 
   agent_memory = generative_agents.GenerativeAgentMemory(
     llm=LLM,
@@ -87,22 +91,30 @@ def create_and_store_agent(description,age,job):
     traits="talkative,social,emphatetic",
     status=status,  # You can add more persistent traits here
     # memory_retriever=create_new_memory_retriever(),
-    education_and_work=persondict['name'] + " works as a "+persondict["current job"]+" and "+ persondict["education"],
+    education_and_work=persondict['name'] + " works as a "+job+" and "+ persondict["education"],
     interests=interestsliststr,
     llm=LLM,
     memory=agent_memory,
 )
-  twitter_username=persondict["twitter"]
-  userid= user_lookup.find_user(twitter_username)
-  likedtweets=user_tweets.main(userid,"liked_tweets",10)
-  tweets=user_tweets.main(userid,"tweets",20)
-  tweets=user_tweets.clean_tweets(tweets)
-  likedtweets=user_tweets.clean_likedtweets(likedtweets)
+  if(persondict['twitter']!='false'):
+    twitter_username=persondict["twitter"]
+    userid= user_lookup.find_user(twitter_username)
+    likedtweets=user_tweets.main(userid,"liked_tweets",10)
+    tweets=user_tweets.main(userid,"tweets",20)
+    tweets=user_tweets.clean_tweets(tweets)
+    likedtweets=user_tweets.clean_likedtweets(likedtweets)
+  else: 
+     tweets=[]
+     likedtweets=[]
   subredditslist= redditusers.get_commmon_subreddit(interestslist)
   user= redditusers.get_users(interestslist,subredditslist)
   comments= user[1]
   username=user[0]
   totallist= redditusers.find_most_relevant_submissions(interestslist,comments,username)
+  for val in tweets:
+     totallist.append(val)
+  for val1 in likedtweets:
+     totallist.append(val1)
   for memory in totallist:
     print("looped memory"+memory)
     agent.memory.add_socialmedia_memory(memory)
@@ -136,7 +148,9 @@ def create_and_store_agent(description,age,job):
 
   print("memoryinginginginign")
   agent.product_to_memory(product)
-  return agent
+  return (agent,gender,job1)
+
+
 
 # userid= user_lookup.find_user("sararecruiting")
 # likedtweets=user_tweets.main(userid,"liked_tweets",10)

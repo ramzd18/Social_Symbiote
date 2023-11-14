@@ -17,7 +17,7 @@ def push_user_info(first,last,email):
       print(count, "Record inserted successfully into mobile table")
       cur.close()
       conn.close()
-def push_agent_info(name,age,status,memory,llm,personemail,social_media_memory,educationwork,personalitylist,interests):
+def push_agent_info(name,age,status,memory,llm,personemail,social_media_memory,educationwork,personalitylist,interests,gender,job):
      #name,age,status,memory,llm= NewAgentCreation.add_data()
     try:
       conn = psycopg2.connect(
@@ -26,8 +26,8 @@ def push_agent_info(name,age,status,memory,llm,personemail,social_media_memory,e
       user="postgres",
       password="Jeff@2234")
       cur= conn.cursor()
-      postgres_insert_query = """ INSERT INTO user_agents_info (name, age, status,memory,llm,personemail,social_media_memory,educationwork,personalitylist,interests) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
-      record_to_insert = (name,age,status,memory,llm,personemail,social_media_memory,educationwork,personalitylist,interests)
+      postgres_insert_query = """ INSERT INTO user_agents_info (name, age, status,memory,llm,personemail,social_media_memory,educationwork,personalitylist,interests,gender,job) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
+      record_to_insert = (name,age,status,memory,llm,personemail,social_media_memory,educationwork,personalitylist,interests,gender,job)
       print("database here")
       cur.execute(postgres_insert_query, record_to_insert)
       print("database executed")
@@ -159,6 +159,10 @@ WHERE ((personemail='{email}'));"""
 def scrape_user_databse(usertup:tuple): 
    name=usertup[0]
    age=usertup[1]
+
+
+
+# print(get_all_agents('rbpeddu@gmail.com'))
 
 # name,age,status,memory,llm= NewAgentCreation.get_agent_initial_data()
 # push_agent_info(name,age,status,memory,llm,'rbpeddu@gmail.com')

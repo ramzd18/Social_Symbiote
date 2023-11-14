@@ -28,9 +28,14 @@ def LoadAgent(email,agent_name):
     return "Agent data is not in database"
   else:
     print(type(agent_data))
-    agent_data_1=agent_data[3].replace("'", "\"")
+    # agent_data_1=agent_data[3].replace("'", "\"")
+    agent_data_1=agent_data[3]
     print(agent_data_1)
-    memory= eval(agent_data_1)
+    print(type(agent_data_1))
+    print(agent_data_1[:24])
+    memory= eval((str(agent_data_1)))
+    print(type(memory))
+    # memory=dict(json.loads(memory))
     print(memory.keys())
     # memory_retriever=memory.get('memory_retriever')
     stream=memory['memory_stream']
@@ -112,8 +117,6 @@ def add_existing_memories_vectorstore(vectorstore,document_list):
 
 #     return ram
     
-    
-
 
 # # print(NewAgentCreation.interview_agent(Ram_agent,"What do you think about healthcare"))
 

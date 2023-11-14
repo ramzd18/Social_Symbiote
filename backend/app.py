@@ -56,12 +56,12 @@ def create_agent():
         # memory= current_agent.memory.memory_retriever.dict()
         # del memory['vectorstore']
         # email=request.args.get("email").strip()
-        agent=CreateAgentFinal.create_and_store_agent(description,age,job)
+        (agent,gender,jobval)=CreateAgentFinal.create_and_store_agent(description,age,job)
         agent_memory= agent.memory.memory_retriever.dict()
         agent_soc_memory=agent.memory.social_media_memory.dict()
         del agent_memory['vectorstore']
         del agent_soc_memory['vectorstore']
-        retrieve_agent.push_agent_info(agent.name,agent.age,agent.status,json.dumps(str(agent_memory)),json.dumps({}),email,json.dumps(str(agent_soc_memory)),agent.education_and_work,json.dumps(agent.memory.personalitylist),agent.interests)
+        retrieve_agent.push_agent_info(agent.name,agent.age,agent.status,json.dumps(str(agent_memory)),json.dumps({}),email,json.dumps(str(agent_soc_memory)),agent.education_and_work,json.dumps(agent.memory.personalitylist),agent.interests,gender,jobval)
         agents_dict[agent.name]=agent
         return "Completed"
 
