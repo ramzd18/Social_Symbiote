@@ -544,7 +544,7 @@ p:after {
 }
 
 .bperson-inner-childs {
-  margin-left: 32rem;
+  /* margin-left: 32rem; */
   width: 100%;
   /* max-width: 150rem; */
 }
@@ -561,7 +561,7 @@ p:after {
   flex-shrink: 0;
   border-radius: 10px;
   border: none;
-  margin-right: 90%; /* Adjust the percentage based on your design */
+  margin-left: 70%; /* Adjust the percentage based on your design */
   background: #7E8FE7;
   text-align: center;
   padding-top: 5px;
@@ -694,7 +694,7 @@ p:after {
   justify-content: space-between;
   padding: 2rem 1rem;
   margin-top: 3rem;
-  margin-left: 1rem;
+  margin-right: 5%;
   margin-bottom: 0px;
   border: 1.5px solid #DADADA;
   border-radius: 10px;
