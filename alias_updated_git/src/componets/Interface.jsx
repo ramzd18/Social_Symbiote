@@ -5,6 +5,7 @@ import {useState , useEffect, useRef } from 'react';
 import Message from './message'
 import { Link } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 function Interface() {
@@ -70,6 +71,9 @@ function Interface() {
     setConversation(prevConversation => [...prevConversation, sentMessage]);
     setMessage('');
 
+    setIsLoading(true);
+
+
   try {
     const response = await fetch(`http://127.0.0.1:5000/load_response?name=${selectedAgentName}&email=${email}&question=${message}`);
     const data = await response.text();
@@ -84,6 +88,8 @@ function Interface() {
     setConversation(prevConversation => [...prevConversation, receivedMessage]);
   } catch (error) {
     console.error('Error processing response:', error);
+  } finally {
+    setIsLoading(false); // Set loading state to false after receiving a response
   }
 };
 
@@ -140,11 +146,9 @@ function Interface() {
 
 
 
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault(); // Prevents a new line in the textarea
-
-      // Call sendMessage function
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter' && event.target.id === 'interviewInput' && !event.shiftKey) {
+      event.preventDefault();
       sendMessage();
     }
   };
@@ -190,24 +194,21 @@ function Interface() {
 
 
   useEffect(() => {
-    const handleKeyPress = (event) => {
-      if (event.key === 'Enter' && event.target.id === 'interviewInput' && !event.shiftKey) {
-        event.preventDefault();
-        sendMessage();
-      }
-    };
+
   
     const interviewInput = document.getElementById('interviewInput');
-  
+
+  if (interviewInput) {
+    console.log('Adding event listener to interviewInput');
+    interviewInput.addEventListener('keypress', handleKeyPress);
+  }
+
+  return () => {
     if (interviewInput) {
-      interviewInput.addEventListener('keypress', handleKeyPress);
+      console.log('Removing event listener from interviewInput');
+      interviewInput.removeEventListener('keypress', handleKeyPress);
     }
-  
-    return () => {
-      if (interviewInput) {
-        interviewInput.removeEventListener('keypress', handleKeyPress);
-      }
-    };
+  };
   }, [sendMessage]);
 
 
@@ -301,7 +302,7 @@ function Interface() {
         */}
     </div>
         {/*<div class="border-line"></div> */}
-       <div className="col-md-8 big">
+       <div className="col-md-8 big-interface">
             <Link to="/interviews" onClick={handleBack}>
               <button className="backarrowinterface"> <img src= "./Arrow-Left.svg" /> </button>
       
@@ -366,8 +367,8 @@ function Interface() {
            
           
           {/*</div> */}
-          <div className="big-inner-child">
-         <div className="intervieinputs">
+          {/* <div className="big-interface-inner-child"> */}
+         {/* <div className="intervieinputs"> */}
           {/*}
             <div className="tags">
                 <span>Concept Testing</span>
@@ -377,22 +378,30 @@ function Interface() {
                 <span>Ad Testing</span>
             </div>
       */}
+        <div className="input-container">
             <textarea
               placeholder="Ask a question."
               id="interviewInput" 
-              class="input-box"
+              className="input-box"
               ref={textAreaRef}
               rows={rows}
               value={message}
               onInput={handleInput}
               onKeyDown={handleKeyPress}
             />
-            <button onClick={sendMessage}><img src="./Reply.svg" alt="" className='intervieinputimgs'/></button>
+            <button onClick={sendMessage}>
+            {isLoading ? (
+              <CircularProgress size={24} color="inherit" />
+            ) : (
+              <img src="./Reply.svg" alt="Reply" />
+            )}
+          </button>
             
          </div>
-         </div>
+        </div> 
+         {/* </div> */}
            
-        </div>
+        {/* </div> */}
     </section></>
   )
 }

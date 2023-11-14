@@ -336,6 +336,39 @@ async function getUserInterview(email) {
   return rows;
 }
 
+app.post('/getAgentJob', async (req, res) => {
+  const { email } = req.body; // The logged-in user's email
+
+  try {
+      const useJob = await getUserJob(email);
+
+      if (useJob && Array.isArray(useJob)) {
+          const days = useJob.map((user) => user.educationwork);
+          console.log('last interviewed days', days);
+          res.status(200).json({ days }); // Sending an array of names
+      } else if (useJob && useJob.hasOwnProperty('educationwork')) {
+          res.status(200).json({ day: useJob.educationworkd });
+      }    
+      else {
+          console.error('User jobs not found');
+          res.status(404).send('User jobs not found');
+      }
+      /*if (userAge) {
+          res.status(200).json({ age: userAge.age });
+      } else {
+          res.status(404).send('User details not found');
+      } */
+  } catch (error) {
+      console.error(error);
+      res.status(500).send('Error fetching user job');
+  }
+});
+
+async function getUserJob(email) {
+  const { rows } = await pool.query('SELECT educationwork FROM user_agents_info WHERE personemail = $1', [email]);
+  return rows;
+}
+
 
 
 app.post('/updateChatHistory', async (req, res) => {
