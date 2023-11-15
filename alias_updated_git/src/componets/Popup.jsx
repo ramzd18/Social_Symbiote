@@ -42,32 +42,43 @@ function Popup() {
         console.log('Row count:', rowCount);
 
         if (rowCount < 3) {
-          fetch('http://localhost:5433/add-persona', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              age: age,
-              occupation: occupation,
-              description: description,
-              personEmail: email,
-            }),
-          })
-            .then(response => {
-              if (response.ok) {
-                console.log('New persona added successfully');
-                // Ensure loading indicator is turned off after completion
-                setLoading(false);
-              } else {
-                console.error('Failed to add new persona');
-                setLoading(false);
-              }
-            })
-            .catch(error => {
-              console.error('Error while adding new persona:', error);
-              setLoading(false);
-            });
+          setLoading(true);
+          const response = fetch(`http://127.0.0.1:5000/create_agent?email=${email}&description=${description}&age=${age}&job=${occupation}`);
+          try {
+            const data = response.text();
+            console.log('Response:', data);
+          }
+          catch (error) {
+            console.error('Error creating agent:', error);
+          } finally {
+            setLoading(false); // Set loading state to false after receiving a response
+          }
+          // fetch('http://localhost:5433/add-persona', {
+          //   method: 'POST',
+          //   headers: {
+          //     'Content-Type': 'application/json',
+          //   },
+          //   body: JSON.stringify({
+          //     age: age,
+          //     occupation: occupation,
+          //     description: description,
+          //     personEmail: email,
+          //   }),
+          // })
+          //   .then(response => {
+          //     if (response.ok) {
+          //       console.log('New persona added successfully');
+          //       // Ensure loading indicator is turned off after completion
+          //       setLoading(false);
+          //     } else {
+          //       console.error('Failed to add new persona');
+          //       setLoading(false);
+          //     }
+          //   })
+          //   .catch(error => {
+          //     console.error('Error while adding new persona:', error);
+          //     setLoading(false);
+          //   });
         } else {
           setIsDisabled(true);
           setLoading(false); // Turn off the loading indicator if not adding a new persona

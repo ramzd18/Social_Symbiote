@@ -343,11 +343,11 @@ app.post('/getAgentJob', async (req, res) => {
       const useJob = await getUserJob(email);
 
       if (useJob && Array.isArray(useJob)) {
-          const days = useJob.map((user) => user.educationwork);
-          console.log('last interviewed days', days);
-          res.status(200).json({ days }); // Sending an array of names
-      } else if (useJob && useJob.hasOwnProperty('educationwork')) {
-          res.status(200).json({ day: useJob.educationworkd });
+          const jobs = useJob.map((user) => user.job);
+          console.log('jobs', jobs);
+          res.status(200).json({ jobs }); // Sending an array of names
+      } else if (useJob && useJob.hasOwnProperty('job')) {
+          res.status(200).json({ day: useJob.job });
       }    
       else {
           console.error('User jobs not found');
@@ -365,7 +365,7 @@ app.post('/getAgentJob', async (req, res) => {
 });
 
 async function getUserJob(email) {
-  const { rows } = await pool.query('SELECT educationwork FROM user_agents_info WHERE personemail = $1', [email]);
+  const { rows } = await pool.query('SELECT job FROM user_agents_info WHERE personemail = $1', [email]);
   return rows;
 }
 
@@ -442,7 +442,7 @@ app.post('/getConversation', async (req, res) => {
   
     try {
       const query = `
-        INSERT INTO user_agents_info (personemail, age, educationwork, user_description)
+        INSERT INTO user_agents_info (personemail, age, job, user_description)
         VALUES ($1, $2, $3, $4)
       `;
       await pool.query(query, [personEmail, age, occupation, description]);
