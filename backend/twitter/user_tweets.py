@@ -49,6 +49,7 @@ def connect_to_endpoint(url, params):
 
 def clean_tweets(dicttweets):
   tweetlist=[]
+  print(dicttweets)
   data= dicttweets['data']
   for tweet in data: 
     text= tweet['text']
@@ -81,5 +82,8 @@ def main(userid,query,size):
     json_response = connect_to_endpoint(url, params)
     return json_response
     # print(json.dumps(json_response, indent=4, sort_keys=True))
+
+
+
 
 # main()

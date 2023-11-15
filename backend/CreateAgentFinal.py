@@ -97,12 +97,16 @@ def create_and_store_agent(description,age,job1):
     memory=agent_memory,
 )
   if(persondict['twitter']!='false'):
-    twitter_username=persondict["twitter"]
-    userid= user_lookup.find_user(twitter_username)
-    likedtweets=user_tweets.main(userid,"liked_tweets",10)
-    tweets=user_tweets.main(userid,"tweets",20)
-    tweets=user_tweets.clean_tweets(tweets)
-    likedtweets=user_tweets.clean_likedtweets(likedtweets)
+   try:
+      twitter_username=persondict["twitter"]
+      userid= user_lookup.find_user(twitter_username)
+      likedtweets=user_tweets.main(userid,"liked_tweets",10)
+      tweets=user_tweets.main(userid,"tweets",20)
+      tweets=user_tweets.clean_tweets(tweets)
+      likedtweets=user_tweets.clean_likedtweets(likedtweets)
+   except:
+      likedtweets=[]
+      tweets=[]
   else: 
      tweets=[]
      likedtweets=[]
@@ -151,7 +155,7 @@ def create_and_store_agent(description,age,job1):
   return (agent,gender,job1)
 
 
-
+print(create_and_store_agent("Wants to buy a new computer",34,"developer"))
 # userid= user_lookup.find_user("sararecruiting")
 # likedtweets=user_tweets.main(userid,"liked_tweets",10)
 # tweets=user_tweets.main(userid,"tweets",20)
