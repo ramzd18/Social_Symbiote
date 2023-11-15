@@ -308,7 +308,8 @@ function Person() {
                         </div>
                     </div>
                     <div className="car2">
-                        <p>Last Interviewed: {agentLastInterviews[index]} days ago</p>
+                        {/* <p>Last Interviewed: {agentLastInterviews[index]} days ago</p> */}
+                        <p>Last Interviewed: Today</p>
                         <p>{agentDescs[index]} </p>
                     </div>
                     {/*<div className="car3">
