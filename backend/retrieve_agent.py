@@ -173,4 +173,4 @@ def scrape_user_databse(usertup:tuple):
 # print("This is the type of data" , data)
 
 
-print(retrieve_agents_record("akhiliyengar2004@gmail.com",'mark'))
+# print(retrieve_agents_record("akhiliyengar2004@gmail.com",'mark'))
