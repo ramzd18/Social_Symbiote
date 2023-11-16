@@ -22,7 +22,7 @@ import os
 
 os.environ["OPENAI_API_KEY"]="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"
 def LoadAgent(email,agent_name): 
-  LLM = ChatOpenAI(max_tokens=1400)
+  LLM = ChatOpenAI(model_name="gpt-3.5-turbo-1106") 
   agent_data= retrieve_agent.retrieve_agents_record(email,agent_name)
   if agent_data=="Error":
     return "Agent data is not in database"
@@ -53,10 +53,13 @@ def LoadAgent(email,agent_name):
     name= str(agent_data[0])
     age= int(agent_data[1])
     status= str(agent_data[2])
-    social_media_memory= eval(agent_data[7])
+    print(type(agent_data[7]))
+    social_media_memory= eval((str(agent_data[7])))
     social_stream=social_media_memory['memory_stream']
+    
     social_list= []
     for i in social_stream: 
+      i=dict(i)
       metadataval=i['metadata']
       # datetimeobj= datetime.strptime('13-03-21 06:33:13','%d-%m-%y %H:%M:%S')
       metadataval["last_accessed_at"] = i['metadata']["last_accessed_at"]

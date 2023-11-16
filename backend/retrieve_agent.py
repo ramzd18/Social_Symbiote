@@ -71,6 +71,33 @@ def update_agent_info(email,name,memory,personalitylist):
           cur.close()
           conn.close()
           print("PostgreSQL connection is closed")
+def updatesoical_agent_info(email,name,social_media_memory,personalitylist): 
+  try:
+      conn = psycopg2.connect(
+      host="35.233.155.93",
+      database="user-agents",
+      user="postgres",
+      password="Jeff@2234")
+      cur= conn.cursor()
+      postgres_insert_query = """ 
+    UPDATE user_agents_info
+    SET social_media_memory = %s, personalitylist = %s  
+    WHERE personemail = %s AND name = %s;  
+"""
+      record_to_insert=(social_media_memory,personalitylist,email,name)
+      cur.execute(postgres_insert_query, record_to_insert)
+      conn.commit()
+      count = cur.rowcount
+      print(count, "Record inserted successfully into mobile table")
+    
+  except (Exception, psycopg2.Error) as error:
+      print("Failed to insert record into mobile table", error)
+
+  finally: 
+      if conn:
+          cur.close()
+          conn.close()
+          print("PostgreSQL connection is closed")
 
           
 
@@ -173,4 +200,8 @@ def scrape_user_databse(usertup:tuple):
 # print("This is the type of data" , data)
 
 
-# print(retrieve_agents_record("akhiliyengar2004@gmail.com",'mark'))
+print(retrieve_agents_record("akhiliyengar2004@gmail.com","michael")[10])
+
+
+"fitness, gym, health and wellness,traveling,food, finance,sports"
+
