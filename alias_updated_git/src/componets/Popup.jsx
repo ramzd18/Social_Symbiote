@@ -11,7 +11,8 @@ function Popup() {
   const [occupation, setOccupation] = useState('');
   const [description, setDescription] = useState('');
   const [isDisabled, setIsDisabled] = useState(false);
-  const [isLoading, setLoading] = useState(false); // Default loading state is true
+  const [isLoading, setLoading] = useState(true); // Default loading state is true
+  const [buttonClicked, setButtonClicked] = useState(false); // Default button clicked state is false
   const token = sessionStorage.getItem('token');
   const decoded = jwtDecode(token);
   const { user: userObject } = decoded;
@@ -25,24 +26,38 @@ function Popup() {
   };
 
   // dont create new row with data in database with passed in info - call checkrows, if rowCount < 3 then work with Ram on api
-  const handleNewPersona = () => {
 
-    if (age.trim() === '' || occupation.trim() === '' || description.trim() === '') {
-      // If any field is empty, prevent the new persona action
-      alert('Please fill in all the fields to create a new persona.');
-      return;
-    }
 
-    setLoading(true);
+    // if (age.trim() === '' || occupation.trim() === '' || description.trim() === '') {
+    //   // If any field is empty, prevent the new persona action
+    //   alert('Please fill in all the fields to create a new persona.');
+    //   return;
+    // }
 
-    fetch(`http://localhost:5433/check-rows?personEmail=${email}`)
-      .then(response => response.json())
-      .then(data => {
+    // setLoading(true);
+    // console.log(' First Loading:', isLoading)
+
+    // const response = await fetch(`http://localhost:5433/check-rows?personEmail=${email}`);
+    // const data = await response.json();
+    // const rowCount = data.rowCount; // received row count from the API
+    // console.log('Row count:', rowCount);
+
+    const handleNewPersona = async () => {
+      try {
+        if (age.trim() === '' || occupation.trim() === '' || description.trim() === '') {
+          // If any field is empty, prevent the new persona action
+          alert('Please fill in all the fields to create a new persona.');
+          return;
+        }
+    
+        // Perform your asynchronous tasks...
+        const response = await fetch(`http://localhost:5433/check-rows?personEmail=${email}`);
+        const data = await response.json();
         const rowCount = data.rowCount; // received row count from the API
         console.log('Row count:', rowCount);
-
+    
+        // Update state based on the asynchronous result
         if (rowCount < 3) {
-          setLoading(true);
           const response = fetch(`http://127.0.0.1:5000/create_agent?email=${email}&description=${description}&age=${age}&job=${occupation}`);
           try {
             const data = response.text();
@@ -50,45 +65,98 @@ function Popup() {
           }
           catch (error) {
             console.error('Error creating agent:', error);
-          } finally {
-            setLoading(false); // Set loading state to false after receiving a response
-          }
-          // fetch('http://localhost:5433/add-persona', {
-          //   method: 'POST',
-          //   headers: {
-          //     'Content-Type': 'application/json',
-          //   },
-          //   body: JSON.stringify({
-          //     age: age,
-          //     occupation: occupation,
-          //     description: description,
-          //     personEmail: email,
-          //   }),
-          // })
-          //   .then(response => {
-          //     if (response.ok) {
-          //       console.log('New persona added successfully');
-          //       // Ensure loading indicator is turned off after completion
-          //       setLoading(false);
-          //     } else {
-          //       console.error('Failed to add new persona');
-          //       setLoading(false);
-          //     }
-          //   })
-          //   .catch(error => {
-          //     console.error('Error while adding new persona:', error);
-          //     setLoading(false);
-          //   });
+          } 
+          setIsDisabled(false);
         } else {
           setIsDisabled(true);
-          setLoading(false); // Turn off the loading indicator if not adding a new persona
         }
-      })
-      .catch(error => {
-        console.error('Error while checking row count:', error);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+    
+    const handleNewPersonaClick = async () => {
+      try {
+        await handleNewPersona(); // Call the new persona function
+      } finally {
+        // Set loading state to false after all asynchronous tasks are complete
         setLoading(false);
-      });
-      };    
+      }
+    };
+    
+    useEffect(() => {
+      if (!isLoading && buttonClicked && !isDisabled) {
+        // Redirect to the "/person" page
+        // You may use react-router-dom's history or any other method for redirection
+        window.location.href = "/person";
+      }
+    }, [isLoading, buttonClicked, isDisabled]);
+
+        // if (rowCount < 3) {
+        //   // const response = fetch(`http://127.0.0.1:5000/create_agent?email=${email}&description=${description}&age=${age}&job=${occupation}`);
+        //   // try {
+        //   //   const data = response.text();
+        //   //   console.log('Response:', data);
+        //   // }
+        //   // catch (error) {
+        //   //   console.error('Error creating agent:', error);
+        //   // } 
+          
+
+        //   const agentNameResponse = await fetch('http://localhost:5433/getAgentName', {
+        //     method: 'POST',
+        //     headers: {
+        //       'Content-Type': 'application/json',
+        //     },
+        //     body: JSON.stringify({ email: userObject.email }),
+        //   });
+
+        //       const agentNameData = await agentNameResponse.json();
+
+        //       if (agentNameData.names) {
+        //         console.log('Multiple Names:', data.names);
+        //       } else if (data.name) {
+        //         console.log('Single Name:', data.name);
+        //       } else {
+        //         console.error('Error:', data);
+        //       }
+    
+        //   // fetch('http://localhost:5433/add-persona', {
+        //   //   method: 'POST',
+        //   //   headers: {
+        //   //     'Content-Type': 'application/json',
+        //   //   },
+        //   //   body: JSON.stringify({
+        //   //     age: age,
+        //   //     occupation: occupation,
+        //   //     description: description,
+        //   //     personEmail: email,
+        //   //   }),
+        //   // })
+        //   //   .then(response => {
+        //   //     if (response.ok) {
+        //   //       console.log('New persona added successfully');
+        //   //       // Ensure loading indicator is turned off after completion
+        //   //       setLoading(false);
+        //   //     } else {
+        //   //       console.error('Failed to add new persona');
+        //   //       setLoading(false);
+        //   //     }
+        //   //   })
+        //   //   .catch(error => {
+        //   //     console.error('Error while adding new persona:', error);
+        //   //     setLoading(false);
+        //   //   }); 
+        //   // }
+        //   setLoading(false);
+        //   } else {
+        //     setIsDisabled(true);
+        //     setLoading(false); // Turn off the loading indicator if not adding a new persona
+        //   }
+        // } catch (error) {
+        //   console.error('Error:', error);
+        //   setLoading(false); // Turn off the loading indicator in case of an error
+        // }
       
   return (
   
@@ -163,19 +231,25 @@ function Popup() {
                 ></textarea>
         </div>  
 
-        <div className='popupline'></div>
-        <div>
-          {isLoading ? (
-            <CircularProgress />
-          ) : (
-          <div className="mbuttonarea text-center">
-              <Link to={age.trim() !== '' && occupation.trim() !== '' && description.trim() !== '' ? "/person" : "#"}>
-                <button className='customButton' disabled={isDisabled} title={isDisabled ? 'Max personas created' : undefined} onClick={handleNewPersona} >New Persona</button>
-              </Link>
-              <button onClick={clearInformation}>Clear Information</button>
-          </div>
-        )}
-        </div>  
+        <div className="mbuttonarea text-center">
+      {!isLoading ? (
+        <Link
+          to={
+            !isDisabled && age.trim() !== '' && occupation.trim() !== '' && description.trim() !== ''
+              ? "/person"
+              : "#"
+          }
+        >
+          <button className='customButton' disabled={isDisabled} title={isDisabled ? 'Max personas created' : undefined} onClick={() => { setButtonClicked(true); setLoading(true); handleNewPersonaClick(); }}>New Persona</button>
+        </Link>
+      ) : (
+        <>
+          <button className='customButton' disabled={isDisabled} title={isDisabled ? 'Max personas created' : undefined} onClick={() => { setButtonClicked(true); setLoading(true); handleNewPersonaClick(); }}>New Persona</button>
+          {buttonClicked && isLoading && <CircularProgress />}
+        </>
+      )}
+      <button onClick={clearInformation}>Clear Information</button>
+    </div>
          </div>
          </div>
            
