@@ -204,7 +204,7 @@ function Popup() {
               <label htmlFor="Full Name">Age:</label><br></br>
                 <input
                   type="text"
-                  placeholder="e.g 21, 45-60"
+                  placeholder="e.g 21"
                   value={age}
                   onChange={(e) => setAge(e.target.value)}
                 />
@@ -226,6 +226,7 @@ function Popup() {
                 <textarea
                   cols="80"
                   rows="5"
+                  placeholder="e.g A Gen Z recent college graduate living in New York City who is looking for an app to manage personal finances"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 ></textarea>
