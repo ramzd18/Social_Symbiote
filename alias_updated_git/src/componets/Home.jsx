@@ -50,9 +50,13 @@ function Home() {
          <div className="big-inner-child">
          <div className="big-inner">
             <h3>Welcome to Alias</h3>
-            <div className="inner-big-box">
 
-            </div>
+            <iframe
+              src="https://www.loom.com/embed/8f974d66b96f4bc48e83e7e901780e72?sid=954355ef-dd1b-4384-b05f-d274e4182402"
+              allowFullScreen
+              frameBorder="0"
+            ></iframe>
+
             <div className="big-box-button text-center">
                 <Link to="/person"> 
                   <button>Create a Persona</button>

@@ -557,11 +557,11 @@ p:after {
 .bperson .person button {
   width: 20%; /* Adjust the percentage based on your design */
   max-width: 216.278px; /* Set a maximum width to prevent excessive growth */
-  height: 37.652px;
+  height: 5%;
   flex-shrink: 0;
   border-radius: 10px;
   border: none;
-  margin-left: 70%; /* Adjust the percentage based on your design */
+  margin-left: 80%; /* Adjust the percentage based on your design */
   background: #7E8FE7;
   text-align: center;
   padding-top: 5px;
@@ -695,11 +695,13 @@ p:after {
   padding: 2rem 1rem;
   margin-top: 3rem;
   margin-right: 5%;
+  margin-left: 200px;
   margin-bottom: 0px;
   border: 1.5px solid #DADADA;
   border-radius: 10px;
   background: #FFF;
-  width: calc(100% - 1rem);
+  width: calc(100% - 200px);
+  min-width: 400px;
   position: relative;
 }
 
