@@ -10,7 +10,7 @@ const jwt = require('jsonwebtoken');
 
 
 const app = express();
-app.use(cors());
+app.use(cors({ origin: '*' }));
 app.use(bodyParser.json());
 
 
@@ -437,6 +437,7 @@ app.post('/getConversation', async (req, res) => {
     }
   });
 
+  //old
   app.post('/add-persona', async (req, res) => {
     const { age, occupation, description, personEmail } = req.body;
   
@@ -452,6 +453,23 @@ app.post('/getConversation', async (req, res) => {
       res.status(500).json({ error: 'Error occurred while adding persona' });
     }
   });
+
+  app.post('/add-persona', async (req, res) => {
+    const { age, occupation, description, personEmail } = req.body;
+  
+    try {
+      const query = `
+        INSERT INTO user_agents_info (personemail, age, job, user_description)
+        VALUES ($1, $2, $3, $4)
+      `;
+      await pool.query(query, [personEmail, age, occupation, description]);
+      
+      res.status(200).json({ message: 'Persona added successfully' });
+    } catch (error) {
+      res.status(500).json({ error: 'Error occurred while adding persona' });
+    }
+  });
+
   
   
   
