@@ -13,8 +13,6 @@ from requests.auth import HTTPBasicAuth
 import random
 from prawcore.exceptions import Forbidden
 from fuzzywuzzy import fuzz
-import load_agent_database
-import retrieve_agent
 
 
 
@@ -59,5 +57,13 @@ def total_comments(interestslst):
     totlist+=comms
   return totlist 
 
+def add_reddit_mems(query): 
+  reddit = praw.Reddit(client_id='nj0rg_lxJnxtu-h2gE_1rw',
+                          client_secret='jGGnaaNdZq7aJRPax2qJkVwPs5lTWw',
+                          user_agent='desktop:com.example.myredditapp:v1.2.3 (by u/Rpeddu)',
+                          )
+  subreddit = reddit.subreddit('all')
+  for submission in subreddit.search(query, sort='hot', limit=25):
+    print(submission.title)
 
 

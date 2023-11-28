@@ -33,7 +33,7 @@ def LoadAgent(email,agent_name):
     print(agent_data_1)
     print(type(agent_data_1))
     print(agent_data_1[:24])
-    memory= eval((str(agent_data_1)))
+    memory= (eval((str(agent_data_1))))
     print(type(memory))
     # memory=dict(json.loads(memory))
     print(memory.keys())

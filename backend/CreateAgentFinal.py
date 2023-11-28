@@ -124,6 +124,11 @@ def create_and_store_agent(description,age,job1):
     agent.memory.add_socialmedia_memory(memory)
 
   productstring= agent.memory.search_prodct_questions(product,agent.status)
+  interestslist=agent.interests.split(';')
+  
+
+
+
   actual_product_list= productstring[:3]
   print(actual_product_list)
   big_url_list=[]
