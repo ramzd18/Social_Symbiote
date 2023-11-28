@@ -200,7 +200,7 @@ def scrape_user_databse(usertup:tuple):
 # print("This is the type of data" , data)
 
 
-print(retrieve_agents_record("akhiliyengar2004@gmail.com","michael")[10])
+# print(retrieve_agents_record("akhiliyengar2004@gmail.com","michael")[10])
 
 
 "fitness, gym, health and wellness,traveling,food, finance,sports"

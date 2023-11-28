@@ -11,7 +11,7 @@ const jwt = require('jsonwebtoken');
 
 const app = express();
 const corsOptions = {
-    origin: 'https://alias-testing-130265f16331.herokuapp.com',
+    origin: '*',
     // Add other CORS options as needed
   };
   

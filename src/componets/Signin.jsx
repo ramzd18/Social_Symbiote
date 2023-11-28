@@ -38,6 +38,19 @@ function Signin() {
           console.log('Token:', data.token); // Log the token received
           localStorage.setItem('loggedIn', 'true'); // Store logged-in status in local storage
           sessionStorage.setItem('token', data.token); // Store the token in session storage
+          fetch(`http://127.0.0.1:5000/initialize_agents?email=${userObject.email}`)
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.text();
+          })
+          .then((data) => {
+            console.log('Response:', data);
+          })
+          .catch((error) => {
+            console.error('Error initializing agent:', error);
+          });
           // Further use the token as needed
         } else {
           console.error('No token received');
