@@ -1,2 +1,2 @@
 web: npm start
-backend: python app.py
+backend: python backend/app.py
