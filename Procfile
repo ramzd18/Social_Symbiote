@@ -1,2 +1,3 @@
 web: npm start
-backend: python backend/app.py
+backend-node: npm run start-server
+backend-python: python backend/app.py
