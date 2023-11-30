@@ -1,13 +1,13 @@
 from flask import Flask, session, request, redirect, url_for
 from flask_cors import CORS, cross_origin
 
-import retrieve_agent
+# import retrieve_agent 
 import load_agent_database
 import json
 import CreateAgentFinal
 import os
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='../build', static_url_path='/')
 app.secret_key = "super secret key"
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
@@ -69,5 +69,5 @@ def create_agent():
         return "Completed"
 
 
-# if __name__ == '__main__':
-#     app.run(debug=True)
+if __name__ == '__main__':
+    app.run(debug=True)
