@@ -10,7 +10,7 @@ import json
 # location_name,facebook_friends,
 # twitter_username,
 from peopledatalabs import PDLPY
-import promptLLMmemories
+from backend import promptLLMmemories
 
 def get_person(year,job ):
   CLIENT = PDLPY(
