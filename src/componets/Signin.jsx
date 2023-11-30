@@ -22,7 +22,7 @@ function Signin() {
     console.log(userObject.email); 
 
     fetch(`${apiBaseUrl}/checkUser?email=${userObject.email}`) // replace with the actual email
-      // .then((response) => response.json()) // Try parsing response as JSON
+      .then((response) => response.json()) // Try parsing response as JSON
         /* if (response.ok) {
           setIsUser(true); // Set state to allow the button to be clickable
           localStorage.setItem('loggedIn', 'true'); // Store logged-in status in local storage
