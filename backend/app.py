@@ -17,9 +17,12 @@ os.environ['KMP_DUPLICATE_LIB_OK']='True'
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
-def index(path):
-    # Render the main HTML file from the React build
+def catch_all(path):
     return app.send_static_file('index.html')
+
+@app.errorhandler(404)   
+def not_found(e):   
+  return app.send_static_file('index.html')
 
 @app.route('/initialize_agents')
 def loads_users():
