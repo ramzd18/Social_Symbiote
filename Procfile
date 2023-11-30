@@ -1,4 +1,4 @@
 # web: npm start
-web: gunicorn -b 127.0.0.1:5000 backend.app:app
+web: gunicorn -b 0.0.0.0:$PORT backend.app:app
 
 
