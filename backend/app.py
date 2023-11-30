@@ -15,6 +15,10 @@ agents_dict={}
 
 os.environ['KMP_DUPLICATE_LIB_OK']='True'
 
+@app.route('/')
+def index():
+    # Render the main HTML file from the React build
+    return app.send_static_file('index.html')
 
 @app.route('/initialize_agents')
 def loads_users():
@@ -65,5 +69,5 @@ def create_agent():
         return "Completed"
 
 
-if __name__ == '__main__':
-    app.run(debug=True)
+# if __name__ == '__main__':
+#     app.run(debug=True)
