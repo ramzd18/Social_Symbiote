@@ -10,6 +10,7 @@ const jwt = require('jsonwebtoken');
 
 
 const app = express();
+const port = process.env.PORT || 5433;
 const corsOptions = {
     origin: 'https://www.aliastesting.com',
     // Add other CORS options as needed
@@ -478,10 +479,10 @@ app.post('/getConversation', async (req, res) => {
   
   
   
-  app.listen(5433, () => {
-    console.log('Server running on port: 5433');
+  app.listen(port, () => {
+    console.log(`Server running on port: ${port}`);
   });
-
+  
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
   });
