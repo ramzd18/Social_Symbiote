@@ -2,7 +2,7 @@ from flask import Flask, session, request, redirect, url_for
 from flask_cors import CORS, cross_origin
 
 from backend import retrieve_agent 
-import load_agent_database
+from backend import load_agent_database
 import json
 import CreateAgentFinal
 import os
