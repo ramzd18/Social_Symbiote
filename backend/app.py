@@ -17,7 +17,7 @@ os.environ['KMP_DUPLICATE_LIB_OK']='True'
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
-def index():
+def index(path):
     # Render the main HTML file from the React build
     return app.send_static_file('index.html')
 
