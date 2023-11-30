@@ -12,7 +12,7 @@ const jwt = require('jsonwebtoken');
 const app = express();
 const port = process.env.PORT || 5433;
 const corsOptions = {
-    origin: ['https://www.aliastesting.com', 'https://alias-testing-130265f16331.herokuapp.com'],
+    origin: ['https://www.aliastesting.com'],
     // Add other CORS options as needed
   };
   
