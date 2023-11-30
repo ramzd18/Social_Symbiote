@@ -1,10 +1,10 @@
-import peopledatalabsretrieval
+from backend import peopledatalabsretrieval
 from langchain_experimental import generative_agents
 from twitter import user_lookup
 from twitter import user_tweets
 from reddit import redditapi
 from reddit import redditusers
-import promptLLMmemories
+# import promptLLMmemories
 from langchain_experimental import generative_agents
 from datetime import datetime, timedelta
 from typing import List
