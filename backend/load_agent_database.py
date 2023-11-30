@@ -1,4 +1,4 @@
-import retrieve_agent
+from backend import retrieve_agent
 # from langchain_experimental.generative_agents import (
 #     GenerativeAgent,
 #     GenerativeAgentMemory,
@@ -7,7 +7,7 @@ from langchain_experimental import generative_agents
 
 from langchain.chat_models import ChatOpenAI
 import json
-import NewAgentCreation
+from backend import NewAgentCreation
 import faiss
 from langchain.chat_models import ChatOpenAI
 from langchain.docstore import InMemoryDocstore
