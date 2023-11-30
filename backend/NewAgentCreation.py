@@ -16,7 +16,7 @@ from langchain.retrievers import TimeWeightedVectorStoreRetriever
 from langchain.vectorstores import FAISS
 from langchain.document_loaders import TextLoader
 import json
-import promptLLMmemories
+# import promptLLMmemories
 
 os.environ["OPENAI_API_KEY"] = "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"
 
