@@ -4,7 +4,7 @@ from flask_cors import CORS, cross_origin
 from backend import retrieve_agent 
 from backend import load_agent_database
 import json
-import CreateAgentFinal
+from backend import CreateAgentFinal
 import os
 
 app = Flask(__name__, static_folder='../build', static_url_path='/')
