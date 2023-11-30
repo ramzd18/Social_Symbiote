@@ -11,7 +11,7 @@ const jwt = require('jsonwebtoken');
 
 const app = express();
 const corsOptions = {
-    origin: '*',
+    origin: 'https://www.aliastesting.com',
     // Add other CORS options as needed
   };
   
