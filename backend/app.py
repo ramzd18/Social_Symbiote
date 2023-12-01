@@ -7,6 +7,8 @@ import json
 from backend import CreateAgentFinal
 import os
 
+port = int(os.environ.get('PORT', 5000))
+
 app = Flask(__name__, static_folder='../build', static_url_path='/')
 app.secret_key = "super secret key"
 cors = CORS(app)
@@ -72,3 +74,5 @@ def create_agent():
         agents_dict[agent.name]=agent
         return "Completed"
 
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=port)

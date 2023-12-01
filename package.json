@@ -39,7 +39,6 @@
   },
   "scripts": {
     "start": "concurrently \"gunicorn -b 0.0.0.0:$PORT backend.app:app\" \"node server.js\"",
-    "start-server": "node server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
