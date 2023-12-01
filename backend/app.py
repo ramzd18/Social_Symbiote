@@ -21,9 +21,10 @@ agents_dict={}
 os.environ['KMP_DUPLICATE_LIB_OK']='True'
 
 
-logging.basicConfig(level=logging.DEBUG)
-logging.getLogger().addHandler(logging.StreamHandler())
-
+if __name__ != '__main__':
+    gunicorn_logger = logging.getLogger('gunicorn.error')
+    app.logger.handlers = gunicorn_logger.handlers
+    app.logger.setLevel(gunicorn_logger.level)
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
@@ -99,7 +100,3 @@ def create_agent():
         agents_dict[agent.name]=agent
         return "Completed"
 
-if __name__ != '__main__':
-    gunicorn_logger = logging.getLogger('gunicorn.error')
-    app.logger.handlers = gunicorn_logger.handlers
-    app.logger.setLevel(gunicorn_logger.level)
