@@ -29,7 +29,7 @@ logging.getLogger().addHandler(logging.StreamHandler())
 @app.route('/<path:path>')
 def catch_all(path):
     logging.debug(f"Received request for path: {path}")
-    
+
     if path.startswith('/node'):
         node_url = 'https://alias-testing-130265f16331.herokuapp.com' + path
         logging.info(f"Forwarding request to Node.js server: {node_url}")
@@ -99,3 +99,7 @@ def create_agent():
         agents_dict[agent.name]=agent
         return "Completed"
 
+if __name__ != '__main__':
+    gunicorn_logger = logging.getLogger('gunicorn.error')
+    app.logger.handlers = gunicorn_logger.handlers
+    app.logger.setLevel(gunicorn_logger.level)
