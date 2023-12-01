@@ -21,15 +21,14 @@ agents_dict={}
 os.environ['KMP_DUPLICATE_LIB_OK']='True'
 
 
-if __name__ != '__main__':
-    gunicorn_logger = logging.getLogger('gunicorn.error')
-    app.logger.handlers = gunicorn_logger.handlers
-    app.logger.setLevel(gunicorn_logger.level)
+logging.basicConfig(level=logging.DEBUG)
+logging.getLogger().addHandler(logging.StreamHandler())
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def catch_all(path):
-    logging.debug(f"Received request for path: {path}")
+    print("Catch-all route reached!")
+    logging.info(f"Path: {path}")
 
     if path.startswith('/node'):
         node_url = 'https://alias-testing-130265f16331.herokuapp.com' + path
