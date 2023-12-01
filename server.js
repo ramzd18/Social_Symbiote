@@ -37,7 +37,7 @@ const pool = new Pool ({
 
 });
 
-app.use('/node', nodeRoutes);
+
 
 {/*mysql.createConnection({
     host: '35.233.155.93',
@@ -97,7 +97,7 @@ async function checkUser(email) {
     return rows.length > 0;
 }
 
-app.get('/checkUser', (req, res) => {
+app.get('/node/checkUser', (req, res) => {
     const { email } = req.query; 
     console.log('Incoming data:', {email});
 
