@@ -7,6 +7,7 @@ from backend import retrieve_agent
 from backend import load_agent_database
 import json
 from backend import CreateAgentFinal
+import requests
 import os
 
 
@@ -23,6 +24,19 @@ app.register_blueprint(gunicorn_blueprint)
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def catch_all(path):
+    if path.startswith('/node'):
+        # Modify the URL and headers as needed
+        node_url = 'https://alias-testing-130265f16331.herokuapp.com' + path
+        response = requests.request(
+            method=request.method,
+            url=node_url,
+            headers=request.headers,
+            data=request.get_data(),
+            cookies=request.cookies,
+            allow_redirects=False,
+        )
+        return response.content, response.status_code, response.headers.items()
+    
     return app.send_static_file('index.html')
 
 @app.errorhandler(404)   
