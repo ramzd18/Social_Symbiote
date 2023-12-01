@@ -8,6 +8,7 @@ from backend import load_agent_database
 import json
 from backend import CreateAgentFinal
 import requests
+import logging
 import os
 
 
@@ -21,13 +22,15 @@ os.environ['KMP_DUPLICATE_LIB_OK']='True'
 
 app.register_blueprint(gunicorn_blueprint)
 
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def catch_all(path):
     if path.startswith('/node'):
-        # Modify the URL and headers as needed
-        print(f"Forwarding request to Node.js server: {node_url}")
         node_url = 'https://alias-testing-130265f16331.herokuapp.com' + path
+        logging.info(f"Forwarding request to Node.js server: {node_url}")
         response = requests.request(
             method=request.method,
             url=node_url,
@@ -36,8 +39,10 @@ def catch_all(path):
             cookies=request.cookies,
             allow_redirects=False,
         )
+        logging.info(f"Node.js server response: {response.status_code}")
         return response.content, response.status_code, response.headers.items()
-    print(f"Serving static file for path: {path}")
+    
+    logging.info(f"Serving static file for path: {path}")
     return app.send_static_file('index.html')
 
 @app.errorhandler(404)   
