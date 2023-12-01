@@ -21,9 +21,10 @@ agents_dict={}
 os.environ['KMP_DUPLICATE_LIB_OK']='True'
 
 
-logging.basicConfig(level=logging.DEBUG)
-logging.getLogger().addHandler(logging.StreamHandler())
-logging.info("Flask application started")
+if __name__ != '__main__':
+    gunicorn_logger = logging.getLogger('gunicorn.error')
+    app.logger.handlers = gunicorn_logger.handlers
+    app.logger.setLevel(gunicorn_logger.level)
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
