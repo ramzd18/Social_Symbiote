@@ -24,6 +24,7 @@ os.environ['KMP_DUPLICATE_LIB_OK']='True'
 logging.basicConfig(level=logging.DEBUG)
 logging.getLogger().addHandler(logging.StreamHandler())
 logger = logging.getLogger(__name__)
+logger.info("Flask application started")
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
