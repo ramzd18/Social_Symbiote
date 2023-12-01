@@ -9,9 +9,10 @@ let userdata = {};
 
 function Signin() {
   const [isUser, setIsUser] = useState(false);;
+  const port = process.env.PORT;
 
   const apiBaseUrl = process.env.NODE_ENV === 'production'
-  ? 'https://alias-testing-130265f16331.herokuapp.com'
+  ? `https://alias-testing-130265f16331.herokuapp.com:${port}`
   : 'http://localhost:5433';
 
   
