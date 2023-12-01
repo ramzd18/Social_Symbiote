@@ -1,7 +1,7 @@
 from flask import Flask, session, request, redirect, url_for
 from flask_cors import CORS, cross_origin
 
-from backend.gunicorn_routes import gunicorn_blueprint
+
 
 from backend import retrieve_agent 
 from backend import load_agent_database
@@ -20,7 +20,6 @@ agents_dict={}
 
 os.environ['KMP_DUPLICATE_LIB_OK']='True'
 
-app.register_blueprint(gunicorn_blueprint)
 
 logging.basicConfig(level=logging.DEBUG)
 logging.getLogger().addHandler(logging.StreamHandler())
@@ -29,6 +28,8 @@ logging.getLogger().addHandler(logging.StreamHandler())
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def catch_all(path):
+    logging.debug(f"Received request for path: {path}")
+    
     if path.startswith('/node'):
         node_url = 'https://alias-testing-130265f16331.herokuapp.com' + path
         logging.info(f"Forwarding request to Node.js server: {node_url}")
