@@ -23,18 +23,17 @@ os.environ['KMP_DUPLICATE_LIB_OK']='True'
 
 logging.basicConfig(level=logging.DEBUG)
 logging.getLogger().addHandler(logging.StreamHandler())
-logger = logging.getLogger(__name__)
-logger.info("Flask application started")
+logging.info("Flask application started")
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def catch_all(path):
     print("Catch-all route reached!")
-    logger.info(f"Path: {path}")
+    logging.info(f"Path: {path}")
 
     if path.startswith('/node'):
         node_url = 'https://alias-testing-130265f16331.herokuapp.com' + path
-        logger.info(f"Forwarding request to Node.js server: {node_url}")
+        logging.info(f"Forwarding request to Node.js server: {node_url}")
         response = requests.request(
             method=request.method,
             url=node_url,
@@ -43,10 +42,10 @@ def catch_all(path):
             cookies=request.cookies,
             allow_redirects=False,
         )
-        logger.info(f"Node.js server response: {response.status_code}")
+        logging.info(f"Node.js server response: {response.status_code}")
         return response.content, response.status_code, response.headers.items()
     
-    logger.info(f"Serving static file for path: {path}")
+    logging.info(f"Serving static file for path: {path}")
     return app.send_static_file('index.html')
 
 @app.errorhandler(404)   
