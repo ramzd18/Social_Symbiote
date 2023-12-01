@@ -38,7 +38,7 @@
     "@testing-library/user-event": "^14.5.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "concurrently \"gunicorn -b 0.0.0.0:$PORT backend.app:app\" \"node server.js\"",
     "start-server": "node server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
