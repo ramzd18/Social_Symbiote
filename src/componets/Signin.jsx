@@ -14,6 +14,8 @@ function Signin() {
   ? 'https://alias-testing-130265f16331.herokuapp.com/node'
   : 'http://localhost:5433';
 
+  console.log(apiBaseUrl);
+
   
   function handleCallbackResponse(response) {
     /*c onsole.log(response.credential); */
