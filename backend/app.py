@@ -22,14 +22,15 @@ os.environ['KMP_DUPLICATE_LIB_OK']='True'
 
 app.register_blueprint(gunicorn_blueprint)
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.DEBUG)
+logging.getLogger().addHandler(logging.StreamHandler())
 
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def catch_all(path):
     if path.startswith('/node'):
-        node_url = 'https://alias-testing.herokuapp.com' + path
+        node_url = 'https://alias-testing-130265f16331.herokuapp.com' + path
         logging.info(f"Forwarding request to Node.js server: {node_url}")
         response = requests.request(
             method=request.method,
