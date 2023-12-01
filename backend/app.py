@@ -29,7 +29,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 @app.route('/<path:path>')
 def catch_all(path):
     if path.startswith('/node'):
-        node_url = 'https://alias-testing-130265f16331.herokuapp.com' + path
+        node_url = 'https://alias-testing.herokuapp.com' + path
         logging.info(f"Forwarding request to Node.js server: {node_url}")
         response = requests.request(
             method=request.method,
