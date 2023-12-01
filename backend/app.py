@@ -26,6 +26,7 @@ app.register_blueprint(gunicorn_blueprint)
 def catch_all(path):
     if path.startswith('/node'):
         # Modify the URL and headers as needed
+        print(f"Forwarding request to Node.js server: {node_url}")
         node_url = 'https://alias-testing-130265f16331.herokuapp.com' + path
         response = requests.request(
             method=request.method,
@@ -36,7 +37,7 @@ def catch_all(path):
             allow_redirects=False,
         )
         return response.content, response.status_code, response.headers.items()
-    
+    print(f"Serving static file for path: {path}")
     return app.send_static_file('index.html')
 
 @app.errorhandler(404)   
