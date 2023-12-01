@@ -1,13 +1,14 @@
 from flask import Flask, session, request, redirect, url_for
 from flask_cors import CORS, cross_origin
 
+from backend.gunicorn_routes import gunicorn_blueprint
+
 from backend import retrieve_agent 
 from backend import load_agent_database
 import json
 from backend import CreateAgentFinal
 import os
 
-port = int(os.environ.get('PORT', 5000))
 
 app = Flask(__name__, static_folder='../build', static_url_path='/')
 app.secret_key = "super secret key"
@@ -16,6 +17,8 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 agents_dict={}
 
 os.environ['KMP_DUPLICATE_LIB_OK']='True'
+
+app.register_blueprint(gunicorn_blueprint)
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
@@ -74,5 +77,3 @@ def create_agent():
         agents_dict[agent.name]=agent
         return "Completed"
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=port)
