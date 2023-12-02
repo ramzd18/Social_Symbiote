@@ -53,6 +53,7 @@ def catch_all(path):
 
 @app.errorhandler(404)   
 def not_found(e):   
+  app.logger.info("404 error")
   return app.send_static_file('index.html')
 
 @app.route('/initialize_agents')
