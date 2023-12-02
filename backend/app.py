@@ -28,21 +28,20 @@ if __name__ != '__main__':
 
 app.logger.info("Starting flask...")
 
-@app.route('/node/<path:subpath>')
+@app.route('/node/<path:subpath>', methods=['GET', 'POST'])
 def node_route(subpath):
-    # Handle your "/node" routes here
     app.logger.info(f"Handling /node/{subpath}")
-    # Add your logic for "/node" routes, such as calling the Node.js server
-    
-    # For example, you can return a response:
+
+    # Assuming you want to pass the entire request to the Node.js server
     response = requests.request(
-            method=request.method,
-            url='https://alias-testing-130265f16331.herokuapp.com/node' + subpath,
-            headers=request.headers,
-            data=request.get_data(),
-            cookies=request.cookies,
-            allow_redirects=False,
-        )
+        method=request.method,
+        url='https://alias-testing-130265f16331.herokuapp.com/node' + subpath,
+        headers=request.headers,
+        data=request.get_data(),
+        cookies=request.cookies,
+        allow_redirects=False,
+    )
+
     app.logger.info(f"Node.js server response: {response.status_code}")
     return response.content, response.status_code, response.headers.items()
 
