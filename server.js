@@ -8,11 +8,10 @@ const cors = require('cors');
 const { Pool } = require('pg');
 const jwt = require('jsonwebtoken');
 
-const nodeRoutes = require('./node_routes');
-
 
 const app = express();
 const port =  process.env.PORT ||5433;
+app.set('port', port);
 
 const corsOptions = {
     origin: ['https://www.use-alias.com'],
@@ -66,7 +65,7 @@ app.get('/health', (req, res) => {
   });
   
 
-  app.post('/createUser', async (req, res) => {
+app.post('/createUser', async (req, res) => {
     const { given_name, family_name, email } = req.body;
     console.log('Incoming data:', given_name, family_name, email);
   
@@ -494,5 +493,6 @@ app.post('/getConversation', async (req, res) => {
   });
   
   app.get('*', (req, res) => {
+    console.log('Redirecting to index.html at end');
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
   });
