@@ -62,7 +62,7 @@ const pool = new Pool ({
 */}
 
 app.get('/', (req, res) => {
-    res.send('Health check OK');
+    console.log('health check');
   });
   
 
