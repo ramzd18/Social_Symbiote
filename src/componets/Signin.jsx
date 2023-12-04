@@ -11,7 +11,7 @@ function Signin() {
   const [isUser, setIsUser] = useState(false);;
 
   const apiBaseUrl = process.env.NODE_ENV === 'production'
-  ? 'https://alias-testing-130265f16331.herokuapp.com/node'
+  ? 'https://alias-testing-130265f16331.herokuapp.com'
   : 'http://localhost:5433';
 
   console.log(apiBaseUrl);

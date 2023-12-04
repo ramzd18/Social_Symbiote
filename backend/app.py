@@ -52,7 +52,7 @@ def catch_all(path):
     app.logger.info(f"Path: {path}")
 
     if path.startswith('/node'):
-        node_url = 'https://alias-testing-130265f16331.herokuapp.com:5433/node' + path
+        node_url = 'https://alias-testing-130265f16331.herokuapp.com/node' + path
         app.logger.info(f"Forwarding request to Node.js server: {node_url}")
         response = requests.request(
             method=request.method,

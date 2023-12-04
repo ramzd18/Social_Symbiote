@@ -102,7 +102,7 @@ async function checkUser(email) {
     return rows.length > 0;
 }
 
-app.get('/node/checkUser', (req, res) => {
+app.get('/checkUser', (req, res) => {
     const { email } = req.query; 
     console.log('Incoming data:', {email});
 
