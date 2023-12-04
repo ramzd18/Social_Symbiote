@@ -61,6 +61,11 @@ const pool = new Pool ({
 
 */}
 
+app.get('/', (req, res) => {
+    res.send('Health check OK');
+  });
+  
+
   app.post('/createUser', async (req, res) => {
     const { given_name, family_name, email } = req.body;
     console.log('Incoming data:', given_name, family_name, email);
