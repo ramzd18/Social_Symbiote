@@ -1,5 +1,5 @@
 const express = require('express');
-const http = require('http');
+const https = require('https');
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -489,7 +489,7 @@ app.post('/getConversation', async (req, res) => {
   
   
   
-  const server = http.createServer(app);
+  const server = https.createServer(app);
 
   server.listen(port, () => {
     console.log(`Server is running on port ${port}`);
