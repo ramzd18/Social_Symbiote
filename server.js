@@ -15,7 +15,7 @@ const port =  process.env.PORT ||5433;
 app.set('port', port);
 
 const corsOptions = {
-    origin: ['https://www.use-alias.com'],
+    origin: ['https://www.use-alias.com', 'https://alias-testing-130265f16331.herokuapp.com'],
     // Add other CORS options as needed
   };
   
@@ -492,7 +492,9 @@ app.post('/getConversation', async (req, res) => {
   const server = https.createServer(app);
 
   server.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+    var host = server.address().address;
+    var port = server.address().port;
+    console.log("server is listening at http://%s:%s", host, port);
   });
   
   app.get('*', (req, res) => {
