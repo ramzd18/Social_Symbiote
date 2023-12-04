@@ -35,7 +35,7 @@ def node_route(subpath):
     # Assuming you want to pass the entire request to the Node.js server
     response = requests.request(
         method=request.method,
-        url='https://alias-testing-130265f16331.herokuapp.com/node' + subpath,
+        url='https://alias-testing-130265f16331.herokuapp.com:5433/node' + subpath,
         headers=request.headers,
         data=request.get_data(),
         cookies=request.cookies,
@@ -52,7 +52,7 @@ def catch_all(path):
     app.logger.info(f"Path: {path}")
 
     if path.startswith('/node'):
-        node_url = 'https://alias-testing-130265f16331.herokuapp.com' + path
+        node_url = 'https://alias-testing-130265f16331.herokuapp.com:5433/node' + path
         app.logger.info(f"Forwarding request to Node.js server: {node_url}")
         response = requests.request(
             method=request.method,
