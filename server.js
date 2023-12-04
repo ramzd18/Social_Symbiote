@@ -61,8 +61,8 @@ const pool = new Pool ({
 
 */}
 
-app.get('/', (req, res) => {
-    console.log('health check');
+app.get('/health', (req, res) => {
+    res.send('Health check OK');
   });
   
 
