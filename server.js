@@ -60,7 +60,7 @@ const pool = new Pool ({
 
 */}
 
-app.get('/health', (req, res) => {
+app.get('/', (req, res) => {
     res.send('Health check OK');
   });
   
@@ -102,7 +102,7 @@ async function checkUser(email) {
     return rows.length > 0;
 }
 
-app.get('/checkUser', (req, res) => {
+app.get('/node/checkUser', (req, res) => {
     const { email } = req.query; 
     console.log('Incoming data:', {email});
 
