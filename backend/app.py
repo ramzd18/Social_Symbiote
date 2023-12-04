@@ -35,7 +35,7 @@ def node_route(subpath):
     # Assuming you want to pass the entire request to the Node.js server
     response = requests.request(
         method=request.method,
-        url='https://alias-testing-130265f16331.herokuapp.com:5433/node' + subpath,
+        url='https://alias-testing-130265f16331.herokuapp.com/node' + subpath,
         headers=request.headers,
         data=request.get_data(),
         cookies=request.cookies,

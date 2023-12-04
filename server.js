@@ -12,8 +12,8 @@ const nodeRoutes = require('./node_routes');
 
 
 const app = express();
-const port =  5433;
-// process.env.PORT ||
+const port =  process.env.PORT ||5433;
+
 const corsOptions = {
     origin: ['https://www.use-alias.com'],
     // Add other CORS options as needed
