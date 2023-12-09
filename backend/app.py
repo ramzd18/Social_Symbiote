@@ -28,44 +28,44 @@ if __name__ != '__main__':
 
 app.logger.info("Starting flask...")
 
-@app.route('/node/<path:subpath>', methods=['GET', 'POST'])
-def node_route(subpath):
-    app.logger.info(f"Handling /node/{subpath}")
+# @app.route('/node/<path:subpath>', methods=['GET', 'POST'])
+# def node_route(subpath):
+#     app.logger.info(f"Handling /node/{subpath}")
 
-    # Assuming you want to pass the entire request to the Node.js server
-    response = requests.request(
-        method=request.method,
-        url='https://alias-testing-130265f16331.herokuapp.com/node' + subpath,
-        headers=request.headers,
-        data=request.get_data(),
-        cookies=request.cookies,
-        allow_redirects=False,
-    )
+#     # Assuming you want to pass the entire request to the Node.js server
+#     response = requests.request(
+#         method=request.method,
+#         url='https://alias-testing-130265f16331.herokuapp.com/node' + subpath,
+#         headers=request.headers,
+#         data=request.get_data(),
+#         cookies=request.cookies,
+#         allow_redirects=False,
+#     )
 
-    app.logger.info(f"Node.js server response: {response.status_code}")
-    return response.content, response.status_code, response.headers.items()
+#     app.logger.info(f"Node.js server response: {response.status_code}")
+#     return response.content, response.status_code, response.headers.items()
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def catch_all(path):
-    print("Catch-all route reached!")
-    app.logger.info(f"Path: {path}")
+    # print("Catch-all route reached!")
+    # app.logger.info(f"Path: {path}")
 
-    if path.startswith('/node'):
-        node_url = 'https://alias-testing-130265f16331.herokuapp.com/node' + path
-        app.logger.info(f"Forwarding request to Node.js server: {node_url}")
-        response = requests.request(
-            method=request.method,
-            url=node_url,
-            headers=request.headers,
-            data=request.get_data(),
-            cookies=request.cookies,
-            allow_redirects=False,
-        )
-        app.logger.info(f"Node.js server response: {response.status_code}")
-        return response.content, response.status_code, response.headers.items()
+    # if path.startswith('/node'):
+    #     node_url = 'https://alias-testing-130265f16331.herokuapp.com/node' + path
+    #     app.logger.info(f"Forwarding request to Node.js server: {node_url}")
+    #     response = requests.request(
+    #         method=request.method,
+    #         url=node_url,
+    #         headers=request.headers,
+    #         data=request.get_data(),
+    #         cookies=request.cookies,
+    #         allow_redirects=False,
+    #     )
+    #     app.logger.info(f"Node.js server response: {response.status_code}")
+    #     return response.content, response.status_code, response.headers.items()
     
-    app.logger.info(f"Serving static file for path: {path}")
+    # app.logger.info(f"Serving static file for path: {path}")
     return app.send_static_file('index.html')
 
 @app.errorhandler(404)   
