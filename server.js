@@ -488,13 +488,10 @@ app.post('/getConversation', async (req, res) => {
 
   
   
-  
-  const server = https.createServer(app);
 
-  server.listen(port, () => {
-    var host = server.address().address;
-    var port = server.address().port;
-    console.log("server is listening at http://%s:%s", host, port);
+
+  app.listen(port, () => {
+    console.log("app is listening at http://%s:%s", port);
   });
   
   app.get('*', (req, res) => {
