@@ -14,8 +14,9 @@ function Signin() {
   // ? 'https://alias-node-9851227f2446.herokuapp.com/node'
   // : 'http://localhost:5433';
 
+  console.log('test')
   console.log('NODE_ENV:', process.env.REACT_APP_NODE_ENV);
-
+  console.log('test2')
   
   function handleCallbackResponse(response) {
     /*c onsole.log(response.credential); */
