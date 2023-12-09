@@ -14,10 +14,6 @@ function Signin() {
   // ? 'https://alias-node-9851227f2446.herokuapp.com/node'
   // : 'http://localhost:5433';
 
-  const apiBaseUrl = 'https://alias-node-9851227f2446.herokuapp.com/node'
-
-  console.log(apiBaseUrl);
-
   
   function handleCallbackResponse(response) {
     /*c onsole.log(response.credential); */
@@ -25,7 +21,7 @@ function Signin() {
     /*console.log(userObject); */
     console.log(userObject.email); 
 
-    fetch(`${apiBaseUrl}/checkUser?email=${userObject.email}`) // replace with the actual email
+    fetch(`https://alias-node-9851227f2446.herokuapp.com/checkUser?email=${userObject.email}`) // replace with the actual email
       .then((response) => response.json()) // Try parsing response as JSON
         /* if (response.ok) {
           setIsUser(true); // Set state to allow the button to be clickable
