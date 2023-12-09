@@ -15,7 +15,7 @@ const port =  process.env.PORT ||5433;
 app.set('port', port);
 
 const corsOptions = {
-    origin: ['https://www.use-alias.com', 'https://alias-testing-130265f16331.herokuapp.com'],
+    origin: ['https://www.use-alias.com', 'https://alias-node-9851227f2446.herokuapp.com/'],
     // Add other CORS options as needed
   };
   
