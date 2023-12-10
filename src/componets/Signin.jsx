@@ -24,7 +24,7 @@ function Signin() {
     /*console.log(userObject); */
     console.log(userObject.email); 
 
-    fetch(`https://alias-testing-130265f16331.herokuapp.com/checkUser?email=${userObject.email}`) // replace with the actual email
+    fetch(`https://alias-node-9851227f2446.herokuapp.com/checkUser?email=${userObject.email}`) // replace with the actual email
       .then((response) => response.json()) // Try parsing response as JSON
         /* if (response.ok) {
           setIsUser(true); // Set state to allow the button to be clickable
@@ -45,7 +45,7 @@ function Signin() {
           console.log('Token:', data.token); // Log the token received
           localStorage.setItem('loggedIn', 'true'); // Store logged-in status in local storage
           sessionStorage.setItem('token', data.token); // Store the token in session storage
-          fetch(`https://alias-node-9851227f2446.herokuapp.com/initialize_agents?email=${userObject.email}`)
+          fetch(`https://alias-testing-130265f16331.herokuapp.com/initialize_agents?email=${userObject.email}`)
           .then((response) => {
             if (!response.ok) {
               throw new Error(`HTTP error! Status: ${response.status}`);
