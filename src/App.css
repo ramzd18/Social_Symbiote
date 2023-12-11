@@ -61,6 +61,11 @@ html {
   font-weight: 700;
 }
 
+.aliasbut button.transparent-button {
+  background-color: transparent;
+  margin-left: 2rem;
+}
+
 .signin button {
   border: none;
   background-color: #2E42AA;
