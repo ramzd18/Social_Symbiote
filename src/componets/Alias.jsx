@@ -10,7 +10,7 @@ function Alias() {
          
           <h1>Conduct user research in<br></br> seconds.</h1>
           <p> Simulate user interviews with AI personas trained to think, speak,<br></br> and act just like your customers. </p>
-          <div className="mbutton mt-5">
+          <div className="aliasbut mt-5">
               <a href="https://calendly.com/aliasintroakhil/30min" target="_blank">
                 <button>Schedule a demo today</button>
               </a>
