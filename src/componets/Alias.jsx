@@ -15,10 +15,12 @@ function Alias() {
                 <button>Schedule a demo today</button>
               </a>
               &nbsp; &nbsp; 
-              <a href="https://airtable.com/appT0poZ0DgKnUz4A/pagIVvmvDM2KN6Xb8/form" target="_blank">
-                <button>Get Started &nbsp; <i className="fa-solid fa-chevron-right"></i></button>
-              </a>
-            </div>
+          </div>
+          <div className="mbutton">
+            <a href="https://airtable.com/appT0poZ0DgKnUz4A/pagIVvmvDM2KN6Xb8/form" target="_blank">
+              <button>Get Started &nbsp; <i className="fa-solid fa-chevron-right"></i></button>
+            </a>
+          </div>
           </div>
           </div>
         </section>

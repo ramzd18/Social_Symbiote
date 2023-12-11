@@ -51,6 +51,16 @@ html {
   font-size: 2.0rem;
 }
 
+.aliasbut button {
+  border: none;
+  background-color: #2E42AA;
+  border-radius: 1rem;
+  padding: 1.3rem 1rem;
+  color: #fff;
+  font-size: 17px;
+  font-weight: 700;
+}
+
 .signin button {
   border: none;
   background-color: #2E42AA;
@@ -66,13 +76,16 @@ html {
 
 .mbutton button {
   border: none;
-  background-color: #2E42AA;
+  background-color: transparent;
   border-radius: 1rem;
   padding: 1.3rem 1rem;
   color: #fff;
   font-size: 17px;
   font-weight: 700;
+  margin-left: 2rem;
 }
+
+
 .mbutton button:last-child {
   background-color: transparent;
   margin-left: 2rem;
