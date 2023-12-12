@@ -124,30 +124,6 @@ def get_users(interestslist, countsdict):
 
   return (max_user,comments_list)
 
-def match_comments_with_titles(username, commentslist,name):
-  reddit = praw.Reddit(client_id='nj0rg_lxJnxtu-h2gE_1rw',
-                          client_secret='jGGnaaNdZq7aJRPax2qJkVwPs5lTWw',
-                          user_agent='desktop:com.example.myredditapp:v1.2.3 (by u/Rpeddu)',
-                          )
-
-  user = reddit.redditor(username)
-  comments = user.comments.new(limit=2)  # Retrieve all comments, you can specify a limit if needed
-  total_commented_posts=[]
-  print("before comments")
-  for comment in comments:
-    post = comment.submission
-    total_commented_posts.append(post.title)
-  print("after comments")
-  if(len(commentslist)!=len(total_commented_posts)):
-    print("Mismatch length")
-  else: 
-    index=0
-    print("before posts")
-    for post in total_commented_posts:
-      commentslist[index]="Someone posted: "+total_commented_posts[index]+ f"and {name} responded with "+ commentslist[index]
-      index+=1
-  return commentslist
-
 
 def find_most_relevant_submissions(interests,submissions,user):
     reddit = praw.Reddit(client_id='nj0rg_lxJnxtu-h2gE_1rw',
@@ -183,6 +159,3 @@ def similairty_text(interests_text, comment_text):
   similarity = fuzz.ratio(text1, text2)
 
   return similarity/100
-
-
-
