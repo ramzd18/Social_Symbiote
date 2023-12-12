@@ -1,11 +1,11 @@
-import peopledatalabsretrieval
+from backend import peopledatalabsretrieval
 from langchain_experimental import generative_agents
-from twitter import user_lookup
-from twitter import user_tweets
-from reddit import redditapi
-from reddit import redditusers
-from reddit import additionalredditmemories
-import promptLLMmemories
+from backend.twitter import user_lookup
+from backend.twitter import user_tweets
+from backend.reddit import redditapi
+from backend.reddit import redditusers
+from backend.reddit import additionalredditmemories
+# import promptLLMmemories
 from langchain_experimental import generative_agents
 from datetime import datetime, timedelta
 from typing import List
@@ -21,13 +21,14 @@ from langchain.vectorstores import FAISS
 from langchain.document_loaders import TextLoader
 import json
 import re
-import google_search_results
+from backend import google_search_results
 import random
-from retrieve_agent import push_agent_info
-from load_agent_database import LoadAgent
+# from backend.retrieve_agent import push_agent_info
+# from backend.load_agent_database import LoadAgent
 import datetime
-import retrieve_agent
-from langchain.llms import OpenAI
+# import retrieve_agent
+# from langchain.llms import OpenAI
+
 
 def create_new_memory_retriever():
     """Create a new vector store retriever unique to the agent."""
