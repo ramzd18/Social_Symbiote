@@ -156,8 +156,8 @@ def parsepeopledata(dictval):
   else: 
     company=""
   print("company "+ company)
-  location= dictval["location_metro"]
-  print("location "+ location)
+  # location= dictval["location_metro"]
+  # print("location "+ location)
   interests=dictval["interests"]
   print("interests "+ str(interests))
   skills= dictval["skills"]
@@ -177,7 +177,7 @@ def parsepeopledata(dictval):
       # for key in school:
       #     print(key)
   print(educationstr)
-  return {"name":fullname,"gender":gender,"work industry":industry, "current job":specificoccupation ,"twitter":twitter_username,"age":age,"company":company,"location":location,"interests":interests,"skills":skills,"education":educationstr}
+  return {"name":fullname,"gender":gender,"work industry":industry, "current job":specificoccupation ,"twitter":twitter_username,"age":age,"company":company,"interests":interests,"skills":skills,"education":educationstr}
 
 
 
@@ -210,6 +210,3 @@ def initialize_person(description,age,job):
   parsed_dict= parsepeopledata(persondict)
   print(parsed_dict)
   return (parsed_dict,job,status,product)
-
-
-
