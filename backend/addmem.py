@@ -19,31 +19,98 @@ import threading
 import time
 import retrieve_agent
 import re
+from concurrent.futures import ThreadPoolExecutor, wait
+
+
+# results=["I care deeply about LGBTQ right and their rally for equal protection","The housing market looks very good right now, it is making me want to buy a house","Political movements for equal rights have been gaining momentum","Climate is changing rapidly and I have to try and make a change in my daily life.","Vaccines Masking Guidelines Visitor Guidelines Close Search Search Johns Hopkins Medicine Search Close Health Health Close Main Menu Health Conditions and Diseases Treatments, Tests and Therapies Wellness and Prevention Caregiving Health and Prevention Gender Affirmation Nonsurgical Services Gender affirmation can include various procedures such as hormone therapy, genital reconstruction, breast reconstruction, facial plastic surgery, speech therapy and primary care . Patients choose only the gender-affirming nonsurgical services that best fit their needs as they transition","The banning of gender-affirming care creates a dangerous environment for NC trans youth . Edit Close Sign Up Log In Dashboard Logout My Account Dashboard Profile Saved items Logout Home About Us Get Involved Editorial Staff Advertise With The Niner Times Sign Up For Our Newsletter News Campus Student Organizations City Events Day of Remembrance Sports Baseball Mens Basketball Womens Basketball Cross Country Football Golf Softball Mens Soccer Womens Soccer Tennis Track & Field Volleyball National Sports Arts & Culture Campus Events Guides","The restrictions mean that 25% of Americans age 10 to 17 now live more than a dayâs drive away, round trip, from a clinic that could provide medications and hormones to support their gender transition ."]
+# reduced_list = [results[i] +" New Article"+ results[i+1]+results[i+2]+results[i+4]+results[i+5] for i in range(0, len(results)-5, 5)]
+# print(len(reduced_list))
+# print(reduced_list[0])
+# print(len(reduced_list))
+chris=load_agent_database.LoadAgent('rbpeddu@gmail.com','chris')
+
+# splitlist=google_search_results.split_list(results,3)
+# with ThreadPoolExecutor(max_workers=3) as executor:
+#     futures = [executor.submit(brendan.analysis_of_product, arg) for arg in splitlist]
+#     wait(futures)
+#     results1 = [future.result() for future in futures]
+interests=chris.interests
+print(interests)
+# memsresult=brendan.analysis_of_product(reduced_list)
+
+# # memsresult= [element for sublist in results1 for element in sublist ]
+# # print("memsresult length"+ str(len(memsresult)))
+# for mem in memsresult: 
+#     print("25"+ mem)
+#     brendan.memory.add_memory(mem)
+
+
+print("responses")
+# print(chris.generate_question_response("What are you primarily interested in"))
+# print(chris.generate_question_response("Where do you spend a lot of your money"))
+# print(chris.generate_question_response("What branding do you like better Taste the eneregy or green, clean and powerful"))
+
+
+# total=len(chris.memory.memory_retriever.vectorstore.index_to_docstore_id)
+# index_len=total//4
+# first_split=chris.memory.memory_retriever.memory_stream[0:index_len]
+# second_split=chris.memory.memory_retriever.memory_stream[index_len:2*index_len]
+# third_split=chris.memory.memory_retriever.memory_stream[2*index_len:3*index_len]
+# fourth_split=chris.memory.memory_retriever.memory_stream[3*index_len:4*index_len]
+# first=(chris.memoriesprompt(first_split)).split(';')
+# second=(chris.memoriesprompt(second_split)).split(';')
+# third=(chris.memoriesprompt(third_split)).split(';')
+# fourth=(chris.memoriesprompt(fourth_split)).split(';')
+# totlist=[first,second,third,fourth]
+# totlist=[item for sublist in totlist for item in sublist]
+# for mem in totlist: 
+#   chris.memory.add_memory(mem)
+print(chris.marketing_analysis("Life is a sport, drink it up","Win from within","The product is a sports drink made for people who workout to replenish their electrolytes"))
+print(chris.generate_question_response("What are you primarily interested in"))
+print(chris.generate_question_response("Where do you spend a lot of your money"))
+print(chris.generate_question_response("Where in a grocery store should our energy drink be to make you view it more"))
+
+
+# agent_memory= chris.memory.memory_retriever.dict()
+# agent_soc_memory=chris.memory.social_media_memory.dict()
+# del agent_memory['vectorstore']
+# del agent_soc_memory['vectorstore']
+# personalitylist=json.dumps(chris.memory.personalitylist)
+# retrieve_agent.update_agent_info('rbpeddu@gmail.com','chris',json.dumps(str(agent_memory)),personalitylist)
+
+# print(chris.memory.fetch_memories("What are you favorite things to do"))
 
 
 
 
-brendan=load_agent_database.LoadAgent('rbpeddu@gmail.com','brendan')
-interest=brendan.interests.split(',')
-print(interest)
-total_search_list=[]
-for interestval in interest: 
-  print(interestval)
-  print("start")
-  search=(brendan.search_prodct_questions(interestval,"Test"))[0].splitlines()
-  for query in search: 
-    search.remove(query)
-    search.append(query[2:])
-  total_search_list=total_search_list+search
-print(total_search_list)
-big_url_list=[]
-count=0
-for searchquery in total_search_list: 
-  print("Finding queries")
-  big_url_list.append(google_search_results.api_results(searchquery))
 
-big_url_list = [item for sublist in big_url_list for item in sublist]
-print(google_search_results.urls_to_summarizedtext(big_url_list))
+
+
+
+
+
+
+
+# interest=brendan.interests.split(',')
+# print(interest)
+# total_search_list=[]
+# for interestval in interest: 
+#   print(interestval)
+#   print("start")
+#   search=(brendan.search_prodct_questions(interestval,"Test"))[0].splitlines()
+#   for query in search: 
+#     search.remove(query)
+#     search.append(query[2:])
+#   total_search_list=total_search_list+search
+# print(total_search_list)
+# big_url_list=[]
+# count=0
+# for searchquery in total_search_list: 
+#   print("Finding queries")
+#   big_url_list.append(google_search_results.api_results(searchquery))
+
+# big_url_list = [item for sublist in big_url_list for item in sublist]
+# print(google_search_results.urls_to_summarizedtext(big_url_list))
 
 # michael= retrieve_agent.get_all_agents('rbpeddu@gmail.com')
 # mikemem=michael[3].replace('"', '')
