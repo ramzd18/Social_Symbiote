@@ -13,7 +13,7 @@ import threading
 import time
 
 from concurrent.futures import ThreadPoolExecutor
-
+from langdetect import detect
 
 
 def scrape_page(link:str):
@@ -48,7 +48,6 @@ def scrape_page(link:str):
 def scrape_pages_list(urlslist):
   final_text_list=[]
   for url in urlslist:
-    print("iterating")
     task_thread = threading.Thread(target=scrape_page, args=(url,))
     task_thread.start()
     task_thread.join(timeout=4)
@@ -58,24 +57,25 @@ def scrape_pages_list(urlslist):
       text=scrape_page(url)
       text_split= text.split(" ")
       if len(text_split)>0: 
-        final_text_list.append(text)
+        if is_english(text):
+          final_text_list.append(text)
 
   print('finished iterate')
   return final_text_list
       
 def summarize(text):
-  summarizer = pipeline("summarization", model="stevhliu/my_awesome_billsum_model")
-  text=summarizer(text)
+  summarizer = pipeline("summarization", model="Falconsai/text_summarization")
+  text=summarizer(text, max_length=500, min_length=200, do_sample=False)
   return text[0]['summary_text']
 
 def get_words_in_batches(text):
     words = text.split()
-    num_batches = len(words) // 600
+    num_batches = len(words) // 1300
 
     batches = []
     for i in range(num_batches):
-        start = i * 600
-        end = start + 600
+        start = i * 1300
+        end = start + 1300
         batch = ' '.join(words[start:end])
         batches.append(batch)
 
@@ -89,20 +89,23 @@ def summarize_batches(text):
    return finalstring
 
 def api_results(query): 
+  try:
+    params = {
+        "engine": "google",
+        "q": query,
+        "api_key": "2a1b3c69c495a34d2328c393b729f971563d489b464266a90fcb0bd214ce452f"
+      }
 
-  params = {
-    "engine": "google",
-    "q": query,
-    "api_key": "2a1b3c69c495a34d2328c393b729f971563d489b464266a90fcb0bd214ce452f"
-  }
-
-  search = GoogleSearch(params)
-  results = search.get_dict()
-  organic_results = results["organic_results"]
-  urllist=[]
-  for page in organic_results: 
-    urllist.append(page["link"])
-  return urllist
+    search = GoogleSearch(params)
+    results = search.get_dict()
+    print(results)
+    organic_results = results["organic_results"]
+    urllist=[]
+    for page in organic_results: 
+      urllist.append(page["link"])
+    return urllist
+  except:
+    []
 
 def split_list(lst,num):
     n = len(lst) // num
@@ -111,7 +114,7 @@ def split_list(lst,num):
 def urls_to_summarizedtext(urllist): 
   scraped_results= threaded_scrape(urllist)
   scraped_results1=[element for sublist in scraped_results for element in sublist]
-  split_scraped=split_list(scraped_results1,16)
+  split_scraped=split_list(scraped_results1,15)
   print("starting")
   # split_list1= split_list(scraped_paged_list)
 
@@ -125,7 +128,7 @@ def urls_to_summarizedtext(urllist):
   # third_thread= threading.Thread(target=scrape_and_summarize,args=(thirdlist,) )
   # fourth_thread= threading.Thread(target=scrape_and_summarize, args=(fourthlist,))
 
-  with ThreadPoolExecutor(max_workers=16) as executor:
+  with ThreadPoolExecutor(max_workers=15) as executor:
     # Submit the function to the executor with different arguments
     futures = [executor.submit(scrape_and_summarize, arg) for arg in split_scraped]
 
@@ -140,13 +143,14 @@ def urls_to_summarizedtext(urllist):
 
 
 def scrape_and_summarize(urllist):
-  new_list=[]
+  newlist=[]
+  print("thread")
   for text in urllist: 
-    text1=""
+    text1=text
     if (len(text.split())>1500): 
-      text1=text[:5500]
-    new_list.append(summarize_batches(text1))
-  return new_list
+      text1=text[:4000]
+    newlist.append(summarize_batches(text1))
+  return newlist
 
 def threaded_scrape(urllist): 
   split_list1= split_list(urllist,4)
@@ -155,3 +159,69 @@ def threaded_scrape(urllist):
     results = [future.result() for future in futures]
     
   return results
+
+
+def is_english(text):
+    try:
+        return detect(text) == 'en'
+    except:
+        return False
+    
+
+
+
+
+def related_questions(query):
+  params = {
+    "engine": "google",
+    "q": query,
+    "api_key": "2a1b3c69c495a34d2328c393b729f971563d489b464266a90fcb0bd214ce452f"
+  }
+  search = GoogleSearch(params)
+  results = search.get_dict()
+  return results
+  # try:
+  #   relatedques= results['related_questions']
+  #   totalwordcount=0
+  #   print(len(relatedques))
+  #   for ques in relatedques: 
+  #     snip=ques['snippet']
+  #     punc = '''!()-[]{};:'"\,<>./?@#$%^&*_~'''
+  #     for ele in snip:
+  #       if ele in punc:
+  #         snip = snip.replace(ele, "")
+  #     print(snip)
+  #     snip1=snip.split()
+  #     list_of_words=["blogs","blog","story","stories","publish","news","opinions","report","reporting","editors","blogs","review","reviews","independent"]
+  #     for word in snip1: 
+  #       print(word)
+  #       if(list_of_words.__contains__(word)):
+  #         totalwordcount+=1
+  #   if(totalwordcount>=2):
+  #     return "blog"
+  #   else:
+  #     return "company"
+  # except:
+  #   totalwordcount=0
+  #   know=results['knowledge_graph']
+  #   snip=know['description']
+  #   punc = '''!()-[]{};:'"\,<>./?@#$%^&*_~'''
+  #   for ele in snip:
+  #     if ele in punc:
+  #         snip = snip.replace(ele, "")
+  #     print(snip)
+  #     snip1=snip.split()
+  #     list_of_words=["blogs","blog","story","stories","publish","news","opinions","report","reporting","editors","blogs","review","reviews","independent"]
+  #     for word in snip1: 
+  #       print(word)
+  #       if(list_of_words.__contains__(word)):
+  #         totalwordcount+=1
+  #   if(totalwordcount>=2):
+  #     return "blog"
+  #   else:
+  #     return "company"
+
+
+
+
+print(related_questions("What is Medium"))
