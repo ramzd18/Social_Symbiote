@@ -8,6 +8,10 @@ function AccountC() {
   const [user, setUser] = useState({});
   const [userExists, setUserExists] = useState(false);
 
+  // const apiBaseUrl = process.env.NODE_ENV === 'production'
+  // ? 'https://alias-testing.herokuapp.com'
+  // : 'http://localhost:5433';
+
   function handleCallbackResponse(response) {
     /* console.log(response.credential); */
     var userObject = jwtDecode(response.credential);
@@ -16,7 +20,7 @@ function AccountC() {
     /* console.log(user); */
     console.log(userObject);
     userdata = userObject;
-    fetch('http://localhost:5433/createUser', {
+    fetch('https://alias-node-9851227f2446.herokuapp.com/createUser', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -54,7 +58,7 @@ function AccountC() {
       }); 
     
 
-    fetch(`http://localhost:5433/checkUser?email=${userObject.email}`) // replace with the actual email
+    fetch(`https://alias-node-9851227f2446.herokuapp.com/checkUser?email=${userObject.email}`) // replace with the actual email
     .then((response) => response.json()) // Try parsing response as JSON
     
       /* if (response.ok) {

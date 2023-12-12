@@ -26,6 +26,10 @@ function Interface() {
   const { user: userObject } = decoded;
   const email = userObject.email;
 
+  // const apiBaseUrl = process.env.NODE_ENV === 'production'
+  // ? 'https://alias-testing.herokuapp.com'
+  // : 'http://localhost:5433';
+
   console.log(selectedAgentName);
   console.log(email);
 
@@ -75,7 +79,7 @@ function Interface() {
 
 
   try {
-    const response = await fetch(`http://127.0.0.1:5000/load_response?name=${selectedAgentName}&email=${email}&question=${message}`);
+    const response = await fetch(`https://alias-testing-130265f16331.herokuapp.com/load_response?name=${selectedAgentName}&email=${email}&question=${message}`);
     const data = await response.text();
     
     console.log('Response from server:', data);
@@ -161,7 +165,7 @@ function Interface() {
 
   const handleBack = () => {
 
-    fetch('http://localhost:5433/updateChatHistory', {
+    fetch(`https://alias-node-9851227f2446.herokuapp.com/updateChatHistory`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -246,7 +250,7 @@ function Interface() {
   useEffect(() => {
     // Fetch the conversation messages on component load
     if (isInterviewActive) {
-      fetch('http://localhost:5433/getConversation', {
+      fetch(`https://alias-node-9851227f2446.herokuapp.com/getConversation`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

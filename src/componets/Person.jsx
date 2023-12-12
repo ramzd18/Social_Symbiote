@@ -20,9 +20,15 @@ function Person() {
     const [agentGender, setAgentGender] = useState('');
     const [agentJobs, setAgentJobs] = useState([]);
     const [agentJob, setAgentJob] = useState('');
+
+    // const apiBaseUrl = process.env.NODE_ENV === 'production'
+    // ? 'https://alias-testing.herokuapp.com'
+    // : 'http://localhost:5433';
+
     const token = sessionStorage.getItem('token');
     const isFirstRun = useRef(true);
     console.log(token)
+
 
 
         const decoded = jwtDecode(token);
@@ -35,7 +41,7 @@ function Person() {
 
     useEffect(() => {
 
-        fetch('http://localhost:5433/getAgentName', {
+        fetch(`https://alias-node-9851227f2446.herokuapp.com/getAgentName`, {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
@@ -64,7 +70,7 @@ function Person() {
         })
         .catch((error) => console.error('Error:', error));
         
-        fetch('http://localhost:5433/getAgentDesc', {
+        fetch(`https://alias-node-9851227f2446.herokuapp.com/getAgentDesc`, {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
@@ -93,7 +99,7 @@ function Person() {
         })
         .catch((error) => console.error('Error:', error));
 
-        fetch('http://localhost:5433/getAgentJob', {
+        fetch(`https://alias-node-9851227f2446.herokuapp.com/getAgentJob`, {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
@@ -123,7 +129,7 @@ function Person() {
         .catch((error) => console.error('Error:', error));
 
 
-        fetch('http://localhost:5433/getAgentLastInterview', {
+        fetch(`https://alias-node-9851227f2446.herokuapp.com/getAgentLastInterview`, {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
@@ -152,7 +158,7 @@ function Person() {
         })
         .catch((error) => console.error('Error:', error));
 
-        fetch('http://localhost:5433/getAgentGender', {
+        fetch(`https://alias-node-9851227f2446.herokuapp.com/getAgentGender`, {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
@@ -183,7 +189,7 @@ function Person() {
             
 
 
-        fetch('http://localhost:5433/getAgentAge', {
+        fetch(`https://alias-node-9851227f2446.herokuapp.com/getAgentAge`, {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
@@ -217,7 +223,7 @@ function Person() {
                 if (agentNames.length > 0) {
                     agentNames.forEach((name, index) => {
                       console.log('Name:', name);
-                      fetch('http://localhost:5433/updateProfilePicture', {
+                      fetch(`https://alias-node-9851227f2446.herokuapp.com/updateProfilePicture`, {
                         method: 'POST',
                         headers: {
                           'Content-Type': 'application/json',

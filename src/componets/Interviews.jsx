@@ -15,6 +15,10 @@ function Interviews() {
     const [agentLastInterviews, setAgentLastInterviews] = useState([]);
     const [agentLastInterview, setAgentLastInterview] = useState('');
 
+//     const apiBaseUrl = process.env.NODE_ENV === 'production'
+//   ? 'https://alias-testing.herokuapp.com'
+//   : 'http://localhost:5433';
+
 
     const token = sessionStorage.getItem('token');
     const decoded = jwtDecode(token);
@@ -35,7 +39,7 @@ function Interviews() {
 
     useEffect(() => {
 
-        fetch('http://localhost:5433/getAgentName', {
+        fetch(`https://alias-node-9851227f2446.herokuapp.com/getAgentName`, {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
@@ -64,7 +68,7 @@ function Interviews() {
         })
         .catch((error) => console.error('Error:', error));
 
-        fetch('http://localhost:5433/getAgentPic', {
+        fetch(`https://alias-node-9851227f2446.herokuapp.com/getAgentPic`, {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
@@ -93,7 +97,7 @@ function Interviews() {
         })
         .catch((error) => console.error('Error:', error));
 
-        fetch('http://localhost:5433/getAgentGender', {
+        fetch(`https://alias-node-9851227f2446.herokuapp.com/getAgentGender`, {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
@@ -123,7 +127,7 @@ function Interviews() {
         .catch((error) => console.error('Error:', error));
 
 
-        fetch('http://localhost:5433/getAgentLastInterview', {
+        fetch(`https://alias-node-9851227f2446.herokuapp.com/getAgentLastInterview`, {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',

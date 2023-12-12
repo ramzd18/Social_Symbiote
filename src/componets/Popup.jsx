@@ -18,6 +18,10 @@ function Popup() {
   const { user: userObject } = decoded;
   const email = userObject.email;
 
+  // const apiBaseUrl = process.env.NODE_ENV === 'production'
+  // ? 'https://alias-testing.herokuapp.com'
+  // : 'http://localhost:5433';
+
 
   const clearInformation = () => {
     setAge('');
@@ -51,14 +55,14 @@ function Popup() {
         }
     
         // Perform your asynchronous tasks...
-        const response = await fetch(`http://localhost:5433/check-rows?personEmail=${email}`);
+        const response = await fetch(`https://alias-node-9851227f2446.herokuapp.com/check-rows?personEmail=${email}`);
         const data = await response.json();
         const rowCount = data.rowCount; // received row count from the API
         console.log('Row count:', rowCount);
     
         // Update state based on the asynchronous result
         if (rowCount < 3) {
-          const response = fetch(`http://127.0.0.1:5000/create_agent?email=${email}&description=${description}&age=${age}&job=${occupation}`);
+          const response = fetch(`https://alias-testing-130265f16331.herokuapp.com/create_agent?email=${email}&description=${description}&age=${age}&job=${occupation}`);
           try {
             const data = response.text();
             console.log('Response:', data);
