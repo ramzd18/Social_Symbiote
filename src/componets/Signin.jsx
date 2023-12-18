@@ -68,17 +68,17 @@ function Signin() {
         }
       })
 
-      .then(() => {
-        fetch(`https://alias-testing-130265f16331.herokuapp.com/check?key=initial`)
-        .then(response => response.json()) // Assuming the API returns JSON
-        .then(data => {          
-          if (data && data.status === 'finished') {
-            setisInitialized(false);
-          } else {
-            setisInitialized(true);
-          }
-        })
+
+      fetch(`https://alias-testing-130265f16331.herokuapp.com/check?key=initial`)
+      .then(response => response.json()) // Assuming the API returns JSON
+      .then(data => {          
+        if (data && data.status === 'finished') {
+          setisInitialized(false);
+        } else {
+          setisInitialized(true);
+        }
       })
+
 
       .catch((error) => {
         console.error('Error:', error);
