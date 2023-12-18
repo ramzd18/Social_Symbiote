@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { jwtDecode } from "jwt-decode";
 import { Link } from 'react-router-dom';
 import useUserData from './userdata';
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 
@@ -9,6 +10,7 @@ let userdata = {};
 
 function Signin() {
   const [isUser, setIsUser] = useState(false);;
+  const [isInitialized, setisInitialized] = useState(false);
 
   // const apiBaseUrl = process.env.NODE_ENV === 'production'
   // ? 'https://alias-node-9851227f2446.herokuapp.com/node'
@@ -23,6 +25,8 @@ function Signin() {
     var userObject = jwtDecode(response.credential);
     /*console.log(userObject); */
     console.log(userObject.email); 
+
+    setisInitialized(true);
 
     fetch(`https://alias-node-9851227f2446.herokuapp.com/checkUser?email=${userObject.email}`) // replace with the actual email
       .then((response) => response.json()) // Try parsing response as JSON
@@ -62,6 +66,18 @@ function Signin() {
         } else {
           console.error('No token received');
         }
+      })
+
+      .then(() => {
+        fetch(`https://alias-testing-130265f16331.herokuapp.com/check?key=initial`)
+        .then(response => response.json()) // Assuming the API returns JSON
+        .then(data => {          
+          if (data && data.status === 'finished') {
+            setisInitialized(false);
+          } else {
+            setisInitialized(true);
+          }
+        })
       })
 
       .catch((error) => {
@@ -114,7 +130,13 @@ function Signin() {
             <div className="signinbetanew">
               
               <Link to={isUser ? '/home' : '#'}>
-                <button disabled={!isUser}>Sign in</button>
+                <button disabled={!isUser}>
+                {isInitialized ? (
+                <CircularProgress size={24} color="inherit" />
+                ) : ( 
+                  'Sign in'
+                )}
+                </button>
               </Link>  
             </div>
 
