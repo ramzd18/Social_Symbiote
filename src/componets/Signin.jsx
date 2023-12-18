@@ -58,6 +58,15 @@ function Signin() {
           })
           .then((data) => {
             console.log('Response:', data);
+            fetch(`https://alias-testing-130265f16331.herokuapp.com/check?key=initial`)
+            .then(response => response.json()) // Assuming the API returns JSON
+            .then(data => {          
+              if (data && data.status === 'finished') {
+                setisInitialized(false);
+              } else {
+                setTimeout(checkInitializationStatus, 1000)
+              }
+            })
           })
           .catch((error) => {
             console.error('Error initializing agent:', error);
@@ -65,17 +74,6 @@ function Signin() {
           // Further use the token as needed
         } else {
           console.error('No token received');
-        }
-      })
-
-
-      fetch(`https://alias-testing-130265f16331.herokuapp.com/check?key=initial`)
-      .then(response => response.json()) // Assuming the API returns JSON
-      .then(data => {          
-        if (data && data.status === 'finished') {
-          setisInitialized(false);
-        } else {
-          setisInitialized(true);
         }
       })
 
