@@ -7,6 +7,7 @@ from backend.reddit import redditusers
 from backend.reddit import additionalredditmemories
 # import promptLLMmemories
 from langchain_experimental import generative_agents
+from langchain_experimental.generative_agents import search_prodct_questions
 from datetime import datetime, timedelta
 from typing import List
 from termcolor import colored
