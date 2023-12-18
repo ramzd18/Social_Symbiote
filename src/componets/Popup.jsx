@@ -64,8 +64,7 @@ function Popup() {
         if (rowCount < 3) {
           const response = fetch(`https://alias-testing-130265f16331.herokuapp.com/create_agent?email=${email}&description=${description}&age=${age}&job=${occupation}`);
           try {
-            const data = response.text();
-            console.log('Response:', data);
+            console.log('Response:', response);
           }
           catch (error) {
             console.error('Error creating agent:', error);
