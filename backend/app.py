@@ -11,7 +11,7 @@ def load_agents_task(email):
     # first,second,third= load_agent_database.split_into_three(agents_lists)
     if(len(agents_lists)>=3):
       with ThreadPoolExecutor(max_workers=3) as executor:
-          futures = [executor.submit(load_agent_database.LoadAgent, 'rbpeddu@gmail.com',arg[0]) for arg in agents_lists]
+          futures = [executor.submit(load_agent_database.LoadAgent, email,arg[0]) for arg in agents_lists]
           results = [future.result() for future in futures]
       # for agent in agents_lists: 
       #     print("Agentsn name is "+ str(agent[0]))
@@ -153,6 +153,12 @@ def market_make():
         print(actuallist)
         actuallist.append(last)
         return actuallist
+@app.route('/agentslist')
+def agentslist(): 
+     list=[]
+     for key in agents_dict.keys():
+          list.append(key)
+     return str(list)
 @app.route('/check')
 def check_status():
     print(len(initialized))
