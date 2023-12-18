@@ -17,21 +17,25 @@ def chain( prompt: PromptTemplate) -> LLMChain:
 
 def generate_relevant_description(descirption,age,job): 
     llm = ChatOpenAI(max_tokens=1200)
-
+    total_job_list=["broadcasting","editorial","journalism","video"	"writing","customer_success",	"support","education_administration",	"professor","researcher",	"teacher",	"data",	"devops",	"electrical","mechanical",	"network","information_technology",	"project_engineering",	
+"quality_assurance","security",	"software",	"systems",	"web",	"accounting",	"investment",	"tax","dental	","fitness","doctor","nursing","therapy","wellness","compensation","employee_development",	
+"recruiting","lawyer","paralegal",	"judicial",	"brand_marketing",	"content_marketing",	"product_marketing",	"project_management",	"office_management","logistics","product","graphic_design","product_design","web_design",
+"events","media_relations",	"property_management",	"realtor",	"accounts",	"business_development"	,"pipeline","media","customer_service","education","engineering","finance","health","human_resources",
+"legal","marketing","operations","design","public_relations","real_estate","sales"
+]
     prompt = PromptTemplate.from_template(
             """
-Given this description of a person. 
-Description: {description}, and that they are {age} years old and are a {job}. 
-Fill in the followng fields with information inferring what their values would be from the description. 
-Fields:  status, category . Status represents what they are currently looking for. Category represents the product cateogy or field the description matches. Only return two values representing your anwsers to the field and seperate them with a semicolon. 
-For example, if I inputted (a person who wants to improve their sleep by tracking sleep perforance, 30,nurse) a example return format would be : Looking for ways to track my sleep performance ; Wearable sleep technology
+Given this job that a person works for find the most similair job in the list and return that. 
+Here is the job: {job}. 
+Here is the totaljoblist:{total_job_list}
+Return only the job as your anwser. For example if someone inputs journalist you would return journalism. 
 """
         )        
     description=descirption
     age=age
-    result= chain(prompt=prompt).run(description=description,age=age,job=job).strip()
-    result.split(';')
-    return result
+    result= chain(prompt=prompt).run(job=job,total_job_list=str(total_job_list)).strip()
+    # result.split(';')
+    return str(result)
 
 
 
@@ -83,12 +87,13 @@ def most_similair_job(job_text):
     return first_key
 
 def final_name_age_occupation(description,age,job):
-    initial_arr= generate_relevant_description(description,age,job)
-    initial_arr=initial_arr.split(';')
+    jobval= generate_relevant_description(description,age,job)
+    # initial_arr=initial_arr.split(';')
     age=2023-int(age)
-    job=most_similair_job(job)
-    status=initial_arr[0]
+    job=most_similair_job(jobval)
+    # status=initial_arr[0]
     # product= initial_arr[1]
+    status=""
     product=""
     return (age,job,status,product)
 
