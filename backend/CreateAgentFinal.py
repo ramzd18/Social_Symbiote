@@ -143,9 +143,10 @@ def create_and_store_agent(description,age,job1):
   # actual_product_list= productstring[:3]
   totalquerylist=[]
   for interest in interestslist: 
+     print("Inside loop")
      links=agent.search_prodct_questions(interest,"test")
      totalquerylist.append(links)
-
+  print("done looping")
   totalquerylist=[item for sublist in totalquerylist for item in sublist]
   big_url_list=[]
   count=0
