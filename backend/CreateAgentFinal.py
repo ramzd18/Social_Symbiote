@@ -155,16 +155,30 @@ def create_and_store_agent(description,age,job1):
     # print("Finding queries")
     big_url_list.append(google_search_results.api_results(query))
 
-  
-  big_url_list = [item for sublist in big_url_list for item in sublist]
+  tot_list=[]
+  for sublist in big_url_list:
+     if(sublist!=None):
+        for url in sublist: 
+          if(url!=None):
+             tot_list.append(url)
+  big_url_list = tot_list
+  random.shuffle(big_url_list)
+  big_url_list=big_url_list[:100]
+  print("big length"+str(len(big_url_list)))
+  descriptionqueries=agent.search_description_questions(description)
+  dlinks=[]
+  for dquery in descriptionqueries:
+     dlinks.append(google_search_results.api_results(dquery))
+  for link in dlinks:
+     big_url_list.append(link)
   print("overall big url list"+ str(big_url_list))
   # random.shuffle(big_url_list)
   # big_url_list=big_url_list[:10]
 
   text_url_list=google_search_results.urls_to_summarizedtext(big_url_list)
   results=[item for sublist in text_url_list for item in sublist]
-  reduced_list = [results[i] +" New Article"+ results[i+1]+results[i+2]+results[i+4]+results[i+5] for i in range(0, len(results)-5, 5)]
-  totlist=agent.analysis_of_product(reduced_list)
+  # reduced_list = [results[i] +" New Article"+ results[i+1]+results[i+2]+results[i+4]+results[i+5] for i in range(0, len(results)-5, 5)]
+  totlist=agent.analysis_of_product(results)
   for mem in totlist: 
     print(mem)
     if(isinstance(mem,str)):
@@ -174,7 +188,6 @@ def create_and_store_agent(description,age,job1):
 
   print("memoryinginginginign")
   return (agent,gender,job1)
-
 
 
 

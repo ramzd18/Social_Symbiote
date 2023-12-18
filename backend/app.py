@@ -10,13 +10,20 @@ from backend import CreateAgentFinal
 import requests
 import logging
 import os
+from flask_executor import Executor
+from concurrent.futures import ThreadPoolExecutor, wait
+
 
 
 app = Flask(__name__, static_folder='../build', static_url_path='/')
 app.secret_key = "super secret key"
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
+executor = Executor(app)
+
 agents_dict={}
+initialized={}
+
 
 os.environ['KMP_DUPLICATE_LIB_OK']='True'
 
@@ -67,6 +74,37 @@ def catch_all(path):
     
     # app.logger.info(f"Serving static file for path: {path}")
     return app.send_static_file('index.html')
+def load_agents_task(email):
+    agents_lists = retrieve_agent.get_all_agents(email)
+    print("List type"+ str(type(agents_lists)))
+    # first,second,third= load_agent_database.split_into_three(agents_lists)
+    if(len(agents_lists)>=3):
+      with ThreadPoolExecutor(max_workers=3) as executor:
+          futures = [executor.submit(load_agent_database.LoadAgent, 'rbpeddu@gmail.com',arg[0]) for arg in agents_lists]
+          results = [future.result() for future in futures]
+      # for agent in agents_lists: 
+      #     print("Agentsn name is "+ str(agent[0]))
+      #     agents_dict[agent[0]]= load_agent_database.LoadAgent(email,agent[0])
+      print("The length of results is"+ str(len(results)))
+      for result in results:
+        agents_dict[result.name]=result
+    else: 
+        for agent in agents_lists: 
+          print("Agentsn name is "+ str(agent[0]))
+          agents_dict[agent[0]]= load_agent_database.LoadAgent(email,agent[0])
+    print("Total length of dict"+ str(len(agents_dict)))
+    initialized["initial"]="true"
+    return"true"
+def create_database_agent(email,job,description,age): 
+        (agent,gender,jobval)=CreateAgentFinal.create_and_store_agent(description,age,job)
+        agent_memory= agent.memory.memory_retriever.dict()
+        agent_soc_memory=agent.memory.social_media_memory.dict()
+        del agent_memory['vectorstore']
+        del agent_soc_memory['vectorstore']
+        retrieve_agent.push_agent_info(agent.name,agent.age,agent.status,json.dumps(str(agent_memory)),json.dumps({}),email,json.dumps(str(agent_soc_memory)),agent.education_and_work,json.dumps(agent.memory.personalitylist),agent.interests,gender,jobval,description)
+        agents_dict[agent.name]=agent
+        initialized[description]="true"
+        return "true"
 
 @app.errorhandler(404)   
 def not_found(e):   
@@ -75,14 +113,10 @@ def not_found(e):
 
 @app.route('/initialize_agents')
 def loads_users():
-    email= request.args.get("email").strip()
-    agents_lists= retrieve_agent.get_all_agents(email)
-    print("List type"+ str(type(agents_lists)))
-    for agent in agents_lists: 
-        print("Agentsn name is "+ str(agent[0]))
-        agents_dict[agent[0]]= load_agent_database.LoadAgent(email,agent[0])
-    
-    return 'Agents initiialized'
+    email = request.args.get("email").strip()
+    executor.submit(load_agents_task,email)
+    return "starting"
+
 
 @app.route('/load_response')
 def generate_response():
@@ -109,15 +143,14 @@ def create_agent():
         description=request.args.get("description").strip()
         age=int(request.args.get("age").strip())
         job=request.args.get("job").strip()
-        # memory= current_agent.memory.memory_retriever.dict()
-        # del memory['vectorstore']
-        # email=request.args.get("email").strip()
-        (agent,gender,jobval)=CreateAgentFinal.create_and_store_agent(description,age,job)
-        agent_memory= agent.memory.memory_retriever.dict()
-        agent_soc_memory=agent.memory.social_media_memory.dict()
-        del agent_memory['vectorstore']
-        del agent_soc_memory['vectorstore']
-        retrieve_agent.push_agent_info(agent.name,agent.age,agent.status,json.dumps(str(agent_memory)),json.dumps({}),email,json.dumps(str(agent_soc_memory)),agent.education_and_work,json.dumps(agent.memory.personalitylist),agent.interests,gender,jobval,description)
-        agents_dict[agent.name]=agent
+        executor.submit(create_database_agent,email,job,description,age)
         return "Completed"
-
+  
+@app.route('/check')
+def check_status():
+    print(len(initialized))
+    key= request.args.get("key")
+    if  initialized.__contains__(key):
+        return {'status': 'finished'}
+    else:
+        return {'status': 'pending'}
