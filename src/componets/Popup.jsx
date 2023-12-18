@@ -84,7 +84,7 @@ function Popup() {
         await handleNewPersona(); // Call the new persona function
       } finally {
         // Set loading state to false after all asynchronous tasks are complete
-        setLoading(false);
+        setLoading(true);
       }
     };
     
