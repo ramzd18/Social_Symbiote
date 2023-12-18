@@ -114,7 +114,7 @@ def urls_to_summarizedtext(urllist):
   scraped_results= threaded_scrape(urllist)
   scraped_results1=[element for sublist in scraped_results for element in sublist]
   print("length of scraped results:" + str(len(scraped_results1)))
-  split_scraped=split_list(scraped_results1,7)
+  split_scraped=split_list(scraped_results1,3)
   print("starting")
   # split_list1= split_list(scraped_paged_list)
 
@@ -128,7 +128,7 @@ def urls_to_summarizedtext(urllist):
   # third_thread= threading.Thread(target=scrape_and_summarize,args=(thirdlist,) )
   # fourth_thread= threading.Thread(target=scrape_and_summarize, args=(fourthlist,))
 
-  with ThreadPoolExecutor(max_workers=7) as executor:
+  with ThreadPoolExecutor(max_workers=3) as executor:
     # Submit the function to the executor with different arguments
     futures = [executor.submit(scrape_and_summarize, arg) for arg in split_scraped]
 
