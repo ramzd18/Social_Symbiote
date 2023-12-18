@@ -56,7 +56,7 @@ def get_common_subreddit_interestlist(iterestlist):
   totalredditorlist=[]
   print(iterestlist)
   random.shuffle(iterestlist)
-  iterestlist=iterestlist[:7]
+  iterestlist=iterestlist[:5]
   for iterest in iterestlist: 
     print(iterest)
     totalredditorlist.append(get_commmon_subreddit(iterest))
@@ -136,7 +136,7 @@ def gpt_redditor(max_user,comments,submissions):
    sorted_comments=sorted(commentes_text, key=lambda comment: len(comment.body), reverse=True)
    sorted_submissions= sorted(submissions_text,key=lambda submit: len(submit.title), reverse=True)
    first100comments=sorted_comments[:75]
-   first100submissions=sorted_submissions[:100]
+   first100submissions=sorted_submissions[:50]
 
    index=0
    for comment in first100comments: 

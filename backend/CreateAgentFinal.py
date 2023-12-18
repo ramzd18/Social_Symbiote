@@ -135,7 +135,7 @@ def create_and_store_agent(description,age,job1):
   for memory in totallist:
     print("looped memory"+memory)
     agent.memory.add_socialmedia_memory(memory)
-
+  print("done with social memories")
   
   
   # productstring= agent.memory.search_prodct_questions(product,agent.status)
