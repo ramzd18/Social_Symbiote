@@ -190,7 +190,6 @@ def scrape_user_databse(usertup:tuple):
    age=usertup[1]
 
 
-
 # print(get_all_agents('rbpeddu@gmail.com'))
 
 # name,age,status,memory,llm= NewAgentCreation.get_agent_initial_data()

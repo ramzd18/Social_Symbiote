@@ -1,29 +1,29 @@
-from twitter import user_lookup
-from twitter import user_tweets
-from reddit import redditapi
-from reddit import redditusers
-import re
+import retrieve_agent
+import load_agent_database
+
+from concurrent.futures import ThreadPoolExecutor, wait
 
 
+def load_agents_task( email):
+    agents_dict={}
+    agents_lists = retrieve_agent.get_all_agents(email)
+    print("List type"+ str(type(agents_lists)))
+    # first,second,third= load_agent_database.split_into_three(agents_lists)
+    if(len(agents_lists)>=3):
+      with ThreadPoolExecutor(max_workers=3) as executor:
+          futures = [executor.submit(load_agent_database.LoadAgent, 'rbpeddu@gmail.com',arg[0]) for arg in agents_lists]
+          results = [future.result() for future in futures]
+      # for agent in agents_lists: 
+      #     print("Agentsn name is "+ str(agent[0]))
+      #     agents_dict[agent[0]]= load_agent_database.LoadAgent(email,agent[0])
+      for result in results:
+        agents_dict[result.name]= result
+    else: 
+        for agent in agents_lists: 
+          print("Agentsn name is "+ str(agent[0]))
+          agents_dict[agent[0]]= load_agent_database.LoadAgent(email,agent[0])
+    return  agents_dict
 
-
-
-# userid= user_lookup.find_user("sararecruiting")
-# likedtweets=user_tweets.main(userid,"liked_tweets",10)
-# tweets=user_tweets.main(userid,"tweets",20)
-# # mentions=user_tweets.main(userid,"mentions",6)
-# print(user_tweets.clean_tweets(tweets))
-# print(user_tweets.clean_likedtweets(likedtweets))
-# # print(user_tweets.clean_mentiontweets(mentions))
-
-interestslist=['collecting antiques', 'exercise', 'sweepstakes', 'home improvement', 'reading', 'sports', 'the arts', 'hockey', 'watching hockey', 'home decoration', 'health', 'watching sports', 'photograph', 'cooking', 'cruises', 'outdoors', 'electronics', 'crafts', 'fitness', 'music', 'camping', 'dogs', 'movies', 'collecting', 'kids', 'medicine', 'diet', 'cats', 'travel', 'wine', 'motorcycling', 'investing', 'traveling', 'self improvement']
-subredditslist= redditusers.get_commmon_subreddit(interestslist)
-user= redditusers.get_users(interestslist,subredditslist)
-
-comments= user[1]
-username=user[0]
-# print("hereherhehrer")
-# print(redditusers.match_comments_with_titles(username,comments,"Sara"))
 
 
 

@@ -88,7 +88,8 @@ def final_name_age_occupation(description,age,job):
     age=2023-int(age)
     job=most_similair_job(job)
     status=initial_arr[0]
-    product= initial_arr[1]
+    # product= initial_arr[1]
+    product=""
     return (age,job,status,product)
 
          

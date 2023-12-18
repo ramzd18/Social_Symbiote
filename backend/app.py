@@ -1,93 +1,95 @@
+
+
+
+agents_dict={}
+initialized={}
+
+
+def load_agents_task(email):
+    agents_lists = retrieve_agent.get_all_agents(email)
+    print("List type"+ str(type(agents_lists)))
+    # first,second,third= load_agent_database.split_into_three(agents_lists)
+    if(len(agents_lists)>=3):
+      with ThreadPoolExecutor(max_workers=3) as executor:
+          futures = [executor.submit(load_agent_database.LoadAgent, 'rbpeddu@gmail.com',arg[0]) for arg in agents_lists]
+          results = [future.result() for future in futures]
+      # for agent in agents_lists: 
+      #     print("Agentsn name is "+ str(agent[0]))
+      #     agents_dict[agent[0]]= load_agent_database.LoadAgent(email,agent[0])
+      print("The length of results is"+ str(len(results)))
+      for result in results:
+        agents_dict[result.name]=result
+    else: 
+        for agent in agents_lists: 
+          print("Agentsn name is "+ str(agent[0]))
+          agents_dict[agent[0]]= load_agent_database.LoadAgent(email,agent[0])
+    print("Total length of dict"+ str(len(agents_dict)))
+    initialized["initial"]="true"
+    return"true"
+def create_database_agent(email,job,description,age): 
+        (agent,gender,jobval)=CreateAgentFinal.create_and_store_agent(description,age,job)
+        agent_memory= agent.memory.memory_retriever.dict()
+        agent_soc_memory=agent.memory.social_media_memory.dict()
+        del agent_memory['vectorstore']
+        del agent_soc_memory['vectorstore']
+        retrieve_agent.push_agent_info(agent.name,agent.age,agent.status,json.dumps(str(agent_memory)),json.dumps({}),email,json.dumps(str(agent_soc_memory)),agent.education_and_work,json.dumps(agent.memory.personalitylist),agent.interests,gender,jobval,description)
+        agents_dict[agent.name]=agent
+        initialized[description]="true"
+        return "true"
+
 from flask import Flask, session, request, redirect, url_for
 from flask_cors import CORS, cross_origin
+from flask_executor import Executor
 
-
-
-from backend import retrieve_agent 
-from backend import load_agent_database
+import retrieve_agent
+import load_agent_database
 import json
-from backend import CreateAgentFinal
-import requests
-import logging
+import CreateAgentFinal
 import os
+from concurrent.futures import ThreadPoolExecutor, wait
+from worker import conn
+from app import agents_dict
+import json
 
+import time
+# q = Queue(connection=conn)
 
-app = Flask(__name__, static_folder='../build', static_url_path='/')
+app = Flask(__name__)
 app.secret_key = "super secret key"
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
-agents_dict={}
+app.config['CELERY_BROKER_URL'] = 'redis://localhost:6379'
+app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6379'
 
 os.environ['KMP_DUPLICATE_LIB_OK']='True'
-
-
-if __name__ != '__main__':
-    gunicorn_logger = logging.getLogger('gunicorn.error')
-    app.logger.handlers = gunicorn_logger.handlers
-    app.logger.setLevel(gunicorn_logger.level)
-
-app.logger.info("Starting flask...")
-
-# @app.route('/node/<path:subpath>', methods=['GET', 'POST'])
-# def node_route(subpath):
-#     app.logger.info(f"Handling /node/{subpath}")
-
-#     # Assuming you want to pass the entire request to the Node.js server
-#     response = requests.request(
-#         method=request.method,
-#         url='https://alias-testing-130265f16331.herokuapp.com/node' + subpath,
-#         headers=request.headers,
-#         data=request.get_data(),
-#         cookies=request.cookies,
-#         allow_redirects=False,
-#     )
-
-#     app.logger.info(f"Node.js server response: {response.status_code}")
-#     return response.content, response.status_code, response.headers.items()
-
-@app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
-def catch_all(path):
-    # print("Catch-all route reached!")
-    # app.logger.info(f"Path: {path}")
-
-    # if path.startswith('/node'):
-    #     node_url = 'https://alias-testing-130265f16331.herokuapp.com/node' + path
-    #     app.logger.info(f"Forwarding request to Node.js server: {node_url}")
-    #     response = requests.request(
-    #         method=request.method,
-    #         url=node_url,
-    #         headers=request.headers,
-    #         data=request.get_data(),
-    #         cookies=request.cookies,
-    #         allow_redirects=False,
-    #     )
-    #     app.logger.info(f"Node.js server response: {response.status_code}")
-    #     return response.content, response.status_code, response.headers.items()
-    
-    # app.logger.info(f"Serving static file for path: {path}")
-    return app.send_static_file('index.html')
-
-@app.errorhandler(404)   
-def not_found(e):   
-  app.logger.info("404 error")
-  return app.send_static_file('index.html')
+executor = Executor(app)
 
 @app.route('/initialize_agents')
 def loads_users():
-    email= request.args.get("email").strip()
-    agents_lists= retrieve_agent.get_all_agents(email)
-    print("List type"+ str(type(agents_lists)))
-    for agent in agents_lists: 
-        print("Agentsn name is "+ str(agent[0]))
-        agents_dict[agent[0]]= load_agent_database.LoadAgent(email,agent[0])
+    email = request.args.get("email").strip()
+    # job = q.enqueue(load_agents_task, email)
+    executor.submit(load_agents_task,email)
+    # Wait for the job to finish with a timeout (e.g., 30 seconds)
     
-    return 'Agents initiialized'
+        # if job.is_finished:
+        #     print("The result is", job.result)
+        #     for key, value in job.result.items():
+        #         print("Adding", key, value)
+        #         agents_dict[key] = value
+        #     break
+        # elif time.time() - start_time > timeout:
+        #     print("Job timed out")
+        #     break
+        # else:
+        #     time.sleep(0.5)  # Wait for a short period before checking again
+
+    return "starting"
 
 @app.route('/load_response')
 def generate_response():
-    
+        print("initialized length:" + str(len(initialized)))
         name= request.args.get("name").strip()
+        print("Length of agents_dict"+ str( len(agents_dict)))
         question=str(request.args.get("question"))
         current_agent= agents_dict[name]
         return str(current_agent.generate_question_response(question))
@@ -111,13 +113,55 @@ def create_agent():
         job=request.args.get("job").strip()
         # memory= current_agent.memory.memory_retriever.dict()
         # del memory['vectorstore']
-        # email=request.args.get("email").strip()
-        (agent,gender,jobval)=CreateAgentFinal.create_and_store_agent(description,age,job)
-        agent_memory= agent.memory.memory_retriever.dict()
-        agent_soc_memory=agent.memory.social_media_memory.dict()
-        del agent_memory['vectorstore']
-        del agent_soc_memory['vectorstore']
-        retrieve_agent.push_agent_info(agent.name,agent.age,agent.status,json.dumps(str(agent_memory)),json.dumps({}),email,json.dumps(str(agent_soc_memory)),agent.education_and_work,json.dumps(agent.memory.personalitylist),agent.interests,gender,jobval,description)
-        agents_dict[agent.name]=agent
+        # # email=request.args.get("email").strip()
+        # (agent,gender,jobval)=CreateAgentFinal.create_and_store_agent(description,age,job)
+        # agent_memory= agent.memory.memory_retriever.dict()
+        # agent_soc_memory=agent.memory.social_media_memory.dict()
+        # del agent_memory['vectorstore']
+        # del agent_soc_memory['vectorstore']
+        # retrieve_agent.push_agent_info(agent.name,agent.age,agent.status,json.dumps(str(agent_memory)),json.dumps({}),email,json.dumps(str(agent_soc_memory)),agent.education_and_work,json.dumps(agent.memory.personalitylist),agent.interests,gender,jobval,description)
+        # agents_dict[agent.name]=agent
+        executor.submit(create_database_agent,email,job,description,age)
         return "Completed"
+
+
+@app.route('/marketing')
+def market_make():
+        context=request.args.get("context")
+        agent_name= request.args.get("name").strip()
+        tagline= request.args.get("tagline")
+        agent=agents_dict.get(agent_name)
+        response= agent.marketing_analysis(tagline,context)
+        list=response.split(",")[:4]
+        final=response.split("optimized_message")
+        last=final.split(':')[1]
+        print("This is the actual list"+ str(list))
+        actuallist=[]
+        count=0; 
+        for li in list: 
+            if(count<4):
+                try:
+                    li1=li.split(':')[1]
+                    actuallist.append(float(li1))
+                except: 
+                    actuallist.append(float(0.5))
+            else: 
+                print(li)
+                li1= str(li).split(':')[1]
+                actuallist.append(li1)
+            count+=1
+        print(actuallist)
+        actuallist.append(last)
+        return actuallist
+@app.route('/check')
+def check_status():
+    print(len(initialized))
+    key= request.args.get("key")
+    if  initialized.__contains__(key):
+        return {'status': 'finished'}
+    else:
+        return {'status': 'pending'}
+
+if __name__ == '__main__':
+    app.run(debug=True)
 
