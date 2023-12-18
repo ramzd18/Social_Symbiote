@@ -166,7 +166,7 @@ def create_and_store_agent(description,age,job1):
              tot_list.append(url)
   big_url_list = tot_list
   random.shuffle(big_url_list)
-  big_url_list=big_url_list[:100]
+  big_url_list=big_url_list[:120]
   print("big length"+str(len(big_url_list)))
   descriptionqueries=agent.search_description_questions(description)
   dlinks=[]
@@ -183,7 +183,6 @@ def create_and_store_agent(description,age,job1):
   # reduced_list = [results[i] +" New Article"+ results[i+1]+results[i+2]+results[i+4]+results[i+5] for i in range(0, len(results)-5, 5)]
   totlist=agent.analysis_of_product(results)
   for mem in totlist: 
-    print(mem)
     if(isinstance(mem,str)):
       agent.memory.add_memory(mem)
     else:
