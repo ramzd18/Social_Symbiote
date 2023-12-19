@@ -146,6 +146,7 @@ def scrape_and_summarize(urllist):
   newlist=[]
   print("thread")
   for text in urllist: 
+    print("scraping")
     text1=text
     if (len(text.split())>1500): 
       text1=text[:4000]
@@ -153,8 +154,8 @@ def scrape_and_summarize(urllist):
   return newlist
 
 def threaded_scrape(urllist): 
-  split_list1= split_list(urllist,2)
-  with ThreadPoolExecutor(max_workers=2) as executor:
+  split_list1= split_list(urllist,4)
+  with ThreadPoolExecutor(max_workers=4) as executor:
     futures = [executor.submit(scrape_pages_list, arg) for arg in split_list1]
     results = [future.result() for future in futures]
     
