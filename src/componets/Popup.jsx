@@ -256,8 +256,8 @@ function Popup() {
                 ></textarea>
         </div>  
 
-        <div className="mbuttonarea text-center">
-      {/* {!isLoading ? (
+        {/* <div className="mbuttonarea text-center"> */}
+      {!isLoading ? (
         <Link
           to={
             !isDisabled && age.trim() !== '' && occupation.trim() !== '' && description.trim() !== ''
@@ -273,9 +273,9 @@ function Popup() {
           {buttonClicked && isLoading && <CircularProgress size={24} color="inherit"/>}
           New Persona</button> 
         </>
-      )} */}
+      )}
 
-        <Link to={!isLoading && !isDisabled && age.trim() !== '' && occupation.trim() !== '' && description.trim() !== '' ? '/person' : '#'}>
+        {/* <Link to={!isLoading && !isDisabled && age.trim() !== '' && occupation.trim() !== '' && description.trim() !== '' ? '/person' : '#'}>
           <button className='customButton' disabled={isDisabled} title={isDisabled ? 'Max personas created' : undefined} onClick={() => { setButtonClicked(true); setLoading(true); handleNewPersonaClick(); }}>
           {isLoading ? (
           <CircularProgress size={24} color="inherit" />
@@ -283,7 +283,7 @@ function Popup() {
             'New Persona'
           )}
           </button>
-        </Link>  
+        </Link>   */}
 
 
 
@@ -292,7 +292,7 @@ function Popup() {
          </div>
          </div>
            
-        </div>
+        {/* </div> */}
     </section>
   )
 }
