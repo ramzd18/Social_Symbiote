@@ -135,7 +135,7 @@ def gpt_redditor(max_user,comments,submissions):
    commentes_text= redditor.comments.new(limit=150)
    sorted_comments=sorted(commentes_text, key=lambda comment: len(comment.body), reverse=True)
    sorted_submissions= sorted(submissions_text,key=lambda submit: len(submit.title), reverse=True)
-   first100comments=sorted_comments[:75]
+   first100comments=sorted_comments[:50]
    first100submissions=sorted_submissions[:50]
 
    index=0

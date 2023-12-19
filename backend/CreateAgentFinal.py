@@ -166,7 +166,7 @@ def create_and_store_agent(description,age,job1):
              tot_list.append(url)
   big_url_list = tot_list
   random.shuffle(big_url_list)
-  big_url_list=big_url_list[:120]
+  big_url_list=big_url_list[:90]
   print("big length"+str(len(big_url_list)))
   descriptionqueries=agent.search_description_questions(description)
   dlinks=[]
