@@ -61,7 +61,7 @@ def create_and_store_agent(description,age,job1):
   os.environ["OPENAI_API_KEY"]="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"
   LLM = ChatOpenAI(model_name="gpt-3.5-turbo-1106") 
   usertup= peopledatalabsretrieval.initialize_person(description,age,job1)
-  job=job1
+  job=usertup[1]
   persondict= usertup[0]
   status=usertup[2]
   product=usertup[3]
