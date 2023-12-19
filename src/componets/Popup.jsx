@@ -48,8 +48,6 @@ function Popup() {
 
     const handleNewPersona = async () => {
       try {
-        setLoading(true);
-
         if (age.trim() === '' || occupation.trim() === '' || description.trim() === '') {
           // If any field is empty, prevent the new persona action
           alert('Please fill in all the fields to create a new persona.');
@@ -74,6 +72,7 @@ function Popup() {
                   if (data && data.status === 'finished') {
                     setLoading(false);
                   } else {
+                    setLoading(true);
                     setTimeout(checkCreate, 1000);
                   }
                 })
@@ -100,10 +99,13 @@ function Popup() {
     const handleNewPersonaClick = async () => {
       try {
         await handleNewPersona(); // Call the new persona function
-      } finally {
-        // Set loading state to false after all asynchronous tasks are complete
-        setLoading(false);
-      }
+      } catch (error) {
+        console.error('Error:', error);
+      }  
+      // } finally {
+      //   // Set loading state to false after all asynchronous tasks are complete
+      //   setLoading(false);
+      // }
     };
     
     useEffect(() => {
@@ -267,8 +269,9 @@ function Popup() {
         </Link>
       ) : (
         <>
-          <button className='customButton' disabled={isDisabled} title={isDisabled ? 'Max personas created' : undefined} onClick={() => { setButtonClicked(true); setLoading(true); handleNewPersonaClick(); }}>New Persona</button>
+          <button className='customButton' disabled={isDisabled} title={isDisabled ? 'Max personas created' : undefined} onClick={() => { setButtonClicked(true); setLoading(true); handleNewPersonaClick(); }}>
           {buttonClicked && isLoading && <CircularProgress size={24} color="inherit"/>}
+          New Persona</button>
         </>
       )}
 
