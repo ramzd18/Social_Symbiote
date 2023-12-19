@@ -7,6 +7,7 @@ initialized={}
 
 def load_agents_task(email):
     agents_lists = retrieve_agent.get_all_agents(email)
+    print("This is the email"+str(email)+" This is the totallength"+str(len(agents_lists)))
     print("List type"+ str(type(agents_lists)))
     # first,second,third= load_agent_database.split_into_three(agents_lists)
     if(len(agents_lists)>=3):
@@ -21,6 +22,7 @@ def load_agents_task(email):
         agents_dict[result.name]=result
     else: 
         for agent in agents_lists: 
+          print("second route")
           print("Agentsn name is "+ str(agent[0]))
           agents_dict[agent[0]]= load_agent_database.LoadAgent(email,agent[0])
     print("Total length of dict"+ str(len(agents_dict)))
@@ -50,7 +52,7 @@ from concurrent.futures import ThreadPoolExecutor, wait
 from worker import conn
 from app import agents_dict
 import json
-
+from flask import jsonify 
 import time
 # q = Queue(connection=conn)
 
@@ -158,7 +160,11 @@ def agentslist():
      list=[]
      for key in agents_dict.keys():
           list.append(key)
-     return str(list)
+     return jsonify({
+        'ok': True, 
+        'msg':'Success',
+        'data': list
+    })
 @app.route('/check')
 def check_status():
     print(len(initialized))
