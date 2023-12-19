@@ -257,7 +257,6 @@ function Popup() {
         </div>  
 
         <div className="mbuttonarea text-center">
-      {/* {!isLoading ? (
         <Link
           to={
             !isDisabled && age.trim() !== '' && occupation.trim() !== '' && description.trim() !== ''
@@ -265,25 +264,31 @@ function Popup() {
               : "#"
           }
         >
-          <button className='customButton' disabled={isDisabled} title={isDisabled ? 'Max personas created' : undefined} onClick={() => { setButtonClicked(true); setLoading(true); handleNewPersonaClick(); }}>New Persona</button>
-        </Link>
-      ) : (
-        <>
-          <button className='customButton' disabled={isDisabled} title={isDisabled ? 'Max personas created' : undefined} onClick={() => { setButtonClicked(true); setLoading(true); handleNewPersonaClick(); }}> 
-          {buttonClicked && isLoading && <CircularProgress size={24} color="inherit"/>}
-          New Persona</button> 
-        </>
-      )} */}
-
-        <Link to={!isLoading && !isDisabled && age.trim() !== '' && occupation.trim() !== '' && description.trim() !== '' ? '/person' : '#'}>
-          <button className='customButton' disabled={isDisabled} title={isDisabled ? 'Max personas created' : undefined} onClick={() => { setButtonClicked(true); setLoading(true); handleNewPersonaClick(); }}>
+          <button
+            className='customButton'
+            disabled={isDisabled}
+            title={isDisabled ? 'Max personas created' : undefined}
+            onClick={() => {
+              setButtonClicked(true);
+              setLoading(true);
+              handleNewPersonaClick();
+            }}
+          >
+            {buttonClicked && isLoading && <CircularProgress size={24} color="inherit" />}
+            New Persona
           </button>
+        </Link>
+
+
+        {/* <Link to={!isLoading && !isDisabled && age.trim() !== '' && occupation.trim() !== '' && description.trim() !== '' ? '/person' : '#'}>
+          <button className='customButton' disabled={isDisabled} title={isDisabled ? 'Max personas created' : undefined} onClick={() => { setButtonClicked(true); setLoading(true); handleNewPersonaClick(); }}>
           {isLoading ? (
           <CircularProgress size={24} color="inherit" />
           ) : ( 
             'New Persona'
           )}
-        </Link>  
+          </button>
+        </Link>   */}
 
 
 
