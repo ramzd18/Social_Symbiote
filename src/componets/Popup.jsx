@@ -73,7 +73,7 @@ function Popup() {
                     setLoading(false);
                   } else {
                     setLoading(true);
-                    setTimeout(checkCreate, 1000);
+                    setTimeout(checkCreate, 10000);
                   }
                 })
                 .catch((error) => {
