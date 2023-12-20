@@ -300,7 +300,7 @@ function Popup() {
 
 
 
-      <button onClick={clearInformation}>Clear Information</button>
+      <button className='transp' onClick={clearInformation}>Clear Information</button>
     </div>
          </div>
          </div>

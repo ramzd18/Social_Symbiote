@@ -864,7 +864,7 @@ p:after {
   border-radius: 15px;
   margin-right: 19px;
 }
-.mbuttonarea :last-child {
+.mbuttonarea button.trans {
   color: #777474;
   width: 149px;
   height: 39px;
