@@ -69,11 +69,14 @@ def summarize(text):
   return text[:500]
 
 def get_words_in_batches(text):
+    print(text)
     words = text.split()
+    print("afterword")
     num_batches = len(words) // 1300
-
+    print("before loop")
     batches = []
     for i in range(num_batches):
+        print("in loop")
         start = i * 1300
         end = start + 1300
         batch = ' '.join(words[start:end])
