@@ -69,7 +69,7 @@ def summarize(text):
   return text[:500]
 
 def get_words_in_batches(text):
-    print("The type of text is "+ str(type(text)))
+    text=str(text)
     words = text.split()
     print("afterword")
     num_batches = len(words) // 1300
