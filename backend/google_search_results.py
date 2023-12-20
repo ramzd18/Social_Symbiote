@@ -133,7 +133,7 @@ def urls_to_summarizedtext(urllist):
   # second_thread=threading.Thread(target=scrape_and_summarize, args=(secondlist,))
   # third_thread= threading.Thread(target=scrape_and_summarize,args=(thirdlist,) )
   # fourth_thread= threading.Thread(target=scrape_and_summarize, args=(fourthlist,))
-  results= scrape_and_summarize(scraped_results)
+  results= scrape_and_summarize(scraped_results1)
   print("result finished")
   print("resultfinished")
   # with ThreadPoolExecutor(max_workers=2) as executor:
@@ -151,6 +151,7 @@ def urls_to_summarizedtext(urllist):
 
 
 def scrape_and_summarize(urllist):
+  print("length of scraped results:" + str(len(urllist)))
   newlist=[]
   print("thread")
   for text in urllist: 
