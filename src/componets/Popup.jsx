@@ -66,13 +66,13 @@ function Popup() {
           try {
             console.log('Response:', response);
             const checkCreate = () => {
-              fetch(`https://alias-testing-130265f16331.herokuapp.com/check?key=description`)
+              fetch(`https://alias-testing-130265f16331.herokuapp.com/check?key=${description}`)
                 .then(response => response.json())
                 .then(data => {
                   if (data && data.status === 'finished') {
                     setLoading(false);
                   } else {
-                    setLoading(true);
+                    // setLoading(true);
                     setTimeout(checkCreate, 10000);
                   }
                 })
@@ -275,8 +275,13 @@ function Popup() {
                 handleNewPersonaClick();
               }}
             >
-              {buttonClicked && isLoading && <CircularProgress size={24} color="inherit" />}
-              New Persona
+              {
+                isLoading && buttonClicked ? (
+                  <CircularProgress size={24} color="inherit" />
+                ) : (
+                  'New Persona'
+                )
+              }
             </button>
           </Link>
 
