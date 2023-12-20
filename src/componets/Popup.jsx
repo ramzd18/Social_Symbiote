@@ -257,10 +257,10 @@ function Popup() {
         </div>  
 
         <div className="mbuttonarea text-center">
-        {!isLoading && (
+
           <Link
             to={
-              !isDisabled && age.trim() !== '' && occupation.trim() !== '' && description.trim() !== ''
+              !isLoading && !isDisabled && age.trim() !== '' && occupation.trim() !== '' && description.trim() !== ''
                 ? "/person"
                 : "#"
             }
@@ -279,7 +279,7 @@ function Popup() {
               New Persona
             </button>
           </Link>
-        )}
+
 
 
 
