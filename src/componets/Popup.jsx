@@ -61,7 +61,7 @@ function Popup() {
         console.log('Row count:', rowCount);
     
         // Update state based on the asynchronous result
-        if (rowCount < 3) {
+        if (rowCount < 5) {
           const response = fetch(`https://alias-testing-130265f16331.herokuapp.com/create_agent?email=${email}&description=${description}&age=${age}&job=${occupation}`);
           try {
             console.log('Response:', response);
