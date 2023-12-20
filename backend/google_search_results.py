@@ -82,9 +82,12 @@ def get_words_in_batches(text):
     return batches
 
 def summarize_batches(text):
+   print("here")
    batches=get_words_in_batches(text)
+   print("batches made")
    finalstring=""
    for batch in batches: 
+    print("batchx")
     finalstring+=str(summarize(batch))
    return finalstring
 
