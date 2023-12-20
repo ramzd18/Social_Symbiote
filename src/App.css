@@ -864,12 +864,11 @@ p:after {
   border-radius: 15px;
   margin-right: 19px;
 }
-.mbuttonarea button.trans {
+.mbuttonarea button.customButton.transp {
   color: #777474;
   width: 149px;
   height: 39px;
   text-align: center;
-  font-family: Raleway;
   font-size: 16px;
   font-style: normal;
   font-weight: 425;

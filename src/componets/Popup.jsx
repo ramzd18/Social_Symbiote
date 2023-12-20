@@ -285,22 +285,7 @@ function Popup() {
             </button>
           </Link>
 
-
-
-
-        {/* <Link to={!isLoading && !isDisabled && age.trim() !== '' && occupation.trim() !== '' && description.trim() !== '' ? '/person' : '#'}>
-          <button className='customButton' disabled={isDisabled} title={isDisabled ? 'Max personas created' : undefined} onClick={() => { setButtonClicked(true); setLoading(true); handleNewPersonaClick(); }}>
-          {isLoading ? (
-          <CircularProgress size={24} color="inherit" />
-          ) : ( 
-            'New Persona'
-          )}
-          </button>
-        </Link>   */}
-
-
-
-      <button class='transp' onClick={clearInformation}>Clear Information</button>
+      <button class='customButton transp' onClick={clearInformation}>Clear Information</button>
     </div>
          </div>
          </div>
