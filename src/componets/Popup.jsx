@@ -61,18 +61,18 @@ function Popup() {
         console.log('Row count:', rowCount);
     
         // Update state based on the asynchronous result
-        if (rowCount < 3) {
+        if (rowCount < 5) {
           const response = fetch(`https://alias-testing-130265f16331.herokuapp.com/create_agent?email=${email}&description=${description}&age=${age}&job=${occupation}`);
           try {
             console.log('Response:', response);
             const checkCreate = () => {
-              fetch(`https://alias-testing-130265f16331.herokuapp.com/check?key=description`)
+              fetch(`https://alias-testing-130265f16331.herokuapp.com/check?key=${description}`)
                 .then(response => response.json())
                 .then(data => {
                   if (data && data.status === 'finished') {
                     setLoading(false);
                   } else {
-                    setLoading(true);
+                    // setLoading(true);
                     setTimeout(checkCreate, 10000);
                   }
                 })
@@ -257,37 +257,35 @@ function Popup() {
         </div>  
 
         <div className="mbuttonarea text-center">
-      {/* {!isLoading ? (
-        <Link
-          to={
-            !isDisabled && age.trim() !== '' && occupation.trim() !== '' && description.trim() !== ''
-              ? "/person"
-              : "#"
-          }
-        >
-          <button className='customButton' disabled={isDisabled} title={isDisabled ? 'Max personas created' : undefined} onClick={() => { setButtonClicked(true); setLoading(true); handleNewPersonaClick(); }}>New Persona</button>
-        </Link>
-      ) : (
-        <>
-          <button className='customButton' disabled={isDisabled} title={isDisabled ? 'Max personas created' : undefined} onClick={() => { setButtonClicked(true); setLoading(true); handleNewPersonaClick(); }}> 
-          {buttonClicked && isLoading && <CircularProgress size={24} color="inherit"/>}
-          New Persona</button> 
-        </>
-      )} */}
 
-        <Link to={!isLoading && !isDisabled && age.trim() !== '' && occupation.trim() !== '' && description.trim() !== '' ? '/person' : '#'}>
-          <button className='customButton' disabled={isDisabled} title={isDisabled ? 'Max personas created' : undefined} onClick={() => { setButtonClicked(true); setLoading(true); handleNewPersonaClick(); }}>
-          </button>
-          {isLoading ? (
-          <CircularProgress size={24} color="inherit" />
-          ) : ( 
-            'New Persona'
-          )}
-        </Link>  
+          <Link
+            to={
+              !isLoading && !isDisabled && age.trim() !== '' && occupation.trim() !== '' && description.trim() !== ''
+                ? "/person"
+                : "#"
+            }
+          >
+            <button
+              className='customButton'
+              disabled={isDisabled}
+              title={isDisabled ? 'Max personas created' : undefined}
+              onClick={() => {
+                setButtonClicked(true);
+                setLoading(true);
+                handleNewPersonaClick();
+              }}
+            >
+              {
+                isLoading && buttonClicked ? (
+                  <CircularProgress size={24} color="inherit" />
+                ) : (
+                  'New Persona'
+                )
+              }
+            </button>
+          </Link>
 
-
-
-      <button onClick={clearInformation}>Clear Information</button>
+      <button class='customButton transp' onClick={clearInformation}>Clear Information</button>
     </div>
          </div>
          </div>
