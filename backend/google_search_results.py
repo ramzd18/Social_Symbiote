@@ -63,10 +63,9 @@ def scrape_pages_list(urlslist):
   return final_text_list
       
 def summarize(text):
-  # summarizer = pipeline("summarization", model="Falconsai/text_summarization")
-  # text=summarizer(text, max_length=500, min_length=200, do_sample=False)
-  # return text[0]['summary_text']
-  return text[:500]
+  summarizer = pipeline("summarization", model="Falconsai/text_summarization")
+  text=summarizer(text, max_length=500, min_length=200, do_sample=False)
+  return text[0]['summary_text']
 
 def get_words_in_batches(text):
     text=str(text)
@@ -155,12 +154,13 @@ def scrape_and_summarize(urllist):
   newlist=[]
   print("thread")
   for text in urllist: 
+    text=str(text)
     print("scraping")
     text1=text
     print("change")
-    # if (len(text.split())>1500): 
-    #   print("if condition")
-    #   text1=text[:4000]
+    if (len(text.split())>1500): 
+      print("if condition")
+      text1=text[:4000]
     print("before call")
     newlist.append(summarize_batches(text1))
   return newlist
