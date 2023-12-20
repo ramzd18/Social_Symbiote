@@ -154,8 +154,11 @@ def scrape_and_summarize(urllist):
   for text in urllist: 
     print("scraping")
     text1=text
+    print("change")
     if (len(text.split())>1500): 
+      print("if condition")
       text1=text[:4000]
+    print("before call")
     newlist.append(summarize_batches(text1))
   return newlist
 
