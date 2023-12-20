@@ -116,9 +116,13 @@ def create_and_store_agent(description,age,job1):
   else: 
      tweets=[]
      likedtweets=[]
-
-  (user,coms,sums)= additionalredditmemories.determine_most_similair_redditor(interestslist,additionalredditmemories.get_common_subreddit_interestlist(interestslist))
-  (foms,fubs)=additionalredditmemories.gpt_redditor(user,coms,sums)
+  try:
+   (user,coms,sums)= additionalredditmemories.determine_most_similair_redditor(interestslist,additionalredditmemories.get_common_subreddit_interestlist(interestslist))
+   (foms,fubs)=additionalredditmemories.gpt_redditor(user,coms,sums)
+  except:
+   foms=[]
+   fubs=[]
+  
   # subredditslist= redditusers.get_commmon_subreddit(interestslist)
   # user= redditusers.get_users(interestslist,subredditslist)
   # comments= user[1]
@@ -179,9 +183,9 @@ def create_and_store_agent(description,age,job1):
   # big_url_list=big_url_list[:10]
 
   text_url_list=google_search_results.urls_to_summarizedtext(big_url_list)
-  results=[item for sublist in text_url_list for item in sublist]
+#   results=[item for sublist in text_url_list for item in sublist]
   # reduced_list = [results[i] +" New Article"+ results[i+1]+results[i+2]+results[i+4]+results[i+5] for i in range(0, len(results)-5, 5)]
-  totlist=agent.analysis_of_product(results)
+  totlist=agent.analysis_of_product(text_url_list)
   for mem in totlist: 
     if(isinstance(mem,str)):
       agent.memory.add_memory(mem)
