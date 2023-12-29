@@ -93,8 +93,22 @@ def final_name_age_occupation(description,age,job):
     return (age,job,status,product)
 
          
-      
-
+def interview_analysis(interviewdoc):
+    llm1 = ChatOpenAI(model_name='gpt-4',temperature=0.35)
+    def chain( prompt: PromptTemplate) -> LLMChain:
+        return LLMChain(
+            llm=llm1, prompt=prompt, verbose=False
+        )
+    
+    prompt = PromptTemplate.from_template(
+            """
+Here is a document which is a transcript of a user interview a company had with a person. It consists of a set of questions and corresponding anwser. Your job is to provide analysis of the interview.
+Here is the transcript document: {interview} .
+Now you will return analysis of this interivew. Make insightful observations based on the interview and provide important, useful information and analysis from the interview that will be useful for the comapny. Make your analysis strong.
+"""
+        )     
+    result=chain(prompt=prompt).run(interview=interviewdoc)  
+    return result
 
 # print(final_name_age_occupation("My target customer is a person who is looking forward to buying their first home and needs help and advice with the process",28,"Nurse"))
 

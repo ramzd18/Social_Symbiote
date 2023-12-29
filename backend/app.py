@@ -49,7 +49,7 @@ import json
 import CreateAgentFinal
 import os
 from concurrent.futures import ThreadPoolExecutor, wait
-from worker import conn
+from backend.screenshot import conn
 from app import agents_dict
 import json
 from flask import jsonify 
@@ -136,7 +136,7 @@ def market_make():
         response= agent.marketing_analysis(tagline,context)
         list=response.split(",")[:4]
         final=response.split("optimized_message")
-        last=final.split(':')[1]
+        last=final[1:]
         print("This is the actual list"+ str(list))
         actuallist=[]
         count=0; 

@@ -1,7 +1,7 @@
 from reddit import additionalredditmemories
 import load_agent_database
 import retrieve_agent
-
+import promptLLMmemories
 import json
 
 from langchain.chat_models import ChatOpenAI
@@ -33,28 +33,33 @@ import warnings
 # print(all_agents)
 
 # brendan=load_agent_database.LoadAgent('rbpeddu@gmail.com','chris')
-(jenna,gend,job)=CreateAgentFinal.create_and_store_agent("A first time home buyer looking to understand the market",28,"devops")
-print(jenna.generate_question_response("what do you think about the home buying process"))
-print(jenna.generate_question_response("what are your biggest problems with buying a home right now"))
-print(jenna.generate_question_response("what type of homes interest you"))
+# (jenna,gend,job)=CreateAgentFinal.create_and_store_agent("A first time home buyer looking to understand the market",28,"devops")
+# print(jenna.generate_question_response("what do you think about the home buying process"))
+# print(jenna.generate_question_response("what are your biggest problems with buying a home right now"))
+# print(jenna.generate_question_response("what type of homes interest you"))
+# def interview_analysis():
+  
+# list=retrieve_agent.get_all_agents('rbp94@cornell.edu')
+# for val1 in list:
+#   print(val1[0])
 
 
-# splitlist=google_search_results.split_list(results,3)
-# with ThreadPoolExecutor(max_workers=3) as executor:
-#     futures = [executor.submit(brendan.analysis_of_product, arg) for arg in splitlist]
-#     wait(futures)
-#     results1 = [future.result() for future in futures]
-# interests=chris.interests
-# print(interests)
-# memsresult=brendan.analysis_of_product(reduced_list)
+marlene=load_agent_database.LoadAgent('rbp94@cornell.edu','marlene')
+listquestions=["What is your job","What do you think are some of the biggest problems in your life right now","Where do you think a new product would make the most impact in your life.","What is your daily schedule like right now", "What are some things you wish you had more time for right now.","What are some companies or products you use a lot right now."]
+# for question in listquestions:
+#   print(marlene.generate_question_response(question))
+def generate_interviewdoc(agent,questions):
+  interviewdoc=""
+  for question in questions:
+    interviewdoc+=f"Question: {question}" 
+    response=agent.generate_question_response(question)
+    interviewdoc+=f"Anwser: {response}"
+  return interviewdoc
 
-# # memsresult= [element for sublist in results1 for element in sublist ]
-# # print("memsresult length"+ str(len(memsresult)))
-# for mem in memsresult: 
-#     print("25"+ mem)
-#     brendan.memory.add_memory(mem)
-
-
+interviews=generate_interviewdoc(marlene,listquestions)
+print(interviews)
+analysis=promptLLMmemories.interview_analysis(interviews)
+print(analysis)
 print("responses")
 # print(chris.generate_question_response("What are you primarily interested in"))
 # print(chris.generate_question_response("Where do you spend a lot of your money"))
