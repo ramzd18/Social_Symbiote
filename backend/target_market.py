@@ -80,3 +80,28 @@ def generate_age_names_market(list_of_market_tuples):
 testmarket= scrape_gpt_target_market(examplestr)
 ages= generate_age_names_market(testmarket)
 
+
+def generate_interviewdoc(agent,problem,product):
+  listquestions=["Tell me about yourself","What are some interests/hobbies you have and what do you like doing","Desribe your personality.",f"Do you think this problem: {problem} is a problem that you have", f"What are some pain points you might have with this problem: {problem}",f"Given this product:{product} can you think of any alternative comapnies and products you use. Desrcribe how you use these alternatives.",f"What are your thoughts about this product: {product}. Is it something you would use reguarly? Do you think it would be useful for you.",f"What are your biggest concerns about this product{product}. WHy might you not buy it? What worries you? What do you think could be a potential issue for you?"]
+  counter=0; 
+  contextdoc=""
+  interviewdoc=""
+  interviewlist=[]
+  for question in listquestions:
+    interviewdoc+=f"Question: {question}" 
+    response=agent.generate_question_response_interview(question,contextdoc)
+    interviewdoc+=f"Anwser: {response}"
+    interviewlist.append(response)
+    if counter>2: 
+      contextdoc+=f"Question: {question}" 
+      contextdoc+=f"Anwser: {response}"
+    counter+=1
+  dict={}
+  dict["Tell me about yourself"]=interviewlist[0]
+  dict["Interests & hobbies"]=interviewlist[1]
+  dict["Personality traits"]=interviewlist[2]
+  dict["Thoughts on problem"]=interviewlist[3]+"\n"+interviewlist[4]
+  dict["Thoughts on product"]=interviewlist[5]+"\n"+interviewlist[6]
+  dict["Concerns about product"]=interviewlist[7]
+
+  return interviewdoc

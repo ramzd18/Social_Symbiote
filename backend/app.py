@@ -12,6 +12,7 @@ import logging
 import os
 from flask_executor import Executor
 from concurrent.futures import ThreadPoolExecutor, wait
+from backend import target_market
 
 
 
@@ -154,3 +155,13 @@ def check_status():
         return {'status': 'finished'}
     else:
         return {'status': 'pending'}
+    
+
+@app.route('/interview')
+def interview():
+    problem=requests.args.get("problem").strip()
+    product=requests.args.get("product").strip()
+    agent=requests.args.get("agent").strip()
+    agentval=agents_dict[agent]
+    return target_market.generate_interviewdoc(agent,problem,product)
+    
