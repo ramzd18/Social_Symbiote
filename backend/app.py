@@ -13,7 +13,7 @@ import os
 from flask_executor import Executor
 from concurrent.futures import ThreadPoolExecutor, wait
 from backend import target_market
-
+import time
 
 
 app = Flask(__name__, static_folder='../build', static_url_path='/')
@@ -165,6 +165,10 @@ def interview():
     print("Starting")
     print("problem : "+ problem)
     print("product: "+ product)
-    agentval=agents_dict[agent]
-    return target_market.generate_interviewdoc(agent,problem,product)
+    try: 
+        agentval=agents_dict[agent]
+    except: 
+        time.sleep(2)
+        agentval=agents_dict[agent]
+    return target_market.generate_interviewdoc(agentval,problem,product)
     
