@@ -159,9 +159,9 @@ def check_status():
 
 @app.route('/interview')
 def interview():
-    problem=requests.args.get("problem").strip()
-    product=requests.args.get("product").strip()
-    agent=requests.args.get("agent").strip()
+    problem=request.args.get("problem").strip()
+    product=request.args.get("product").strip()
+    agent=request.args.get("agent").strip()
     print("Starting")
     print("problem : "+ problem)
     print("product: "+ product)
