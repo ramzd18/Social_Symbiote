@@ -11,6 +11,7 @@ import Popup from './componets/Popup';
 import Interviews from './componets/Interviews';
 import Interface from './componets/Interface';
 import Report from './componets/Report';
+import ReportPopup from './componets/ReportPopup';
 
 
 
@@ -31,6 +32,7 @@ function App() {
       <Route path='/interviews' element={ <Interviews/>}></Route>
       <Route path='/interface' element={  <Interface/>}></Route>
       <Route path='/reports' element={  <Report/>}></Route>
+      <Route path='/reportpopup' element={  <ReportPopup/>}></Route>
      
     
       

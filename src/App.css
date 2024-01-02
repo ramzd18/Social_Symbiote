@@ -952,7 +952,7 @@ p:after {
 
 .personcardpopup {
   width: 646px;
-  height: 357px;
+  height: 20%;
   border-radius: 10px;
   border: 1px solid #DADADA;
   max-width: 100%;
