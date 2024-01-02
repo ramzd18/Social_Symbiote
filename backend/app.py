@@ -159,6 +159,9 @@ def check_status():
 
 @app.route('/interview')
 def interview():
+    for key in agents_dict:
+        print("loop")
+        print(key)
     problem=request.args.get("problem").strip()
     product=request.args.get("product").strip()
     agent=request.args.get("agent").strip()
