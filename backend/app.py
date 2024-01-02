@@ -162,6 +162,9 @@ def interview():
     problem=requests.args.get("problem").strip()
     product=requests.args.get("product").strip()
     agent=requests.args.get("agent").strip()
+    print("Starting")
+    print("problem : "+ problem)
+    print("product: "+ product)
     agentval=agents_dict[agent]
     return target_market.generate_interviewdoc(agent,problem,product)
     
