@@ -170,5 +170,7 @@ def interview():
     except: 
         time.sleep(2)
         agentval=agents_dict[agent]
-    return target_market.generate_interviewdoc(agentval,problem,product)
+    targetdict=target_market.generate_interviewdoc(agentval,problem,product)
+    initialized[problem+product]='finished'
+    return targetdict
     
