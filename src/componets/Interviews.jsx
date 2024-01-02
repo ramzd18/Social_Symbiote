@@ -35,7 +35,8 @@ function Interviews() {
         sessionStorage.setItem('selectedAgentName', name);
         sessionStorage.setItem('selectedAgentGender', agentGenders[agentNames.indexOf(name)]);
         sessionStorage.setItem('selectedAgentPic', agentPics[agentNames.indexOf(name)]);
-        //sessionStorage.setItem('selectedAgentAge', agentAges[agentNames.indexOf(name)]) etc for age and career then add get Agent
+        sessionStorage.setItem('selectedAgentAge', agentAges[agentNames.indexOf(name)]); 
+        sessionStorage.setItem('selectedAgentJob', agentJobs[agentNames.indexOf(name)]); 
         console.log('selectedAgentName', sessionStorage.getItem('selectedAgentName'));
         console.log(sessionStorage.getItem('selectedAgentGender'));
         console.log(sessionStorage.getItem('selectedAgentPic'));
@@ -131,34 +132,63 @@ function Interviews() {
         })
         .catch((error) => console.error('Error:', error));
 
-        // fetch(`https://alias-node-9851227f2446.herokuapp.com/getAgentAge`, {
-        //     method: 'POST',
-        //     headers: {
-        //     'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify({ email: userObject.email }), // Ensure the body is an object
-        // })
-        // .then((response) => response.json()) // Try parsing response as JSON
-        // .then((data) => {
-        //     {/* console.log('Response:', data.name); // Log the full response
-        //     setAgentName(data.name);
-        //     */}
-        //     if (data.ages) {
-        //         console.log('Multiple ages:', data.ages);
-        //         // Store the array in the state or variable
-        //         setAgentAges(data.ages);
-        //         setAgentAge('');
-        //     } else if (data.age) {
-        //         console.log('Single Age:', data.age);
-        //         // Handle a single name separately
-        //         setAgentAge(data.age);
-        //         setAgentAges([]);
-        //     } else {
-        //         console.error('Error:', data); // Log any unexpected response
-        //     }
-        //     // ... rest of your code
-        // })
-        // .catch((error) => console.error('Error:', error));
+        fetch(`https://alias-node-9851227f2446.herokuapp.com/getAgentAge`, {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email: userObject.email }), // Ensure the body is an object
+        })
+        .then((response) => response.json()) // Try parsing response as JSON
+        .then((data) => {
+            {/* console.log('Response:', data.name); // Log the full response
+            setAgentName(data.name);
+            */}
+            if (data.ages) {
+                console.log('Multiple ages:', data.ages);
+                // Store the array in the state or variable
+                setAgentAges(data.ages);
+                setAgentAge('');
+            } else if (data.age) {
+                console.log('Single Age:', data.age);
+                // Handle a single name separately
+                setAgentAge(data.age);
+                setAgentAges([]);
+            } else {
+                console.error('Error:', data); // Log any unexpected response
+            }
+            // ... rest of your code
+        })
+        .catch((error) => console.error('Error:', error));
+
+        fetch(`https://alias-node-9851227f2446.herokuapp.com/getAgentJob`, {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email: userObject.email }), // Ensure the body is an object
+        })
+        .then((response) => response.json()) // Try parsing response as JSON
+        .then((data) => {
+            {/* console.log('Response:', data.name); // Log the full response
+            setAgentName(data.name);
+            */}
+            if (data.jobs) {
+                console.log('Multiple jobs:', data.jobs);
+                // Store the array in the state or variable
+                setAgentAges(data.jobs);
+                setAgentAge('');
+            } else if (data.job) {
+                console.log('Single job:', data.job);
+                // Handle a single name separately
+                setAgentAge(data.job);
+                setAgentAges([]);
+            } else {
+                console.error('Error:', data); // Log any unexpected response
+            }
+            // ... rest of your code
+        })
+        .catch((error) => console.error('Error:', error));
 
 
         fetch(`https://alias-node-9851227f2446.herokuapp.com/getAgentLastInterview`, {
@@ -240,11 +270,7 @@ function Interviews() {
                             </div>
                         </div>
                         <Link to="/reportpopup" onClick={() => handleInterviewClick(name)}>
-                            <button>New Interview</button>
-                        </Link>
-
-                        <Link to="/reports" onClick={() => handleInterviewClick(name)}>
-                            <button class='buttontwo'>View Interview</button>
+                            <button>Open Interview</button>
                         </Link>
                     </div>
                 ))}
