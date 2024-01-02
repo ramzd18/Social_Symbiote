@@ -24,35 +24,107 @@ function ReportPopup () {
               return;
             }
 
-            const response = fetch(`https://alias-testing-130265f16331.herokuapp.com/interview?agent=${selectedAgentName}&problem=${problem}&product=${product}`);
-            try {
-                console.log('Response:', response);
-                const checkCreate = () => {
-                  fetch(`https://alias-testing-130265f16331.herokuapp.com/check?key=${product}`)
-                    .then(response => response.json())
-                    .then(data => {
-                      if (data && data.status === 'finished') {
-                        setLoading(false);
-                      } else {
-                        // setLoading(true);
-                        setTimeout(checkCreate, 10000);
-                      }
-                    })
-                    .catch((error) => {
-                      console.error('Error:', error);
-                    });
-                };
+            const interviewResponse = await fetch(`https://alias-testing-130265f16331.herokuapp.com/interview?agent=${selectedAgentName}&problem=${problem}&product=${product}`);
+            const responseData = await interviewResponse.json();
+
+            console.log('Response:', responseData);
+
+            const checkCreate = () => {
+                fetch(`https://alias-testing-130265f16331.herokuapp.com/check?key=${product}`)
+                  .then(response => response.json())
+                  .then(data => {
+                    if (data && data.status === 'finished') {
+                      setLoading(false);
+          
+                      // Add report to PostgreSQL
+                      fetch('https://alias-node-9851227f2446.herokuapp.com/add-report', {
+                        method: 'POST',
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                          report: responseData,
+                        }),
+                      })
+                        .then(response => {
+                          if (response.ok) {
+                            console.log('New report added successfully to PostgreSQL');
+                          } else {
+                            console.error('Failed to add new report to PostgreSQL');
+                          }
+                        })
+                        .catch(error => {
+                          console.error('Error while adding new report to PostgreSQL:', error);
+                        });
+                    } else {
+                      // setLoading(true);
+                      setTimeout(checkCreate, 10000);
+                    }
+                  })
+                  .catch((error) => {
+                    console.error('Error:', error);
+                  });
+              };
+          
+              // Start the recursive call
+              checkCreate();
+            } catch (error) {
+              console.error('Error creating report:', error);
+            }
+
+          
+          // Call the fetchInterview function
+
+        //     try {
+        //         console.log('Response:', response);
+        //         const checkCreate = () => {
+        //           fetch(`https://alias-testing-130265f16331.herokuapp.com/check?key=${product}`)
+        //             .then(response => response.json())
+        //             .then(data => {
+        //               if (data && data.status === 'finished') {
+        //                 setLoading(false);
+        //               } else {
+        //                 // setLoading(true);
+        //                 setTimeout(checkCreate, 10000);
+        //               }
+        //             })
+        //             .catch((error) => {
+        //               console.error('Error:', error);
+        //             });
+        //         };
     
-                // Start the recursive call
-                checkCreate();
-              }
-              catch (error) {
-                console.error('Error creating report:', error);
-              } 
-            } 
-          catch (error) {
-            console.error('Error:', error);
-          }
+        //         // Start the recursive call
+        //         checkCreate();
+
+        //         fetch('https://alias-node-9851227f2446.herokuapp.com/add-report', {
+        //             method: 'POST',
+        //             headers: {
+        //             'Content-Type': 'application/json',
+        //             },
+        //             body: JSON.stringify({
+        //                 report: response
+        //             }),
+        //         })
+        //             .then(response => {
+        //             if (response.ok) {
+        //                 console.log('New report added successfully to postgres');
+        //                 // Ensure loading indicator is turned off after completion
+        //             } else {
+        //                 console.error('Failed to add new report to postfres');
+        //             }
+        //             })
+        //             .catch(error => {
+        //             console.error('Error while adding new report to postgres:', error);
+        //             }); 
+
+        //       }
+        //       catch (error) {
+        //         console.error('Error creating report:', error);
+        //       } 
+        //     } 
+        //   catch (error) {
+        //     console.error('Error:', error);
+        //   }
     }
 
     const handleNewReportClick = async () => {

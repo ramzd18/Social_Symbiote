@@ -11,7 +11,7 @@ const jwt = require('jsonwebtoken');
 
 
 const app = express();
-const port =  process.env.PORT ||5433;
+const port =  process.env.PORT || 5433;
 app.set('port', port);
 
 const corsOptions = {
@@ -486,9 +486,25 @@ app.post('/getConversation', async (req, res) => {
     }
   });
 
+  app.post('/add-report', async (req, res) => {
+    const { report } = req.body;
   
-  
+    try {
+      const query = `
+        INSERT INTO user_agents_info (report)
+        VALUES ($1)
+      `;
+      await pool.query(query, [report]);
+      
+      res.status(200).json({ message: 'Report added successfully' });
+    } catch (error) {
+      res.status(500).json({ error: 'Error occurred while adding report' });
+    }
+  });
 
+
+
+  
 
   app.listen(port, () => {
     console.log("app is listening at http://%s:%s", port);
