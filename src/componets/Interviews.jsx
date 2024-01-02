@@ -272,6 +272,7 @@ function Interviews() {
                         <Link to="/reportpopup" onClick={() => handleInterviewClick(name)}>
                             <button>Open Interview</button>
                         </Link>
+                        
                     </div>
                 ))}
              
