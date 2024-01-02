@@ -647,6 +647,225 @@ p:after {
   margin-bottom: 30px;
 }
 
+.big-inner-reports {
+  padding: 2rem;
+  width: 100rem;
+  max-width: 100%;
+  border-radius: 10px;
+  border: 1px solid #DADADA;
+  background: #FFF;
+
+  max-height: 75%;
+}
+
+.reportbutton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+}  
+
+.reportbutton button {
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 15px;
+  border: 1px solid #DADADA;
+  background: #F4F4F4;
+  margin-top: -20px;
+  color: #777474;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.reportbutton button:hover {
+  background-color: #7E8FE7;
+  border: none;
+  color: #fff;
+  padding: 1rem 2rem;
+  border-radius: 15px;
+  margin-top: -20px;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.int {
+  display: flex;
+  align-items: center;
+}
+
+.int .intimg {
+  margin-left: 1.5rem;
+  margin-top: 5px;
+  margin-bottom: 20px;
+  margin-right: 30px;
+  width: 24px; /* Original width */
+  height: 24px; /* Original height */
+  transform: scale(2.5); /* Scaling factor - Adjust as needed */
+
+}
+
+
+
+.inttext h4 {
+  color: #000;
+  text-align: left;
+  font-size: 20px;
+  font-weight: 644;
+  font-style: normal;
+  line-height: normal;
+}
+
+.inttext p {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.subhead {
+  margin-top: -50px;
+  align-items: center;
+  margin-left: 70px;
+  width: 92%
+}
+
+.subhead h5 {
+  font-size: 1.6rem;
+  font-weight: 644;
+}
+
+.subhead p {
+  font-size: 1.6rem;
+  font-weight: 500;
+}
+
+.subheadtwo {
+  margin-top: 30px;
+  margin-left: 70px;
+  width: 92%;
+  display: flex;
+  flex-direction: row;
+
+}
+
+.subheadtwo div {
+  flex: 1;
+}  
+
+.subheadtwo h5 {
+  font-size: 1.6rem;
+  font-weight: 644;
+
+
+}
+
+.subheadtwo ul {
+
+  font-size: 1.6rem;
+  font-weight: 500;
+}
+
+.subheadthree {
+  margin-top: 23px;
+  align-items: center;
+  margin-left: 70px;
+  width: 92%
+}
+
+.subheadthree h5 {
+  font-size: 1.6rem;
+  font-weight: 644;
+}
+
+.subheadthree p {
+  font-size: 1.6rem;
+  font-weight: 500;
+}
+
+.subheadfour {
+  margin-top: 30px;
+  align-items: center;
+  margin-left: 70px;
+  width: 92%
+}
+
+.subheadfour h5 {
+  font-size: 1.6rem;
+  font-weight: 644;
+}
+
+.subheadfour p {
+  font-size: 1.6rem;
+  font-weight: 500;
+}
+
+.subheadfive {
+  margin-top: 30px;
+  align-items: center;
+  margin-left: 70px;
+  width: 92%
+}
+
+.subheadfive h5 {
+  font-size: 1.6rem;
+  font-weight: 644;
+}
+
+.subheadfive p {
+  font-size: 1.6rem;
+  font-weight: 500;
+}
+
+.subheadsix {
+  margin-top: 30px;
+  margin-left: 70px;
+  width: 92%;
+  display: flex;
+  flex-direction: row;
+
+}
+
+.subheadsix div {
+  flex: 1;
+}  
+
+.subheadsix h5 {
+  font-size: 1.6rem;
+  font-weight: 644;
+
+
+}
+
+.subheadsix ul {
+
+  font-size: 1.6rem;
+  font-weight: 500;
+}
+
+.sum {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-top: 30px;
+}
+
+.sum h5 {
+  font-size: 1.6rem;
+  font-weight: 644;
+}
+
+.sum p {
+  font-size: 1.6rem;
+  font-weight: 500;
+}
+
+
+
+
+
 .big-inners button {
   background-color: #DADADA;
 }
@@ -733,7 +952,7 @@ p:after {
 
 .personcardpopup {
   width: 646px;
-  height: 357px;
+  height: 20%;
   border-radius: 10px;
   border: 1px solid #DADADA;
   max-width: 100%;
