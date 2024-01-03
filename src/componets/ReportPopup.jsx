@@ -33,8 +33,11 @@ function ReportPopup() {
         alert('Please fill in all the fields to create a new persona.');
         return;
       }
+      console.log("Is it reaching here")
       console.log("User email", userObject.email)
-      const interviewResponse = await fetch(`https://alias-testing-130265f16331.herokuapp.com/interview?agent=${selectedAgentName}&email=${userObject.email}&problem=${problem}&product=${product}`);
+      const email = JSON.stringify({ email: userObject.email })
+      console.log("email")
+      const interviewResponse = await fetch(`https://alias-testing-130265f16331.herokuapp.com/interview?agent=${selectedAgentName}&email=${'rbp94@cornell.edu'}&problem=${problem}&product=${product}`);
       const responseData = await interviewResponse.json();
 
       console.log('Response:', responseData);
