@@ -185,14 +185,15 @@ def interview():
     problem=request.args.get("problem").strip()
     product=request.args.get("product").strip()
     agent=request.args.get("agent").strip()
+    email=request.args.get("email").strip()
     print("Starting")
     print("problem : "+ problem)
     print("product: "+ product)
     try: 
         agentval=agents_dict[agent]
     except: 
-        time.sleep(2)
-        agentval=agents_dict[agent]
+        # time.sleep(2)
+        agentval=load_agent_database.LoadAgent(email,agent)
     executor.submit(interviewdoc,agentval,problem,product)
     # targetdict=target_market.generate_interviewdoc(agentval,problem,product)
     # initialized[problem+product]='finished'

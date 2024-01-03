@@ -10,6 +10,16 @@ function ReportPopup() {
   const [isLoading, setLoading] = useState(true);
   const [buttonClicked, setButtonClicked] = useState(false);
   const selectedAgentName = sessionStorage.getItem('selectedAgentName');
+  const token = sessionStorage.getItem('token');
+  console.log(token)
+
+  const decoded = jwtDecode(token);
+  console.log(decoded);
+  // Now you can access the user data in the decoded object
+
+
+  const { user: userObject } = decoded;
+  console.log(userObject);
 
   const clearInformation = () => {
     setProblem('');
@@ -24,7 +34,7 @@ function ReportPopup() {
         return;
       }
 
-      const interviewResponse = await fetch(`https://alias-testing-130265f16331.herokuapp.com/interview?agent=${selectedAgentName}&problem=${problem}&product=${product}`);
+      const interviewResponse = await fetch(`https://alias-testing-130265f16331.herokuapp.com/interview?agent=${selectedAgentName}&email=${userObject.email}&problem=${problem}&product=${product}`);
       const responseData = await interviewResponse.json();
 
       console.log('Response:', responseData);
