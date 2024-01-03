@@ -33,7 +33,7 @@ function ReportPopup() {
         alert('Please fill in all the fields to create a new persona.');
         return;
       }
-
+      console.log("User email", userObject.email)
       const interviewResponse = await fetch(`https://alias-testing-130265f16331.herokuapp.com/interview?agent=${selectedAgentName}&email=${userObject.email}&problem=${problem}&product=${product}`);
       const responseData = await interviewResponse.json();
 
