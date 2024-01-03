@@ -125,7 +125,7 @@ def determine_most_similair_redditor(interestlist,authorlist):
           submissions_list=submissions_text
   return (max_user,comments_list,submissions_list)
 
-def gpt_redditor(max_user,comments,submissions): 
+def gpt_redditor(max_user,comments,submissions,agent): 
    reddit = praw.Reddit(client_id='nj0rg_lxJnxtu-h2gE_1rw',
                           client_secret='jGGnaaNdZq7aJRPax2qJkVwPs5lTWw',
                           user_agent='desktop:com.example.myredditapp:v1.2.3 (by u/Rpeddu)',
@@ -135,21 +135,22 @@ def gpt_redditor(max_user,comments,submissions):
    commentes_text= redditor.comments.new(limit=150)
    sorted_comments=sorted(commentes_text, key=lambda comment: len(comment.body), reverse=True)
    sorted_submissions= sorted(submissions_text,key=lambda submit: len(submit.title), reverse=True)
-   first100comments=sorted_comments[:50]
-   first100submissions=sorted_submissions[:50]
+   first100comments=sorted_comments[:75]
+  #  first100submissions=sorted_submissions[:50]
 
    index=0
    for comment in first100comments: 
       first100comments[index]="Title of post:"+comment.submission.title+" How person responded: "+ comment.body
       print(index)
+      agent.memory.add_socialmedia_memory(first100comments[index])
       index=index+1
    sindex=0
-   for submit in first100submissions:
-      first100submissions[sindex]=submit.title
-      print(sindex)
-      sindex=sindex+1
+  #  for submit in first100submissions:
+  #     first100submissions[sindex]=submit.title
+  #     print(sindex)
+  #     sindex=sindex+1
 
-   return(first100comments,first100submissions)
+   return(first100comments,agent)
 # def prompt_gpt_reddit(comments): 
 #   comments=str(comments)
 #   llm = OpenAI(openai_api_key='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')
