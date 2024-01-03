@@ -107,13 +107,15 @@ def create_database_agent(email,job,description,age):
         initialized[description]="true"
         return "true"
 
-def interviewdoc(agentval,problem,product): 
+def interviewdoc(agentval,problem,product,agent): 
     targetdict=target_market.generate_interviewdoc(agentval,problem,product)
     print("FINSIHED INTERVEIWING")
     print("FINSIHED INTERVEIWING")
     print("FINSIHED INTERVEIWING")
-    print(problem+agentval)
-    initialized[product+agentval]=targetdict
+    print("BEFORE PRINTING")
+    print(problem+agent)
+    print("AFTER PRINTING")
+    initialized[product+agent]=targetdict
     return "Completed"
 
 @app.errorhandler(404)   
@@ -194,7 +196,7 @@ def interview():
     except: 
         # time.sleep(2)
         agentval=load_agent_database.LoadAgent(email,agent)
-    executor.submit(interviewdoc,agentval,problem,product)
+    executor.submit(interviewdoc,agentval,problem,product,agent)
     # targetdict=target_market.generate_interviewdoc(agentval,problem,product)
     # initialized[problem+product]='finished'
     return {'status':'finsihed'}
