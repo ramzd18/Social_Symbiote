@@ -107,10 +107,10 @@ def create_database_agent(email,job,description,age):
         initialized[description]="true"
         return "true"
 
-# def interviewdoc(agentval,problem,product): 
-#     targetdict=target_market.generate_interviewdoc(agentval,problem,product)
-#     initialized[problem+product]=targetdict
-#     return "Completed"
+def interviewdoc(agentval,problem,product): 
+    targetdict=target_market.generate_interviewdoc(agentval,problem,product)
+    initialized[problem+product]=targetdict
+    return "Completed"
 
 @app.errorhandler(404)   
 def not_found(e):   
@@ -162,7 +162,7 @@ def check_status():
         return {'status': 'pending'}
     
 @app.route('/checkval')
-def check_status():
+def check_status1():
     print(len(initialized))
     key= request.args.get("key")
     if  initialized.__contains__(key):
@@ -189,9 +189,9 @@ def interview():
     except: 
         time.sleep(2)
         agentval=agents_dict[agent]
-    executor.submit(target_market.generate_interviewdoc,agentval,problem,product)
-    targetdict=target_market.generate_interviewdoc(agentval,problem,product)
-    initialized[problem+product]='finished'
+    executor.submit(interviewdoc,agentval,problem,product)
+    # targetdict=target_market.generate_interviewdoc(agentval,problem,product)
+    # initialized[problem+product]='finished'
     return {'status':'finsihed'}
     
 
