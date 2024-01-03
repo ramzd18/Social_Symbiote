@@ -88,6 +88,7 @@ def generate_interviewdoc(agent,problem,product):
   interviewdoc=""
   interviewlist=[]
   for question in listquestions:
+    print("question iteration")
     interviewdoc+=f"Question: {question}" 
     response=agent.generate_question_response_interview(question,contextdoc)
     interviewdoc+=f"Anwser: {response}"

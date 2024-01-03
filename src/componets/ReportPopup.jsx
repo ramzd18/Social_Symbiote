@@ -31,12 +31,14 @@ function ReportPopup() {
 
       const checkCreate = () => {
         const checkkey = product + selectedAgentName
+        console.log(checkkey)
         fetch(`https://alias-testing-130265f16331.herokuapp.com/check?key=${checkkey}`)
           .then(response => response.json())
           .then(data => {
             if (data && data.status === 'finished') {
               setLoading(false);
               const reportdata = fetch(`https://alias-testing-130265f16331.herokuapp.com/checkval?key=${checkkey}`)
+              console.log("report data complete")
                 .then(response => response.json())
 
               // Add report to PostgreSQL

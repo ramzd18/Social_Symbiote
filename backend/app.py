@@ -109,6 +109,10 @@ def create_database_agent(email,job,description,age):
 
 def interviewdoc(agentval,problem,product): 
     targetdict=target_market.generate_interviewdoc(agentval,problem,product)
+    print("FINSIHED INTERVEIWING")
+    print("FINSIHED INTERVEIWING")
+    print("FINSIHED INTERVEIWING")
+
     initialized[problem+product]=targetdict
     return "Completed"
 
