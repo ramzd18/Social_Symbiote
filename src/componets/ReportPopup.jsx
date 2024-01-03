@@ -31,7 +31,7 @@ function ReportPopup() {
 
       const checkCreate = () => {
         const checkkey = product + selectedAgentName
-        console.log(checkkey)
+        console.log("Checking for key", checkkey)
         fetch(`https://alias-testing-130265f16331.herokuapp.com/check?key=${checkkey}`)
           .then(response => response.json())
           .then(data => {
