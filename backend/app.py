@@ -113,7 +113,7 @@ def interviewdoc(agentval,problem,product):
     print("FINSIHED INTERVEIWING")
     print("FINSIHED INTERVEIWING")
     print(problem+agentval)
-    initialized[problem+agentval]=targetdict
+    initialized[product+agentval]=targetdict
     return "Completed"
 
 @app.errorhandler(404)   
