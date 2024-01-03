@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import LeftSidebarinterviews from './Leftsidebarinterviews'
 import CircularProgress from '@mui/material/CircularProgress';
+import { jwtDecode } from "jwt-decode";
 
 function ReportPopup() {
   const [problem, setProblem] = useState('');
@@ -17,7 +18,7 @@ function ReportPopup() {
   console.log(decoded);
   // Now you can access the user data in the decoded object
 
-
+  console.log("HERERERERERERERE")
   const { user: userObject } = decoded;
   console.log(userObject);
 
