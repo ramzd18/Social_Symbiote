@@ -28,10 +28,11 @@ function ReportPopup() {
       const responseData = await interviewResponse.json();
 
       console.log('Response:', responseData);
-
+      const checkkey = product + selectedAgentName
+      console.log("Checking for key", checkkey)
       const checkCreate = () => {
-        const checkkey = product + selectedAgentName
-        console.log("Checking for key", checkkey)
+        // const checkkey = product + selectedAgentName
+        // console.log("Checking for key", checkkey)
         fetch(`https://alias-testing-130265f16331.herokuapp.com/check?key=${checkkey}`)
           .then(response => response.json())
           .then(data => {
