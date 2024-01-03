@@ -38,7 +38,7 @@ function ReportPopup() {
       console.log("User email", userObject.email)
       const email = JSON.stringify({ email: userObject.email })
       console.log("email")
-      const interviewResponse = await fetch(`https://alias-testing-130265f16331.herokuapp.com/interview?agent=${selectedAgentName}&email=${'rbp94@cornell.edu'}&problem=${problem}&product=${product}`);
+      const interviewResponse = await fetch(`https://alias-testing-130265f16331.herokuapp.com/interview?agent=${selectedAgentName}&email=${userObject.email}&problem=${problem}&product=${product}`);
       const responseData = await interviewResponse.json();
 
       console.log('Response:', responseData);
