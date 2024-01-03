@@ -36,6 +36,8 @@ function ReportPopup() {
           .then(data => {
             if (data && data.status === 'finished') {
               setLoading(false);
+              const reportdata = fetch(`https://alias-testing-130265f16331.herokuapp.com/checkval?key=${checkkey}`)
+                .then(response => response.json())
 
               // Add report to PostgreSQL
               fetch('https://alias-node-9851227f2446.herokuapp.com/add-report', {
@@ -44,7 +46,7 @@ function ReportPopup() {
                   'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                  report: responseData,
+                  report: reportdata,
                 }),
               })
                 .then(response => {
