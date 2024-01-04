@@ -53,39 +53,39 @@ function ReportPopup() {
             if (data && data.status === 'finished') {
             //   const reportdata = fetch(`https://alias-testing-130265f16331.herokuapp.com/checkval?key=${checkkey}`)
             //   console.log("report data complete")
-            fetch(`https://alias-testing-130265f16331.herokuapp.com/checkval?key=${checkkey}`)
-                .then(reportResponse => reportResponse.json())
-                .then(reportdata => {
-                console.log("report data complete");
+                fetch(`https://alias-testing-130265f16331.herokuapp.com/checkval?key=${checkkey}`)
+                    .then(reportResponse => reportResponse.json())
+                    .then(reportdata => {
+                        console.log("report data complete");
 
-              // Add report to PostgreSQL
-                fetch('https://alias-node-9851227f2446.herokuapp.com/add-report', {
-                    method: 'POST',
-                    headers: {
-                    'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                    report: reportdata,
-                    }),
-                })
-                .then(response => {
-                    if (response.ok) {
-                    console.log('New report added successfully to PostgreSQL');
-                    } else {
-                    console.error('Failed to add new report to PostgreSQL');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error while adding new report to PostgreSQL:', error);
-                })
-                .finally(() => {
-                    setLoading(false);
-                });
-                })
-                .catch(error => {
-                    console.error('Error fetching report data:', error);
-                    setLoading(false); // Ensure to stop loading even in case of an error
-                  });
+                    // Add report to PostgreSQL
+                        fetch('https://alias-node-9851227f2446.herokuapp.com/add-report', {
+                            method: 'POST',
+                            headers: {
+                            'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                            report: reportdata,
+                            }),
+                        })
+                        .then(response => {
+                            if (response.ok) {
+                            console.log('New report added successfully to PostgreSQL');
+                            } else {
+                            console.error('Failed to add new report to PostgreSQL');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error while adding new report to PostgreSQL:', error);
+                        })
+                        .finally(() => {
+                            setLoading(true);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching report data:', error);
+                        setLoading(false); // Ensure to stop loading even in case of an error
+                    });
             } else {
               // setLoading(true);
               setTimeout(checkCreate, 10000);
