@@ -502,6 +502,44 @@ app.post('/getConversation', async (req, res) => {
     }
   });
 
+  app.post('/get-report', async (req, res) => {
+    const { name, personEmail } = req.body;
+  
+    try {
+      const { rows } = await pool.query('SELECT report FROM user_agents_info WHERE name = $1 AND personemail = $2', [name, personEmail]);
+  
+      if (rows.length > 0) {
+        console.log('Fetched report:', rows[0].report);
+        res.status(200).json({ messages: JSON.parse(rows[0].report) });
+      } else {
+        console.log('No report found for:', name, personEmail);
+        res.status(404).json({ message: 'No report found' });
+      }
+    } catch (error) {
+      console.error('Error fetching conversation from the database:', error);
+      res.status(500).json({ message: 'Error fetching conversation from the database' });
+    }
+  });
+
+  app.get('/check-reports', async (req, res) => {
+    const { personEmail } = req.query;
+    console.log('personEmailpopup', personEmail);
+  
+    try {
+      const query = 'SELECT COUNT(*) AS rowCount FROM user_agents_info WHERE personemail = $1';
+      const result = await pool.query(query, [personEmail]);
+
+      console.log('result', result);
+      
+      const rowCount = result.rows[0].rowcount;
+      console.log('rowCount', rowCount);
+  
+      res.json({ rowCount });
+    } catch (error) {
+      res.status(500).json({ error: 'Error occurred while fetching row count' });
+    }
+  });
+
 
 
   

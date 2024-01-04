@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import LeftSidebarinterviews from './Leftsidebarinterviews'
+import { jwtDecode } from "jwt-decode";
 
 function Report() {
     const selectedAgentName = sessionStorage.getItem('selectedAgentName');
@@ -8,6 +9,27 @@ function Report() {
     const selectedAgentGender = sessionStorage.getItem('selectedAgentGender');
     const selectedAgentAge = sessionStorage.getItem('selectedAgentAge');
     const selectedAgentJob = sessionStorage.getItem('selectedAgentJob');
+    const [reportFinal, setReportFinal] = useState([])
+
+    const token = sessionStorage.getItem('token');
+    const decoded = jwtDecode(token);
+    const { user: userObject } = decoded;
+    console.log(userObject);
+
+    useEffect(() => {
+        fetch(`https://alias-node-9851227f2446.herokuapp.com/get-report`, {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name: selectedAgentName, personEmail: userObject.email }), // Ensure the body is an object
+        })
+        .then((response) => response.json()) // Try parsing response as JSON
+        .then((data) => {
+            setReportFinal(data)
+        })
+        .catch((error) => console.error('Error:', error));
+    }, []);
 
 
 return (
@@ -26,15 +48,20 @@ return (
                             <img src={`${process.env.PUBLIC_URL}/avatars/M/1.svg`} alt="" />
                         </div>
                         <div className="inttext">
-                            {/* <h4>{selectedAgentName}</h4> */}
-                            <h4>Chris Lopez</h4>
-                            {/* <p>{selectedAgentAge} yrs - {selectedAgentJob}</p> */}
-                            <p>20 yrs - Software Engineer</p>
+                            <h4>{selectedAgentName}</h4>
+                            {/* <h4>Chris Lopez</h4> */}
+                            <p>{selectedAgentAge} yrs - {selectedAgentJob}</p>
+                            {/* <p>20 yrs - Software Engineer</p> */}
                         </div>
                     </div>
                     <div className="subhead">
                         <h5>About me</h5>
-                        <p>I am a Gen Z recent college graduate living in New York City. I work in software engineering and earn above $200,000/yr. I’m originally from Chicago and attended Cornell.</p>
+                        {/* <p>I am a Gen Z recent college graduate living in New York City. I work in software engineering and earn above $200,000/yr. I’m originally from Chicago and attended Cornell.</p> */}
+                        {reportFinal.length > 0 ? (
+                        <p>{reportFinal["Tell me about yourself"]}</p>
+                        ) : (
+                        <p>No report available</p>
+                        )}
                     </div>
                     <div className="subheadtwo">
                         <div>
@@ -58,18 +85,33 @@ return (
                     </div>
                     <div className="subheadthree">
                         <h5>Pain points</h5>
-                        <p>I am a Gen Z recent college graduate living in New York City. I work in software engineering and earn above $200,000/yr. I’m originally from Chicago and attended Cornell.</p>
+                        {/* <p>I am a Gen Z recent college graduate living in New York City. I work in software engineering and earn above $200,000/yr. I’m originally from Chicago and attended Cornell.</p> */}
+                        {reportFinal.length > 0 ? (
+                        <p>{reportFinal["Thoughts on problem"]}</p>
+                        ) : (
+                        <p>No report available</p>
+                        )}
                     </div>
 
                     <div className="subheadfour">
                         <h5>Analysis of your competitors</h5>
-                        <p>I am a Gen Z recent college graduate living in New York City. I work in software engineering and earn above $200,000/yr. I’m originally from Chicago and attended Cornell.</p>
+                        {/* <p>I am a Gen Z recent college graduate living in New York City. I work in software engineering and earn above $200,000/yr. I’m originally from Chicago and attended Cornell.</p> */}
+                        {reportFinal.length > 0 ? (
+                        <p>{reportFinal["Thoughts on product"]}</p>
+                        ) : (
+                        <p>No report available</p>
+                        )}
                     </div>
 
 
                     <div className="subheadfive">
                         <h5>Thoughts on your product</h5>
-                        <p>I am a Gen Z recent college graduate living in New York City. I work in software engineering and earn above $200,000/yr. I’m originally from Chicago and attended Cornell.</p>
+                        {/* <p>I am a Gen Z recent college graduate living in New York City. I work in software engineering and earn above $200,000/yr. I’m originally from Chicago and attended Cornell.</p> */}
+                        {reportFinal.length > 0 ? (
+                        <p>{reportFinal["Thoughts on product"]}</p>
+                        ) : (
+                        <p>No report available</p>
+                        )}
                     </div>
 
                     <div className="subheadsix">
@@ -95,12 +137,12 @@ return (
                         <h5>Summary</h5>
                        
                     </div>
-{/* 
-                    <Link to="/interface" onClick={() => handleInterviewClick(name)}> */}
+
+                    <Link to="/interface"> 
                     <div className='reportbutton'>
                             <button>Open Chat</button>
                     </div>        
-                        {/* </Link> */}
+                    </Link>
                     
                 </div>    
             </div>
