@@ -170,7 +170,9 @@ def check_status():
 @app.route('/checkval')
 def check_status1():
     print(len(initialized))
+    print("initialized "+initialized)
     key= request.args.get("key")
+    print("key "+key)
     if  initialized.__contains__(key):
         return initialized[key]
     else:
