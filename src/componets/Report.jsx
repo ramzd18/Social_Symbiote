@@ -97,7 +97,7 @@ return (
                         <h5>Analysis of your competitors</h5>
                         {/* <p>I am a Gen Z recent college graduate living in New York City. I work in software engineering and earn above $200,000/yr. I’m originally from Chicago and attended Cornell.</p> */}
                         {reportFinal.length > 0 ? (
-                        <p>{reportFinal["Thoughts on product"]}</p>
+                        <p>{reportFinal["Competitors"]}</p>
                         ) : (
                         <p>No report available</p>
                         )}
