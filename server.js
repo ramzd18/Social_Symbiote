@@ -498,6 +498,7 @@ app.post('/getConversation', async (req, res) => {
       
       res.status(200).json({ message: 'Report added successfully' });
     } catch (error) {
+        console.error('Error adding report to PostgreSQL:', error);
       res.status(500).json({ error: 'Error occurred while adding report' });
     }
   });
