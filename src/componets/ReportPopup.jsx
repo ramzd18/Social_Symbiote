@@ -66,7 +66,7 @@ function ReportPopup() {
                             'Content-Type': 'application/json',
                             },
                             body: {
-                                report: reportData,
+                                report: reportDataTrue,
                               }
 
                         })
