@@ -88,6 +88,7 @@ def generate_interviewdoc(agent,problem,product):
   interviewdoc=""
   interviewlist=[]
   for question in listquestions:
+    print("question iteration")
     interviewdoc+=f"Question: {question}" 
     response=agent.generate_question_response_interview(question,contextdoc)
     interviewdoc+=f"Anwser: {response}"
@@ -101,7 +102,8 @@ def generate_interviewdoc(agent,problem,product):
   dict["Interests & hobbies"]=interviewlist[1]
   dict["Personality traits"]=interviewlist[2]
   dict["Thoughts on problem"]=interviewlist[3]+"\n"+interviewlist[4]
-  dict["Thoughts on product"]=interviewlist[5]+"\n"+interviewlist[6]
+  dict["Competitors"]=interviewlist[5]
+  dict["Thoughts on product"]=interviewlist[6]
   dict["Concerns about product"]=interviewlist[7]
 
   return interviewdoc

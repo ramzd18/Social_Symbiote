@@ -27,6 +27,7 @@ import random
 # from backend.retrieve_agent import push_agent_info
 # from backend.load_agent_database import LoadAgent
 import datetime
+import threading
 # import retrieve_agent
 # from langchain.llms import OpenAI
 
@@ -118,75 +119,57 @@ def create_and_store_agent(description,age,job1):
      likedtweets=[]
   try:
    (user,coms,sums)= additionalredditmemories.determine_most_similair_redditor(interestslist,additionalredditmemories.get_common_subreddit_interestlist(interestslist))
-   (foms,fubs)=additionalredditmemories.gpt_redditor(user,coms,sums)
+   (foms,agent1)=additionalredditmemories.gpt_redditor(user,coms,sums,agent)
   except:
    foms=[]
    fubs=[]
   
-  # subredditslist= redditusers.get_commmon_subreddit(interestslist)
-  # user= redditusers.get_users(interestslist,subredditslist)
-  # comments= user[1]
-  # username=user[0]
-  # totallist= redditusers.find_most_relevant_submissions(interestslist,comments,username)
-  totallist=[]
-  # for val in tweets:
-  #    totallist.append(val)
-  # for val1 in likedtweets:
-  #    totallist.append(val1)
-  for com in foms: 
-     totallist.append(com)
-  for sub in fubs: 
-     totallist.append(sub)
-  for memory in totallist:
-    print("looped memory"+memory)
-    agent.memory.add_socialmedia_memory(memory)
-  print("done with social memories")
-  
-  
-  # productstring= agent.memory.search_prodct_questions(product,agent.status)
-  # interestslist=agent.interests.split(';')
-  # actual_product_list= productstring[:3]
-  totalquerylist=[]
-  for interest in interestslist: 
-     print("Inside loop")
-     links=agent.search_prodct_questions(interest,"test")
-     print("done searching")
-     totalquerylist.append(links)
-  print("done looping")
-  totalquerylist=[item for sublist in totalquerylist for item in sublist]
-  big_url_list=[]
-  count=0
-  for query in totalquerylist: 
-    if(count>2): 
-        break 
-    # print("Finding queries")
-    big_url_list.append(google_search_results.api_results(query))
 
-  tot_list=[]
-  for sublist in big_url_list:
-     if(sublist!=None):
-        for url in sublist: 
-          if(url!=None):
-             tot_list.append(url)
-  big_url_list = tot_list
-  random.shuffle(big_url_list)
-  big_url_list=big_url_list[:90]
-  print("big length"+str(len(big_url_list)))
+  totallist=[]
+
+  agent=agent1
+  skills=persondict['skills']
+  firstmems=agent.memoriesprompt(str(skills),"")
+  def secondtask():
+    secondmem=agent.memoriesprompt(str(skills),str(firstmems))
+    secondmem=secondmem.split(';')
+    for mem1 in secondmem: 
+      agent.memory.add_memory(mem1)
+      print("memadd")
+  task_thread = threading.Thread(target=secondtask,)
+  task_thread.start()
+
+  firstmem=firstmems.split(';')
+  for mem in firstmem: 
+     agent.memory.add_memory(mem)
+  print("first done")
+
+
   descriptionqueries=agent.search_description_questions(description)
+  print("third done")
+  if(len(descriptionqueries)<3): 
+     descriptionqueries=descriptionqueries[0].split("\n")
+
+  print("Length of wanted questions" + str(len(descriptionqueries)))
   dlinks=[]
   for dquery in descriptionqueries:
+     print("query")
      dlinks.append(google_search_results.api_results(dquery))
-  for link in dlinks:
-     big_url_list.append(link)
-  print("overall big url list"+ str(big_url_list))
-  # random.shuffle(big_url_list)
-  # big_url_list=big_url_list[:10]
 
-  text_url_list=google_search_results.urls_to_summarizedtext(big_url_list)
-#   results=[item for sublist in text_url_list for item in sublist]
-  # reduced_list = [results[i] +" New Article"+ results[i+1]+results[i+2]+results[i+4]+results[i+5] for i in range(0, len(results)-5, 5)]
-  totlist=agent.analysis_of_product(text_url_list)
-  for mem in totlist: 
+  if dlinks is not None:
+    dlinks = [item for sublist in dlinks if sublist is not None for item in sublist]
+  else:
+    dlinks = []
+  random.shuffle(dlinks)
+  dlinks[:70]
+  print("Dlinks length"+ str(len(dlinks)))
+  description_text= google_search_results.urls_to_summarizedtext(dlinks)
+  description_text=[item for sublist in description_text for item in sublist]
+  print("Description text length"+ str(len(description_text)))
+
+  totlist1=agent.analysis_of_product(description_text,description)
+  for mem in totlist1: 
+    print(mem)
     if(isinstance(mem,str)):
       agent.memory.add_memory(mem)
     else:
@@ -194,6 +177,7 @@ def create_and_store_agent(description,age,job1):
 
   print("memoryinginginginign")
   return (agent,gender,job1)
+
 
 
 

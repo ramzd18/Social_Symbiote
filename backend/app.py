@@ -13,7 +13,7 @@ import os
 from flask_executor import Executor
 from concurrent.futures import ThreadPoolExecutor, wait
 from backend import target_market
-
+import time
 
 
 app = Flask(__name__, static_folder='../build', static_url_path='/')
@@ -107,6 +107,17 @@ def create_database_agent(email,job,description,age):
         initialized[description]="true"
         return "true"
 
+def interviewdoc(agentval,problem,product,agent): 
+    targetdict=target_market.generate_interviewdoc(agentval,problem,product)
+    print("FINSIHED INTERVEIWING")
+    print("FINSIHED INTERVEIWING")
+    print("FINSIHED INTERVEIWING")
+    print("BEFORE PRINTING")
+    print(problem+agent)
+    print("AFTER PRINTING")
+    initialized[product+agent]=targetdict
+    return "Completed"
+
 @app.errorhandler(404)   
 def not_found(e):   
   app.logger.info("404 error")
@@ -156,12 +167,38 @@ def check_status():
     else:
         return {'status': 'pending'}
     
+@app.route('/checkval')
+def check_status1():
+    print(len(initialized))
+    key= request.args.get("key")
+    if  initialized.__contains__(key):
+        return initialized[key]
+    else:
+        return {'status': 'pending'}
+
+
+
 
 @app.route('/interview')
 def interview():
-    problem=requests.args.get("problem").strip()
-    product=requests.args.get("product").strip()
-    agent=requests.args.get("agent").strip()
-    agentval=agents_dict[agent]
-    return target_market.generate_interviewdoc(agent,problem,product)
+    for key in agents_dict:
+        print("loop")
+        print(key)
+    problem=request.args.get("problem").strip()
+    product=request.args.get("product").strip()
+    agent=request.args.get("agent").strip()
+    email=request.args.get("email").strip()
+    print("Starting")
+    print("problem : "+ problem)
+    print("product: "+ product)
+    try: 
+        agentval=agents_dict[agent]
+    except: 
+        # time.sleep(2)
+        agentval=load_agent_database.LoadAgent(email,agent)
+    executor.submit(interviewdoc,agentval,problem,product,agent)
+    # targetdict=target_market.generate_interviewdoc(agentval,problem,product)
+    # initialized[problem+product]='finished'
+    return {'status':'finsihed'}
     
+
