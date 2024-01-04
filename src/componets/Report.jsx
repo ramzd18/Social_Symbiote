@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import LeftSidebarinterviews from './Leftsidebarinterviews'
 import { jwtDecode } from "jwt-decode";
+import { useEffect, useState } from 'react';
 
 function Report() {
     const selectedAgentName = sessionStorage.getItem('selectedAgentName');
