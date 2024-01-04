@@ -53,6 +53,7 @@ function ReportPopup() {
             if (data && data.status === 'finished') {
             //   const reportdata = fetch(`https://alias-testing-130265f16331.herokuapp.com/checkval?key=${checkkey}`)
             //   console.log("report data complete")
+                const reportDataTrue = data.data;
                 fetch(`https://alias-testing-130265f16331.herokuapp.com/checkval?key=${checkkey}`)
                     .then(reportResponse => reportResponse.json())
                     .then(reportdata => {
@@ -65,7 +66,7 @@ function ReportPopup() {
                             'Content-Type': 'application/json',
                             },
                             body: JSON.stringify({
-                            report: reportdata,
+                            report: reportDataTrue,
                             }),
                         })
                         .then(response => {
