@@ -86,7 +86,7 @@ function ReportPopup() {
                     })
                     .catch(error => {
                         console.error('Error fetching report data:', error);
-                        setLoading(false); // Ensure to stop loading even in case of an error
+                        setLoading(true); // Ensure to stop loading even in case of an error
                     });
             } else {
               // setLoading(true);
