@@ -51,7 +51,6 @@ function ReportPopup() {
           .then(response => response.json())
           .then(data => {
             if (data && data.status === 'finished') {
-              setLoading(false);
               const reportdata = fetch(`https://alias-testing-130265f16331.herokuapp.com/checkval?key=${checkkey}`)
               console.log("report data complete")
                 .then(response => response.json())
@@ -76,6 +75,7 @@ function ReportPopup() {
                 .catch(error => {
                   console.error('Error while adding new report to PostgreSQL:', error);
                 });
+                setLoading(false);
             } else {
               // setLoading(true);
               setTimeout(checkCreate, 10000);
