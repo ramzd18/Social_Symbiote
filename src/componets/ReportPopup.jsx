@@ -81,7 +81,7 @@ function ReportPopup() {
                             console.error('Error while adding new report to PostgreSQL:', error);
                         })
                         .finally(() => {
-                            setLoading(true);
+                            setLoading(false); //need to push loading state update to false to redirect to report page
                         });
                     })
                     .catch(error => {
