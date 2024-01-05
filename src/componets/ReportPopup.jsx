@@ -53,7 +53,7 @@ function ReportPopup() {
             if (data && data.status !== 'pending') {
             //   const reportdata = fetch(`https://alias-testing-130265f16331.herokuapp.com/checkval?key=${checkkey}`)
             //   console.log("report data complete")
-                const reportDataTrue = data;
+                const reportDataTrue = data.data;
                 console.log(typeof(reportDataTrue));
                 fetch(`https://alias-testing-130265f16331.herokuapp.com/checkval?key=${checkkey}`)
                     .then(reportResponse => reportResponse.json())

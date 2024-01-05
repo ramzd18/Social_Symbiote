@@ -163,7 +163,7 @@ def check_status():
     print(len(initialized))
     key= request.args.get("key")
     if  initialized.__contains__(key):
-        return initialized[key]
+        return {'data': initialized[key]}
         # return {'status': 'finished', 'data': initialized[key]}
     else:
         return {'status': 'pending'}
