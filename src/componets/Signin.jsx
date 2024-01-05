@@ -62,7 +62,7 @@ function Signin() {
               fetch(`https://alias-testing-130265f16331.herokuapp.com/check?key=initial`)
                 .then(response => response.json())
                 .then(data => {
-                  if (data && data.status !== 'pending') {
+                  if (data && data.status === 'finished') {
                     setisInitialized(false);
                   } else {
                     setTimeout(checkInitialization, 1000);
