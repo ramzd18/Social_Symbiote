@@ -509,14 +509,14 @@ app.post('/getConversation', async (req, res) => {
   
       if (rows.length > 0) {
         console.log('Fetched report:', rows[0].report);
-        res.status(200).json({ messages: JSON.parse(rows[0].report) });
+        res.status(200).json({ reports: rows[0].report });
       } else {
         console.log('No report found for:', name, personEmail);
-        res.status(404).json({ message: 'No report found' });
+        res.status(404).json({ report: 'No report found' });
       }
     } catch (error) {
       console.error('Error fetching conversation from the database:', error);
-      res.status(500).json({ message: 'Error fetching conversation from the database' });
+      res.status(500).json({ report: 'Error fetching conversation from the database' });
     }
   });
 
