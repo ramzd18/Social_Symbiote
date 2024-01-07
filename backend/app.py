@@ -199,6 +199,6 @@ def interview():
     executor.submit(interviewdoc,email,problem,product,agent)
     # targetdict=target_market.generate_interviewdoc(agentval,problem,product)
     # initialized[problem+product]='finished'
-    return {'status':'finsihed'}
+    return {'status':'finished'}
     
 
