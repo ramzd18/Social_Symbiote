@@ -32,6 +32,8 @@ function Report() {
         .catch((error) => console.error('Error:', error));
     }, []);
 
+    console.log(reportFinal)
+
 
 return (
     <section className='home container-fluid'>
