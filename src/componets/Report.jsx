@@ -10,7 +10,7 @@ function Report() {
     const selectedAgentGender = sessionStorage.getItem('selectedAgentGender');
     const selectedAgentAge = sessionStorage.getItem('selectedAgentAge');
     const selectedAgentJob = sessionStorage.getItem('selectedAgentJob');
-    const [reportFinal, setReportFinal] = useState([])
+    const [reportFinal, setReportFinal] = useState({})
 
     const token = sessionStorage.getItem('token');
     const decoded = jwtDecode(token);
@@ -33,6 +33,7 @@ function Report() {
     }, []);
 
     console.log(reportFinal)
+    console.log(reportFinal.length)
 
 
 return (
@@ -90,7 +91,7 @@ return (
                         <h5>Pain points</h5>
                         {/* <p>I am a Gen Z recent college graduate living in New York City. I work in software engineering and earn above $200,000/yr. I’m originally from Chicago and attended Cornell.</p> */}
                         {reportFinal.length > 0 ? (
-                        <p>{reportFinal["Thoughts on problem"]}</p>
+                        <p>{reportFinal['Thoughts on problem']}</p>
                         ) : (
                         <p>No report available</p>
                         )}
