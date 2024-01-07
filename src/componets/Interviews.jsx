@@ -176,13 +176,13 @@ function Interviews() {
             if (data.jobs) {
                 console.log('Multiple jobs:', data.jobs);
                 // Store the array in the state or variable
-                setAgentAges(data.jobs);
-                setAgentAge('');
+                setAgentJobs(data.jobs);
+                setAgentJob('');
             } else if (data.job) {
                 console.log('Single job:', data.job);
                 // Handle a single name separately
                 setAgentAge(data.job);
-                setAgentAges([]);
+                setAgentJob([]);
             } else {
                 console.error('Error:', data); // Log any unexpected response
             }
@@ -272,7 +272,7 @@ function Interviews() {
                         <Link to="/reportpopup" onClick={() => handleInterviewClick(name)}>
                             <button>Open Interview</button>
                         </Link>
-                        
+
                     </div>
                 ))}
              

@@ -62,7 +62,7 @@ return (
                     <div className="subhead">
                         <h5>About me</h5>
                         {/* <p>I am a Gen Z recent college graduate living in New York City. I work in software engineering and earn above $200,000/yr. I’m originally from Chicago and attended Cornell.</p> */}
-                        {reportFinal.length > 0 ? (
+                        {dictionaryLength > 0 ? (
                         <p>{reportFinal["Tell me about yourself"]}</p>
                         ) : (
                         <p>No report available</p>
@@ -91,7 +91,7 @@ return (
                     <div className="subheadthree">
                         <h5>Pain points</h5>
                         {/* <p>I am a Gen Z recent college graduate living in New York City. I work in software engineering and earn above $200,000/yr. I’m originally from Chicago and attended Cornell.</p> */}
-                        {reportFinal.length > 0 ? (
+                        {dictionaryLength > 0 ? (
                         <p>{reportFinal['Thoughts on problem']}</p>
                         ) : (
                         <p>No report available</p>
@@ -101,7 +101,7 @@ return (
                     <div className="subheadfour">
                         <h5>Analysis of your competitors</h5>
                         {/* <p>I am a Gen Z recent college graduate living in New York City. I work in software engineering and earn above $200,000/yr. I’m originally from Chicago and attended Cornell.</p> */}
-                        {reportFinal.length > 0 ? (
+                        {dictionaryLength > 0 ? (
                         <p>{reportFinal["Competitors"]}</p>
                         ) : (
                         <p>No report available</p>
@@ -112,7 +112,7 @@ return (
                     <div className="subheadfive">
                         <h5>Thoughts on your product</h5>
                         {/* <p>I am a Gen Z recent college graduate living in New York City. I work in software engineering and earn above $200,000/yr. I’m originally from Chicago and attended Cornell.</p> */}
-                        {reportFinal.length > 0 ? (
+                        {dictionaryLength > 0 ? (
                         <p>{reportFinal["Thoughts on product"]}</p>
                         ) : (
                         <p>No report available</p>
