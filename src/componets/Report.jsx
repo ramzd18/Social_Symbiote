@@ -46,6 +46,9 @@ return (
         </div>
         <div className="col-md-8 big">
             <div className="big-inner-child">
+                <Link to="/interviews">
+                    <button className="backarrow"> <img src="./Arrow-Left.svg" /> </button>
+                </Link>
                 <div className="big-inner-reports">
                     <div className="int">
                         <div className="intimg">
