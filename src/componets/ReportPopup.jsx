@@ -68,6 +68,8 @@ function ReportPopup() {
                             },
                             body: JSON.stringify({
                             report: reportDataTrue,
+                            name: selectedAgentName, 
+                            personEmail: userObject.email
                             }),
                         })
                         .then(response => {

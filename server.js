@@ -487,14 +487,12 @@ app.post('/getConversation', async (req, res) => {
   });
 
   app.post('/add-report', async (req, res) => {
-    const { report } = req.body;
+    const { report, name, personEmail } = req.body;
   
     try {
       const query = `
-        INSERT INTO user_agents_info (report)
-        VALUES ($1)
-      `;
-      await pool.query(query, [report]);
+        UPDATE user_agents_info SET report = $1 WHERE name = $2 AND personemail = $3`;
+      await pool.query(query, [report, name, personEmail]);
       
       res.status(200).json({ message: 'Report added successfully' });
     } catch (error) {
