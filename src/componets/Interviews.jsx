@@ -18,6 +18,7 @@ function Interviews() {
     const [agentJob, setAgentJob] = useState('');
     const [agentLastInterviews, setAgentLastInterviews] = useState([]);
     const [agentLastInterview, setAgentLastInterview] = useState('');
+    const [isButtonEnabled, setIsButtonEnabled] = useState(false);
 
 //     const apiBaseUrl = process.env.NODE_ENV === 'production'
 //   ? 'https://alias-testing.herokuapp.com'
@@ -43,7 +44,21 @@ function Interviews() {
         // Further actions to save the name or navigate to a different page with this data
       };
 
+      const checkReports = async () => {
+        try {
+          const response = await fetch(`https://alias-node-9851227f2446.herokuapp.com/check-reports?personEmail=${userObject.email}`);
+          const data = await response.json();
+    
+          // Enable the button if the rowCount is greater than 0
+          setIsButtonEnabled(data.rowCount > 0);
+        } catch (error) {
+          console.error('Error checking reports:', error);
+          // Handle error if needed
+        }
+      };   
+
     useEffect(() => {
+
 
         fetch(`https://alias-node-9851227f2446.herokuapp.com/getAgentName`, {
             method: 'POST',
@@ -274,7 +289,9 @@ function Interviews() {
                                 <button className='repButton'>New Interview</button>
                             </Link>
                             <Link to="/reports" onClick={() => handleInterviewClick(name)}>
-                                <button class='repButton two'>View Interview</button>
+                                <button className={`repButton two ${isButtonEnabled ? '' : 'disabled'}`} disabled={!isButtonEnabled}>
+                                View Interview
+                                </button>
                             </Link>
                         </div>
 

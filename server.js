@@ -525,7 +525,7 @@ app.post('/getConversation', async (req, res) => {
     console.log('personEmailpopup', personEmail);
   
     try {
-      const query = 'SELECT COUNT(*) AS rowCount FROM user_agents_info WHERE personemail = $1';
+      const query = 'SELECT COUNT(*) AS rowCount FROM user_agents_info WHERE personemail = $1 AND report IS NOT NULL';
       const result = await pool.query(query, [personEmail]);
 
       console.log('result', result);

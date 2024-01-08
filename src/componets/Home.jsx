@@ -6,9 +6,10 @@ function Home() {
   return (
     <>
     <section className='home container-fluid'>
-   <div className="logo-section ">
+   {/*<div className="logo-section ">
+    
     </div>
-   
+    */}
 
     <div className="row">
         <div className="col-md-4">
