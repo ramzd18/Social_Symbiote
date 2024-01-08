@@ -3,7 +3,7 @@ import time
 import os
 from selenium.webdriver.common.by import By
 import base64
-import load_agent_database
+from backend import load_agent_database
 from selenium.webdriver.common.keys import Keys
 import undetected_chromedriver as uc
 from openai import OpenAI
