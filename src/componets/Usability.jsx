@@ -173,9 +173,9 @@ function Usabillity() {
                   style={{ width: '15%', height: '20%', margin: '15x' }}
                 >
                   <option value="">Select Person</option>
-                  {formattedList && formattedList.map((item, index) => (
-                    <option key={index} value={item.value}>
-                      {item.value}
+                  {formattedList && formattedList.map((name, index) => (
+                    <option key={index} value={name}>
+                      {name}
                     </option>
                   ))}
                 </select>

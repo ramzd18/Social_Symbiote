@@ -5,22 +5,25 @@ const LeftSidebarperson = () => {
   return (
     <div className='left-sidebar'>
       <div className='logo'>
-        <img src="./aliaslogodarksvg.svg"/>
+        <img src="./aliaslogodarksvg.svg" />
       </div>
-      
-        <Link to="/home"> 
-          <button ><img src="./homeblack.svg"/> <span>Home</span></button>
-        </Link>
-        
-        <div className='active'>
-          <button disabled><img src="./personawhite.svg"/> <span> Your personas</span></button> 
-        </div>  
-        <Link to="/interviews">
-          <button><img src="./chatblack.svg"/> <span> User interviews</span></button>
-        </Link> 
-        
 
-            {/*  <div className="left-sidebar">
+      <Link to="/home">
+        <button ><img src="./homeblack.svg" /> <span>Home</span></button>
+      </Link>
+
+      <div className='active'>
+        <button disabled><img src="./personawhite.svg" /> <span> Your personas</span></button>
+      </div>
+      <Link to="/interviews">
+        <button><img src="./chatblack.svg" /> <span> User interviews</span></button>
+      </Link>
+      <Link to="/testing">
+        <button><img src="./chatblack.svg" /> <span> User interviews</span></button>
+      </Link>
+
+
+      {/*  <div className="left-sidebar">
           <div className="sidebartop">
           <div className="logo">
     <img src="./aliaslogodark 1.png" alt="" srcset="" />
