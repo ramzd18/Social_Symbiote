@@ -394,7 +394,7 @@ p:after {
 }
 
 .left-sidebar .logo {
-  margin-left: 20px;
+  margin-left: 10px;
   margin-top: 5px;
 }
 
@@ -408,6 +408,18 @@ p:after {
   font-weight: 500;
   line-height: normal;
   align-items: flex-start; 
+}
+
+.left-sidebar .home {
+  align-items: flex-start; 
+}
+
+.home .img {
+  margin-left: 5px;
+}
+
+.home button span {
+  margin-left: 10px;
 }
 
 .left-sidebar .active button{
@@ -551,7 +563,7 @@ p:after {
   height: 38px;
   background-color: #F8F8F8;
   border: 0px;
-  margin-left: 50px;
+  margin-left: 20px;
   padding-bottom: 50px;
 }
 
