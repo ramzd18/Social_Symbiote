@@ -33,7 +33,11 @@ function Report() {
     }, []);
 
     console.log(reportFinal)
-    const dictionaryLength = Object.keys(reportFinal).length;
+    if (reportFinal !== null && reportFinal !== undefined) {
+        const dictionaryLength = Object.keys(reportFinal).length;
+    } else {
+        const dictionaryLength = 0
+    }    
     console.log(dictionaryLength)
 
 
