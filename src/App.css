@@ -1154,7 +1154,7 @@ p:after {
   justify-content: space-between;
 }
 
-.interviewtext button {
+.interviewtext button.repButton  {
   border: none;
   padding: 1rem 2rem;
   border-radius: 15px;
@@ -1169,7 +1169,36 @@ p:after {
   line-height: normal;
 }
 
-.interviewtext button:hover {
+.interviewtext button:hover.repButton {
+  background-color: #7E8FE7;
+  border: none;
+  color: #fff;
+  padding: 1rem 2rem;
+  border-radius: 15px;
+  margin-top: -20px;
+  margin-right: 20px;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.interviewtext button.repButton.two {
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 15px;
+  border: 1px solid #DADADA;
+  background: #F4F4F4;
+  margin-top: -20px;
+  margin-right: 20px;
+  color: #777474;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.interviewtext button:hover.repButton.two {
   background-color: #7E8FE7;
   border: none;
   color: #fff;

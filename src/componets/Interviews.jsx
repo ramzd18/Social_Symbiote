@@ -270,10 +270,10 @@ function Interviews() {
                             </div>
                         </div>
                         <Link to="/reportpopup" onClick={() => handleInterviewClick(name)}>
-                            <button>New Interview</button>
+                            <button className='repButton'>New Interview</button>
                         </Link>
                         <Link to="/reports" onClick={() => handleInterviewClick(name)}>
-                            <button>View Interview</button>
+                            <button class='repButton two'>View Interview</button>
                         </Link>
 
                     </div>
