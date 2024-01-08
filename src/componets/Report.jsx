@@ -143,6 +143,11 @@ return (
 
                     <div className="sum">
                         <h5>Summary</h5>
+                        {dictionaryLength > 0 ? (
+                        <p>{reportFinal["Scores"]}</p>
+                        ) : (
+                        <p>No report available</p>
+                        )}
                        
                     </div>
 
