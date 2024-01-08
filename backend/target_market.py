@@ -82,7 +82,7 @@ ages= generate_age_names_market(testmarket)
 
 
 def generate_interviewdoc(agent,problem,product):
-  listquestions=["Tell me about yourself","What are some interests/hobbies you have and what do you like doing","Desribe your personality.",f"Do you think this problem: {problem} is a problem that you have", f"What are some pain points you might have with this problem: {problem}",f"Given this product:{product} can you think of any alternative comapnies and products you use. Desrcribe how you use these alternatives.",f"What are your thoughts about this product: {product}. Is it something you would use reguarly? Do you think it would be useful for you.",f"What are your biggest concerns about this product{product}. WHy might you not buy it? What worries you? What do you think could be a potential issue for you?"]
+  listquestions=["Tell me about yourself","What are some interests/hobbies you have and what do you like doing","Desribe your personality.",f"Do you think this problem: {problem} is a problem that you have", f"What are some pain points you might have with this problem: {problem}",f"Given this product:{product} can you think of any alternative comapnies and products you use. Desrcribe how you use these alternatives.",f"What are your thoughts about this product: {product}. Is it something you would use reguarly? Do you think it would be useful for you.",f"What are your biggest concerns about this product{product}. WHy might you not buy it? What worries you? What do you think could be a potential issue for you?",f"Score the following product: {product} on how well it does in the fields of usabillity, value proposition and likelihood to recommend. Score each from 0 to 1 and return the scores in a list. For example you might return [.43,.51,.88]. Only put the numbers in the list."]
   counter=0; 
   contextdoc=""
   interviewdoc=""
@@ -105,5 +105,6 @@ def generate_interviewdoc(agent,problem,product):
   dict["Competitors"]=interviewlist[5]
   dict["Thoughts on product"]=interviewlist[6]
   dict["Concerns about product"]=interviewlist[7]
+  dict["Scores"]= interviewlist[8]
 
   return dict
