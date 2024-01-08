@@ -59,7 +59,7 @@ function Interviews() {
 
     useEffect(() => {
 
-
+        checkReports();
         fetch(`https://alias-node-9851227f2446.herokuapp.com/getAgentName`, {
             method: 'POST',
             headers: {
