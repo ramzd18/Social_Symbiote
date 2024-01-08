@@ -269,12 +269,14 @@ function Interviews() {
                                 {/* <p>Last Interviewed: {agentLastInterviews[index]} days ago</p> */}
                             </div>
                         </div>
-                        <Link to="/reportpopup" onClick={() => handleInterviewClick(name)}>
-                            <button className='repButton'>New Interview</button>
-                        </Link>
-                        <Link to="/reports" onClick={() => handleInterviewClick(name)}>
-                            <button class='repButton two'>View Interview</button>
-                        </Link>
+                        <div className='innerinterviewbuttons'>
+                            <Link to="/reportpopup" onClick={() => handleInterviewClick(name)}>
+                                <button className='repButton'>New Interview</button>
+                            </Link>
+                            <Link to="/reports" onClick={() => handleInterviewClick(name)}>
+                                <button class='repButton two'>View Interview</button>
+                            </Link>
+                        </div>
 
                     </div>
                 ))}

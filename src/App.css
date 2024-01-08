@@ -1154,7 +1154,11 @@ p:after {
   justify-content: space-between;
 }
 
-.interviewtext button.repButton  {
+.innerinterviewbuttons {
+  margin-left: 50px;
+}
+
+.innerinterviewbuttons button.repButton  {
   border: none;
   padding: 1rem 2rem;
   border-radius: 15px;
@@ -1168,7 +1172,7 @@ p:after {
   line-height: normal;
 }
 
-.interviewtext button:hover.repButton {
+.innerinterviewbuttons button:hover.repButton {
   background-color: #7E8FE7;
   border: none;
   color: #fff;
@@ -1181,7 +1185,7 @@ p:after {
   line-height: normal;
 }
 
-.interviewtext button.repButton.two {
+.innerinterviewbuttons button.repButton.two {
   border: none;
   padding: 1rem 2rem;
   border-radius: 15px;
@@ -1196,7 +1200,7 @@ p:after {
   line-height: normal;
 }
 
-.interviewtext button:hover.repButton.two {
+.innerinterviewbuttons button:hover.repButton.two {
   background-color: #7E8FE7;
   border: none;
   color: #fff;
