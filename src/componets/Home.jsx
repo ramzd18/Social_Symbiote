@@ -6,10 +6,9 @@ function Home() {
   return (
     <>
     <section className='home container-fluid'>
-   {/*<div className="logo-section ">
-    
+   <div className="logo-section ">
     </div>
-    */}
+   
 
     <div className="row">
         <div className="col-md-4">
@@ -49,12 +48,12 @@ function Home() {
         <div className="col-md-8 big">
          <div className="big-inner-child">
          <div className="big-inner">
-            <h3>Welcome to Alias</h3>
+            <h3>Getting Started</h3>
 
             <iframe
               src="https://www.loom.com/embed/8f974d66b96f4bc48e83e7e901780e72?sid=954355ef-dd1b-4384-b05f-d274e4182402"
               allowFullScreen
-              frameBorder="0"
+              style={{ width: '521px', height: '246px' }}
             ></iframe>
 
             <div className="big-box-button text-center">
