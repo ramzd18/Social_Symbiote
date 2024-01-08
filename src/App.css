@@ -551,7 +551,7 @@ p:after {
   height: 38px;
   background-color: #F8F8F8;
   border: 0px;
-  margin-left: 265px;
+  margin-left: 200px;
   padding-bottom: 50px;
 }
 
@@ -743,7 +743,7 @@ p:after {
 }
 
 .subhead {
-  margin-top: -50px;
+  margin-top: 100px;
   align-items: center;
   margin-left: 70px;
   width: 92%
