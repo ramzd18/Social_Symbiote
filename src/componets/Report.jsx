@@ -11,7 +11,6 @@ function Report() {
     const selectedAgentAge = sessionStorage.getItem('selectedAgentAge');
     const selectedAgentJob = sessionStorage.getItem('selectedAgentJob');
     const [reportFinal, setReportFinal] = useState({})
-    const [dictionaryLength, setdictionaryLength] = useState(0)
 
     const token = sessionStorage.getItem('token');
     const decoded = jwtDecode(token);
@@ -34,9 +33,7 @@ function Report() {
     }, []);
 
     console.log(reportFinal)
-    if (reportFinal !== null && reportFinal !== undefined) {
-        setdictionaryLength(Object.keys(reportFinal).length);
-    }  
+    const dictionaryLength = Object.keys(reportFinal).length;
     console.log(dictionaryLength)
 
 

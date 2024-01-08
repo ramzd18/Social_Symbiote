@@ -50,6 +50,7 @@ function Interviews() {
           const data = await response.json();
     
           // Enable the button if the rowCount is greater than 0
+          console.log(data.rowCount)
           setIsButtonEnabled(data.rowCount > 0);
         } catch (error) {
           console.error('Error checking reports:', error);
