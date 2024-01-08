@@ -270,7 +270,10 @@ function Interviews() {
                             </div>
                         </div>
                         <Link to="/reportpopup" onClick={() => handleInterviewClick(name)}>
-                            <button>Open Interview</button>
+                            <button>New Interview</button>
+                        </Link>
+                        <Link to="/reports" onClick={() => handleInterviewClick(name)}>
+                            <button>View Interview</button>
                         </Link>
 
                     </div>
