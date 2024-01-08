@@ -551,7 +551,7 @@ p:after {
   height: 38px;
   background-color: #F8F8F8;
   border: 0px;
-  margin-left: 200px;
+  margin-left: 150px;
   padding-bottom: 50px;
 }
 
@@ -712,6 +712,7 @@ p:after {
 .big-inner-reports .int {
   display: flex;
   align-items: center;
+  padding-bottom: 8rem;
 }
 
 .big-inner-reports .int .intimg {
@@ -743,7 +744,7 @@ p:after {
 }
 
 .subhead {
-  margin-top: 100px;
+  margin-top: -100px;
   align-items: center;
   margin-left: 70px;
   width: 92%
