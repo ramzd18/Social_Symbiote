@@ -12,33 +12,35 @@ import Interviews from './componets/Interviews';
 import Interface from './componets/Interface';
 import Report from './componets/Report';
 import ReportPopup from './componets/ReportPopup';
+import Usabillity from './componets/Usability';
 
 
 
 
 function App() {
   return (
-<div className="App">
-  <Router>
-    <Routes>
-      <Route path='/' element={<Alias/>}></Route>
-      <Route path='/accountcreation' element={<AccountC/>}></Route>
-      <Route path='/signin' element={<Signin/>}></Route>
-      <Route path='/workplace' element={<Workplace/>}></Route>
-      <Route path='/invite' element={ <Invite/>}></Route>
-      <Route path='/home' element={ <Home/>}></Route>
-      <Route path='/person' element={ <Person/>}></Route>
-      <Route path='/popup' element={<Popup/>}></Route>
-      <Route path='/interviews' element={ <Interviews/>}></Route>
-      <Route path='/interface' element={  <Interface/>}></Route>
-      <Route path='/reports' element={  <Report/>}></Route>
-      <Route path='/reportpopup' element={  <ReportPopup/>}></Route>
-     
-    
-      
-</Routes>
-</Router>
-</div>
+    <div className="App">
+      <Router>
+        <Routes>
+          <Route path='/' element={<Alias />}></Route>
+          <Route path='/accountcreation' element={<AccountC />}></Route>
+          <Route path='/signin' element={<Signin />}></Route>
+          <Route path='/workplace' element={<Workplace />}></Route>
+          <Route path='/invite' element={<Invite />}></Route>
+          <Route path='/home' element={<Home />}></Route>
+          <Route path='/person' element={<Person />}></Route>
+          <Route path='/popup' element={<Popup />}></Route>
+          <Route path='/interviews' element={<Interviews />}></Route>
+          <Route path='/interface' element={<Interface />}></Route>
+          <Route path='/reports' element={<Report />}></Route>
+          <Route path='/reportpopup' element={<ReportPopup />}></Route>
+          <Route path='/testing' element={<Usabillity />}></Route>
+
+
+
+        </Routes>
+      </Router>
+    </div>
 
 
   );

@@ -14,7 +14,7 @@ from flask_executor import Executor
 from concurrent.futures import ThreadPoolExecutor, wait
 from backend import target_market
 import time
-
+from backend import screenshot
 
 app = Flask(__name__, static_folder='../build', static_url_path='/')
 app.secret_key = "super secret key"
@@ -106,6 +106,10 @@ def create_database_agent(email,job,description,age):
         agents_dict[agent.name]=agent
         initialized[description]="true"
         return "true"
+def ustest(name,context,email,url):
+    feedback=screenshot.total_usabillity_test(name,context,email,url)
+    initialized[name+context]=feedback
+    print("FINISHED")
 
 def interviewdoc(email,problem,product,agent): 
     agentval=load_agent_database.LoadAgent(email,agent)
@@ -179,7 +183,15 @@ def check_status1():
     else:
         return {'status': 'pending'}
 
-
+@app.route('/usecheck')
+def usabillity(): 
+     context=request.args.get("context")
+     agent_name= request.args.get("name").strip()
+     email= request.args.get("email")
+     url=request.args.get("url")
+     executor.submit(ustest,agent_name,context,email,url)
+    #  feedback=total_usabillity_test(agent_name,context,email,url)
+     return "Finished"
 
 
 @app.route('/interview')

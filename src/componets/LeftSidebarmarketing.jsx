@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 
-const LeftSidebarinterviews = () => {
+const LeftSidebarmarketing = () => {
   return (
     <div className='left-sidebar'>
       <div className='logo'>
@@ -15,13 +15,13 @@ const LeftSidebarinterviews = () => {
       <Link to="/person">
         <button><img src="./personablack.svg" /> <span> Your personas</span></button>
       </Link>
+      <Link to="/interviews">
+        <button><img src="./chatblack.svg" /> <span> User interviews</span></button>
+      </Link>
 
       <div className='active'>
-        <button disabled><img src="./chatwhite.svg" /> <span> User interviews</span></button>
+        <button disabled><img src="./chatwhite.svg" /> <span> User Testing</span></button>
       </div>
-      <Link to="/testing">
-        <button><img src="./personablack.svg" /> <span> User Testing</span></button>
-      </Link>
 
 
 
@@ -46,4 +46,4 @@ const LeftSidebarinterviews = () => {
   )
 }
 
-export default LeftSidebarinterviews;
+export default LeftSidebarmarketing;
