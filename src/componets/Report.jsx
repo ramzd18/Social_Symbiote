@@ -151,7 +151,7 @@ return (
                        
                     </div>
 
-                    <Link to="/interface"> 
+                    <Link to="/interface" className="link-no-underline"> 
                     <div className='reportbutton'>
                             <button>Open Chat</button>
                     </div>        

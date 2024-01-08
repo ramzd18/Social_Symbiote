@@ -551,7 +551,7 @@ p:after {
   height: 38px;
   background-color: #F8F8F8;
   border: 0px;
-  margin-left: 150px;
+  margin-left: 100px;
   padding-bottom: 50px;
 }
 
@@ -707,6 +707,10 @@ p:after {
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+}
+
+.link-no-underline {
+  text-decoration: none;
 }
 
 .big-inner-reports .int {
