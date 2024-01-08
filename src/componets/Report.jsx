@@ -46,10 +46,10 @@ return (
         </div>
         <div className="col-md-8 big">
             <div className="big-inner-child">
-                <Link to="/interviews">
-                    <button className="backarrow"> <img src="./Arrow-Left.svg" /> </button>
-                </Link>
                 <div className="big-inner-reports">
+                    <Link to="/interviews">
+                        <button className="backarrow"> <img src="./Arrow-Left.svg" /> </button>
+                    </Link>
                     <div className="int">
                         <div className="intimg">
                             {/* <img src={`${process.env.PUBLIC_URL}/avatars/${selectedAgentGender}/${selectedAgentPic}.svg`} alt="" /> */}
