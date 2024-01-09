@@ -441,7 +441,7 @@ def detect_popup(driver):
 
 def navigate(agent,url,website_context,key,user_context):
   options = uc.ChromeOptions()
-
+  print("BEFORE CHROME OPTIONS")
   options.add_argument("enable-automation")
   options.add_argument("--headless")
   options.add_argument("--window-size=1920,1080")
@@ -450,10 +450,12 @@ def navigate(agent,url,website_context,key,user_context):
   options.add_argument("--dns-prefetch-disable")
   options.add_argument("--disable-gpu")
   options.set_capability("pageLoadStrategy", "normal")
+  print("AFTER OPTIONS")
   driver = CustomChrome(options=options)
-
+  
   # Navigate to the website
   driver.get(url)
+  print("DRIVER GETTING")
   context=""
   feedback=""
   window_size = driver.get_window_size()
@@ -577,9 +579,11 @@ In this list in the end also return analysis of the user's feedback. Make it in 
 
 def total_usabillity_test(agent_name,website_context,email,url):
   agent=load_agent_database.LoadAgent(email,agent_name)
+  print("BEFORE USER CONTECT")
   questionstring= f"What would you want from a product whose description is this:{website_context}. Think about what features and desings you would want on the software."
-  user_context=agent.generate_question_response(questionstring)
-  feedback=str(navigate(agent,url,"This is a social media website that allows you to post and view posts about various topics","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",user_context))
+  user_context=str(agent.generate_question_response(questionstring))
+  print("BEFORE AFTER USER CONTECT")
+  feedback=str(navigate(agent,url,website_context,"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",user_context))
   print(feedback)
   finalfeedback=feedbackprompt(feedback)
   return finalfeedback
