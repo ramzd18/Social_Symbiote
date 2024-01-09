@@ -453,8 +453,9 @@ def navigate(agent,url,website_context,key,user_context):
 #   options.add_argument("--dns-prefetch-disable")
 #   options.add_argument("--disable-gpu")
 #   options.set_capability("pageLoadStrategy", "normal")
+  GOOGLE_CHROME_PATH = '/app/.apt/usr/bin/google_chrome'
   chrome_options = webdriver.ChromeOptions()
-  chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+  chrome_options.binary_location = GOOGLE_CHROME_PATH
   print("OS PARTH"+ str(os.environ.get("GOOGLE_CHROME_BIN")))
   chrome_options.add_argument("--headless")
   chrome_options.add_argument("--disable-dev-shm-usage")
