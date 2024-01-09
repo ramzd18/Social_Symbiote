@@ -463,7 +463,7 @@ def navigate(agent,url,website_context,key,user_context):
   print("AFTER OPTIONS")
   print("OS PATH"+str(os.environ.get("CHROMEDRIVER_PATH")))
   try: 
-      driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"),options=chrome_options)
+      driver = webdriver.Chrome(options=chrome_options)
   except Exception as e:
       print("error ologged "+ str(e))
       
