@@ -158,7 +158,7 @@ return (
                             <div>
                             {Array.from(reportFinal["Scores"]).map((score, index) => (
                                 <div key={index} className="progress-circle">
-                                    {score.toFixed(2)}
+                                    {parseFloat(score).toFixed(2)}
                                 </div>
                             ))}
                         </div>
