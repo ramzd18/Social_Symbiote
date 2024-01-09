@@ -560,13 +560,19 @@ def navigate(agent,url,website_context,key,user_context):
 
     print("Length of unique element list"+ str(len(unique_els)))
     if tup[0]==True: 
+      try:
        browser_click(tup[1],driver,False,all_els)
        context+=" Button Click: "+ str(tup[1])
        feedback+=tup[2] +"\n"
+      except:
+          print("CONTe")
     else: 
+      try: 
        browser_search(driver,tup[1])
        context+= "Searched up"+ str(tup[1])
        feedback+=tup[2] +"\n"
+      except: 
+          print("EXCEPTION")
     counter+=1
     print("Context "+ context)
     print("FEEDBACK"+feedback)
