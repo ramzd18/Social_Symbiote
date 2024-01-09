@@ -441,20 +441,26 @@ def detect_popup(driver):
 
 def navigate(agent,url,website_context,key,user_context):
 #   options = uc.ChromeOptions()
-  options=webdriver.ChromeOptions()
-  print("BEFORE CHROME OPTIONS")
-  options.binary_location = os.getenv('GOOGLE_CHROME_BIN')
+#   options=webdriver.ChromeOptions()
+#   print("BEFORE CHROME OPTIONS")
+#   options.binary_location = os.getenv('GOOGLE_CHROME_BIN')
 
-  options.add_argument("enable-automation")
-  options.add_argument("--headless")
-  options.add_argument("--window-size=1920,1080")
-  options.add_argument("--no-sandbox")
-  options.add_argument("--disable-extensions")
-  options.add_argument("--dns-prefetch-disable")
-  options.add_argument("--disable-gpu")
-  options.set_capability("pageLoadStrategy", "normal")
+#   options.add_argument("enable-automation")
+#   options.add_argument("--headless")
+#   options.add_argument("--window-size=1920,1080")
+#   options.add_argument("--no-sandbox")
+#   options.add_argument("--disable-extensions")
+#   options.add_argument("--dns-prefetch-disable")
+#   options.add_argument("--disable-gpu")
+#   options.set_capability("pageLoadStrategy", "normal")
+  chrome_options = webdriver.ChromeOptions()
+  chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+  chrome_options.add_argument("--headless")
+  chrome_options.add_argument("--disable-dev-shm-usage")
+  chrome_options.add_argument("--no-sandbox")
   print("AFTER OPTIONS")
-  driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=options)
+
+  driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
   
   print("DRIVER BEFORE GETTING")
   driver.get(url)
@@ -553,7 +559,7 @@ popup.scrollTop += popup.clientHeight;
     print("Context "+ context)
     print("FEEDBACK"+feedback)
   try: 
-      driver.quit()
+      driver.close()
       print("TEST")
   except: 
       print("CLSOED ISSUE")
