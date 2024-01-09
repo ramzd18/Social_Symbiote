@@ -521,7 +521,7 @@ app.post('/getConversation', async (req, res) => {
   });
 
   app.post('/check-reports', async (req, res) => {
-    const { email } = req.query;
+    const { email } = req.body;
   
     try {
       const reports = await getReports(email);
