@@ -75,21 +75,31 @@ return (
                     <div className="subheadtwo">
                         <div>
                             <h5>Interests & hobbies</h5>
-                            <ul>
+                            {dictionaryLength > 0 ? (
+                            <p>{reportFinal["Interests & hobbies"]}</p>
+                            ) : (
+                            <p>No report available</p>
+                            )}
+                            {/* <ul>
                                 <li>Playing video games since a child</li>
                                 <li>Stock trading with college friends</li>
                                 <li>Testing new products after buying first iPhone</li>
-                            </ul>
+                            </ul> */}
                         </div>
                         
                         <div>
                             <h5>Personality traits</h5>
-                            <ul>
+                            {dictionaryLength > 0 ? (
+                            <p>{reportFinal["Personality traits"]}</p>
+                            ) : (
+                            <p>No report available</p>
+                            )}
+                            {/* <ul>
                                 <li>Introverted</li>
                                 <li>Apprehensive to new experiences</li>
                                 <li>Compassionate</li>
-                            </ul>
-                        </div>
+                            </ul> */}
+                        </div> 
 
                     </div>
                     <div className="subheadthree">
