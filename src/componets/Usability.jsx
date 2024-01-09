@@ -153,7 +153,7 @@ function Usabillity() {
       <div className="col-md-8 big">
         <div className="big-inner-child">
           <h2 className='pb-5'>Usabillity Testing</h2>
-          <div className="big-inner-interviews">
+          <div className="big-inner-interviews1">
             <div className="int">
               <h4>Test your software with our agents</h4>
               <div style={{ padding: '10px', }}>

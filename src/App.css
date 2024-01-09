@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;800&display=swap");
+
 * {
   margin: 0;
   padding: 0;
@@ -21,6 +22,7 @@ html {
   color: #fff;
   padding-bottom: 1rem;
 }
+
 .active img {
   color: red !important;
   margin-top: -0.5rem;
@@ -34,9 +36,11 @@ html {
   min-height: 100vh;
   padding: 0px 4rem;
 }
+
 .alias img {
   padding: 2rem 0rem;
 }
+
 .alias h1 {
   font-size: 48px;
   color: #fff;
@@ -45,6 +49,7 @@ html {
   font-weight: 750;
   padding-top: 16rem;
 }
+
 .alias p {
   color: #fff;
   text-align: center;
@@ -99,6 +104,7 @@ html {
 .accountc {
   background-color: #F8F8F8;
 }
+
 .accountc h2 {
   font-size: 3.2rem;
   margin-left: 0.1rem;
@@ -140,7 +146,7 @@ html {
   width: 341px;
   height: 25px;
   flex-shrink: 0;
-} 
+}
 
 /*.gbutton button span {
   color: #fff;
@@ -231,24 +237,29 @@ p:after {
   width: 100%;
   padding: 1rem 0rem;
 }
+
 .form label {
   font-size: 1.6rem;
   font-weight: 600;
   padding-top: 5rem;
 }
+
 .form label::first-child {
   margin-top: 0rem !important;
 }
+
 .form ::-moz-placeholder {
   font-size: 1.6rem;
   color: #777474;
   padding: 0 0.5rem;
 }
+
 .form ::placeholder {
   font-size: 1.6rem;
   color: #777474;
   padding: 0 0.5rem;
 }
+
 .form h6 {
   font-size: 1.4rem;
   margin-top: 5rem;
@@ -278,11 +289,13 @@ p:after {
 .step {
   padding-top: 8rem;
 }
+
 .step h2 {
   text-align: center;
   font-size: 3.2rem;
   font-weight: bold;
 }
+
 .step h5 {
   text-align: center;
   font-size: 1.6rem;
@@ -302,25 +315,31 @@ p:after {
   margin: 0 auto;
   max-width: 100%;
 }
-.work-form input, .work-form select {
+
+.work-form input,
+.work-form select {
   width: 100%;
   padding: 1rem 0rem;
 }
+
 .work-form label {
   font-size: 1.6rem;
   font-weight: 600;
   padding-top: 3rem;
 }
+
 .work-form ::-moz-placeholder {
   font-size: 1.6rem;
   color: #777474;
   padding: 0 0.5rem;
 }
+
 .work-form ::placeholder {
   font-size: 1.6rem;
   color: #777474;
   padding: 0 0.5rem;
 }
+
 .work-form select {
   font-size: 1.6rem;
   color: #777474;
@@ -407,13 +426,13 @@ p:after {
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  align-items: flex-start; 
+  align-items: flex-start;
 }
 
 
 
-.left-sidebar .active button{
-  align-items: flex-start; 
+.left-sidebar .active button {
+  align-items: flex-start;
   background: linear-gradient(180deg, rgb(186, 195, 241) 0%, rgb(126, 143, 231) 100%);
   color: #fff;
   padding-top: 1rem;
@@ -426,7 +445,7 @@ p:after {
   margin-left: 40px;
 }
 
-.left-sidebar .active button span{
+.left-sidebar .active button span {
   font-size: 20px;
   font-style: normal;
   font-weight: 600;
@@ -434,7 +453,7 @@ p:after {
 }
 
 .left-sidebar button {
-  align-items: flex-start; 
+  align-items: flex-start;
   background-color: #F8F8F8;
   border: none;
   color: #000;
@@ -449,7 +468,8 @@ p:after {
 .left-sidebar button img {
   margin-left: 40px;
 }
-.left-sidebar button span{
+
+.left-sidebar button span {
   font-size: 20px;
   font-style: normal;
   font-weight: 600;
@@ -498,7 +518,7 @@ p:after {
 .big {
   padding-top: 3rem;
   margin-top: 5rem;
-  width: 200%; 
+  width: 200%;
   margin-left: -100px;
 
   /* for row not entire screen */
@@ -507,14 +527,14 @@ p:after {
 .bperson {
   padding-top: 3rem;
   margin-top: 5rem;
-  width: 100%; 
+  width: 100%;
   /* for row not entire screen */
 }
 
 .big-interface {
   padding-top: 3rem;
   margin-top: 5rem;
-  width: 100%; 
+  width: 100%;
   /* margin-left: -100px; */
   /* for row not entire screen */
 }
@@ -524,7 +544,7 @@ p:after {
   position: absolute;
 }
 
-.big-interface .backarrowinterface  {
+.big-interface .backarrowinterface {
   width: 38px;
   height: 38px;
   background-color: #F8F8F8;
@@ -533,7 +553,7 @@ p:after {
   padding-bottom: 50px;
 }
 
-.big .backarrowinterface img  {
+.big .backarrowinterface img {
   width: 24px;
   height: 24px;
   background-color: #F8F8F8;
@@ -556,7 +576,7 @@ p:after {
   max-width: 100%;
 }
 
-.big-inner-child .backarrowreport  {
+.big-inner-child .backarrowreport {
   width: 38px;
   height: 38px;
   background-color: #F8F8F8;
@@ -565,7 +585,7 @@ p:after {
   padding-bottom: 50px;
 }
 
-.big .backarrowreport img  {
+.big .backarrowreport img {
   width: 24px;
   height: 24px;
   background-color: #F8F8F8;
@@ -600,13 +620,16 @@ p:after {
 }
 
 .bperson .person button {
-  width: 20%; /* Adjust the percentage based on your design */
-  max-width: 216.278px; /* Set a maximum width to prevent excessive growth */
+  width: 20%;
+  /* Adjust the percentage based on your design */
+  max-width: 216.278px;
+  /* Set a maximum width to prevent excessive growth */
   height: 5%;
   flex-shrink: 0;
   border-radius: 10px;
   border: none;
-  margin-left: 80%; /* Adjust the percentage based on your design */
+  margin-left: 80%;
+  /* Adjust the percentage based on your design */
   background: #7E8FE7;
   text-align: center;
   padding-top: 5px;
@@ -647,7 +670,7 @@ p:after {
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  color:#000;
+  color: #000;
   margin-left: auto;
   margin-right: auto;
   margin-top: 1rem;
@@ -663,6 +686,16 @@ p:after {
   background: #FFF;
   height: 414px;
   max-height: 75%;
+}
+
+.big-inner-interviews1 {
+  padding: 2rem;
+  width: 100rem;
+  max-width: 100%;
+  border-radius: 10px;
+  border: 1px solid #DADADA;
+  background: #FFF;
+  max-height: 85%;
 }
 
 .big-inner-interviews .int h4 {
@@ -692,7 +725,7 @@ p:after {
   justify-content: center;
   align-items: center;
   margin-top: 30px;
-}  
+}
 
 .reportbutton button {
   border: none;
@@ -736,9 +769,12 @@ p:after {
   margin-top: 5px;
   margin-bottom: 20px;
   margin-right: 30px;
-  width: 24px; /* Original width */
-  height: 24px; /* Original height */
-  transform: scale(2.5); /* Scaling factor - Adjust as needed */
+  width: 24px;
+  /* Original width */
+  height: 24px;
+  /* Original height */
+  transform: scale(2.5);
+  /* Scaling factor - Adjust as needed */
 
 }
 
@@ -787,7 +823,7 @@ p:after {
 
 .subheadtwo div {
   flex: 1;
-}  
+}
 
 .subheadtwo h5 {
   font-size: 1.6rem;
@@ -864,7 +900,7 @@ p:after {
 
 .subheadsix div {
   flex: 1;
-}  
+}
 
 .subheadsix h5 {
   font-size: 1.6rem;
@@ -921,12 +957,14 @@ p:after {
   padding: 3rem 0;
   justify-content: space-between;
 }
+
 .project button {
   background: transparent;
   border: none;
   font-size: 2.4rem;
   font-weight: bold;
 }
+
 .project :last-child {
   background-color: #7E8FE7;
   color: #fff;
@@ -938,6 +976,7 @@ p:after {
   font-size: 1.6rem;
   text-align: center;
 }
+
 .big-box-button button {
   padding: 2rem;
   margin-top: 3rem;
@@ -949,10 +988,12 @@ p:after {
   font-weight: 400;
   line-height: normal;
 }
+
 .big-box-button :last-child {
   margin-left: 0;
   margin-left: 12px;
 }
+
 .big-box-button span {
   text-decoration: underline;
 
@@ -961,6 +1002,7 @@ p:after {
 .container {
   width: 100%;
 }
+
 .personcard {
   display: flex;
   justify-content: space-between;
@@ -978,11 +1020,15 @@ p:after {
 }
 
 .personcard img {
-  width: 70px; /* Adjust the width to your preferred size */
-  height: 70px; /* Adjust the height to your preferred size */
+  width: 70px;
+  /* Adjust the width to your preferred size */
+  height: 70px;
+  /* Adjust the height to your preferred size */
   margin-top: 0px;
-  object-fit: cover; /* Maintain the image aspect ratio */
-  border-radius: 50%; /* Create a circular image */
+  object-fit: cover;
+  /* Maintain the image aspect ratio */
+  border-radius: 50%;
+  /* Create a circular image */
 }
 
 .personcardpopup {
@@ -1011,10 +1057,12 @@ p:after {
   justify-content: center;
   padding-left: 2rem;
 }
+
 .car1text h5 {
   font-size: 2.4rem;
   font-weight: 644;
 }
+
 .car1text p {
   font-size: 2rem;
   font-weight: 500;
@@ -1023,19 +1071,21 @@ p:after {
 .car2 p {
   font-size: 1.6rem;
   /* padding-right: 20rem; Remove this line */
-  
+
 }
 
 .car2 p:last-child {
   max-height: 150px;
   overflow-y: auto;
-  white-space: pre-wrap; /* Allows wrapping of text without compressing other elements */
+  white-space: pre-wrap;
+  /* Allows wrapping of text without compressing other elements */
 }
 
 .popup {
   display: flex;
   padding-top: 2rem;
 }
+
 .popup .lb2 {
   margin-left: 4rem;
   color: #000;
@@ -1089,7 +1139,7 @@ p:after {
   width: 489px;
   height: 63px;
   border: 1px solid #DADADA;
-  background: #FFF; 
+  background: #FFF;
   border: 1px solid #D9D9D9;
   padding-bottom: 3rem;
 }
@@ -1118,6 +1168,7 @@ p:after {
   border-radius: 15px;
   margin-right: 19px;
 }
+
 .mbuttonarea button.customButton.transp {
   color: #777474;
   width: 149px;
@@ -1146,19 +1197,24 @@ p:after {
   margin-top: -20px;
   margin-bottom: 20px;
   margin-right: 15px;
-  width: 24px; /* Original width */
-  height: 24px; /* Original height */
-  transform: scale(1.5); /* Scaling factor - Adjust as needed */
+  width: 24px;
+  /* Original width */
+  height: 24px;
+  /* Original height */
+  transform: scale(1.5);
+  /* Scaling factor - Adjust as needed */
 
 
 }
+
 .innerinterviewtext p {
   font-size: 16px;
   font-style: normal;
   font-weight: 550;
   margin-bottom: 15px;
-  
+
 }
+
 .innerinterviewtext :last-child {
   font-size: 12px;
   font-style: normal;
@@ -1176,7 +1232,7 @@ p:after {
   margin-left: 50px;
 }
 
-.innerinterviewbuttons button.repButton  {
+.innerinterviewbuttons button.repButton {
   border: none;
   padding: 1rem 2rem;
   border-radius: 15px;
@@ -1240,17 +1296,18 @@ p:after {
 }
 
 .interviewline {
-    margin-left: 1rem;
-    width: 940px;
-    height: 1px;
-    background: #DADADA;
-    margin-top: 70px;
+  margin-left: 1rem;
+  width: 940px;
+  height: 1px;
+  background: #DADADA;
+  margin-top: 70px;
 
 }
 
 .clear {
   text-align: center;
 }
+
 .clear button {
   border-radius: 15px;
   border: 1px solid #DADADA;
@@ -1268,6 +1325,7 @@ p:after {
   position: relative;
   padding-top: 39rem;
 }
+
 .intervieinput input {
   width: 100%;
   padding: 1rem 0;
@@ -1286,22 +1344,25 @@ p:after {
 }
 
 .chat-container {
-  max-height: calc(100vh - 200px); /* Adjust height based on your layout */
+  max-height: calc(100vh - 200px);
+  /* Adjust height based on your layout */
   overflow-y: auto;
-  width:100%;
+  width: 100%;
 }
 
 
 .sent-message {
   margin-left: 241px;
   width: calc(100% - 241px);
-  color: black; /* Default text color */
+  color: black;
+  /* Default text color */
   border-radius: 5px;
   border: 1px solid #DADADA;
   background: white;
   padding-top: 10px;
   padding-bottom: 10px;
-  position: relative; /* Needed for absolute positioning of the image */
+  position: relative;
+  /* Needed for absolute positioning of the image */
 
 
   /* Additional styles to handle the space for the image */
@@ -1318,7 +1379,8 @@ p:after {
 
 .sent-message p {
   margin: 0;
-  padding-left: 50px; /* Adjust the space from the image */
+  padding-left: 50px;
+  /* Adjust the space from the image */
   font-size: 16px;
   width: calc(100% - 50px);
 }
@@ -1328,13 +1390,15 @@ p:after {
   margin-left: 241px;
   width: calc(100% - 241px);
   /* max-width: 1850px; */
-  color: black; /* Default text color */
+  color: black;
+  /* Default text color */
   border-radius: 5px;
   border: 1px solid rgba(126, 143, 231, 0.54);
   background: rgba(126, 143, 231, 0.54);
   padding-top: 10px;
   padding-bottom: 10px;
-  position: relative; /* Needed for absolute positioning of the image */
+  position: relative;
+  /* Needed for absolute positioning of the image */
 
   /* Additional styles to handle the space for the image */
   display: flex;
@@ -1350,13 +1414,14 @@ p:after {
 
 .received-message p {
   margin: 0;
-  padding-left: 50px; /* Adjust the space from the image */
+  padding-left: 50px;
+  /* Adjust the space from the image */
   font-size: 16px;
   width: 100%;
 }
 
 .big-interface .input-container {
-  width:100%;
+  width: 100%;
   height: 100%;
   margin-left: 241px;
 }
@@ -1364,7 +1429,8 @@ p:after {
 
 .input-container .input-box {
   position: fixed;
-  width: calc(75% - 241px); /* Considering the image is 10px from the left and right */
+  width: calc(75% - 241px);
+  /* Considering the image is 10px from the left and right */
   border-radius: 5px;
   border: 1.5px solid #7E8FE7;
   background: #FFF;
@@ -1375,8 +1441,10 @@ p:after {
   line-height: normal;
   padding: 1rem;
   bottom: 20px;
-  left: 50%; /* Position it at 50% of the viewport width */
-  transform: translateX(-50%); /* Center the box relative to its own width */
+  left: 50%;
+  /* Position it at 50% of the viewport width */
+  transform: translateX(-50%);
+  /* Center the box relative to its own width */
   margin-left: 121px;
 
 }
@@ -1398,6 +1466,7 @@ p:after {
 .tags {
   margin-bottom: 1rem;
 }
+
 .tags span {
   background-color: #DADADA;
   color: #000;
@@ -1406,6 +1475,7 @@ p:after {
   font-weight: normal;
   margin-left: 3rem;
 }
+
 .tags :first-child {
   background-color: #7E8FE7;
 }
@@ -1418,6 +1488,7 @@ p:after {
   margin-top: 2.5rem;
   z-index: 1;
 }
+
 .intertexts h5 {
   color: #000;
   padding-bottom: 0 !important;
@@ -1432,4 +1503,6 @@ p:after {
 .interviewbuttons button {
   color: #000;
   background-color: #DADADA;
-}/*# sourceMappingURL=App.css.map */
+}
+
+/*# sourceMappingURL=App.css.map */

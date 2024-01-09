@@ -27,7 +27,7 @@ function Marketstat({ clarity, personalization, impact, retention, message }) {
           <ProgressCircle progress={retention} />
         </div>
       </div>
-      <h1> This is the message, {message} </h1>
+      <h1> Their feedback: {message} </h1>
     </div>
 
   );
