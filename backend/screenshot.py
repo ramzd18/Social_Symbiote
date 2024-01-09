@@ -443,6 +443,8 @@ def navigate(agent,url,website_context,key,user_context):
 #   options = uc.ChromeOptions()
   options=webdriver.ChromeOptions()
   print("BEFORE CHROME OPTIONS")
+  options.binary_location = os.getenv('GOOGLE_CHROME_BIN')
+
   options.add_argument("enable-automation")
   options.add_argument("--headless")
   options.add_argument("--window-size=1920,1080")
@@ -454,7 +456,7 @@ def navigate(agent,url,website_context,key,user_context):
   print("AFTER OPTIONS")
   driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=options)
   
-  # Navigate to the website
+  print("DRIVER BEFORE GETTING")
   driver.get(url)
   print("DRIVER GETTING")
   context=""
