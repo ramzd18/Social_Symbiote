@@ -913,6 +913,11 @@ p:after {
 
 }
 
+.subheadsix p {
+  font-size: 1.6rem;
+  font-weight: 500;
+}
+
 .subheadsix ul {
 
   font-size: 1.6rem;

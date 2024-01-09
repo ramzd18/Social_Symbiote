@@ -136,7 +136,13 @@ return (
                     <div className="subheadsix">
                         <div>
                             <h5>Questions & concerns</h5>
-                            <ul>
+                            {dictionaryLength > 0 ? (
+                            <p>{reportFinal["Concerns about product"]}</p>
+                            ) : (
+                            <p>No report available</p>
+                            )}
+                            
+                            {/* <ul>
                                 <li>Playing video games since a child</li>
                                 <li>Stock trading with college friends</li>
                                 <li>Testing new products after buying first iPhone</li>
@@ -148,7 +154,7 @@ return (
                                 <li>Introverted</li>
                                 <li>Apprehensive to new experiences</li>
                                 <li>Compassionate</li>
-                            </ul>
+                            </ul> */}
                         </div>
                     </div>
 
@@ -156,7 +162,7 @@ return (
                         <h5>Summary</h5>
                         {dictionaryLength > 0 ? (
                             <div>
-                            {Array.from(reportFinal["Scores"]).map((score, index) => (
+                            {Array.from(JSON.parse(reportFinal["Scores"])).map((score, index) => (
                                 <ProgressCircle key={index} progress={parseFloat(score).toFixed(2)} />
                             ))}
                         </div>
