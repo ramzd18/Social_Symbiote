@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import LeftSidebarinterviews from './Leftsidebarinterviews'
 import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from 'react';
+import ProgressCircle from './ProgressCircle';
 
 function Report() {
     const selectedAgentName = sessionStorage.getItem('selectedAgentName');
@@ -144,10 +145,16 @@ return (
                     <div className="sum">
                         <h5>Summary</h5>
                         {dictionaryLength > 0 ? (
-                        <p>{reportFinal["Scores"]}</p>
-                        ) : (
+                            <div>
+                            {reportFinal["Scores"].map((score, index) => (
+                                <div key={index} className="progress-circle">
+                                    {score.toFixed(2)}
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
                         <p>No report available</p>
-                        )}
+                    )}
                        
                     </div>
 
