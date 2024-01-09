@@ -590,7 +590,7 @@ Analyze the following user feedback on a website and provide a detailed analysis
 User Feedback: {feedback}
 
 Based on the analysis, evaluate the user's experience in terms of Clarity, Functionality, Usability, and Retention. Provide scores for each category on a scale from 0 to 1, where 1 represents the highest level of satisfaction and 0 the lowest. Return the evaluation in the form of a list with each metric in the order they were presented here.
-In this list in the end also return analysis of the user's feedback. Make it in similair length to their feedback and provide detailed analysis of the uesr's pain points and thoughts when interacting with the product. So for example you could return [.65,.43,.81,.92, User feedback here.]. Only return the list. Make sure you only return a list and nothing else.
+In this list in the end also return analysis of the user's feedback. Provide detailed analysis of the uesr's pain points and thoughts when interacting with the product. So for example you could return [.65,.43,.81,.92, User feedback here.]. Only return the list. Make sure you only return a list and nothing else. Ensure the return follolws the exact format of the list where the first four values are scores and the next value is the user feedback.
 """)
     response = chain3(prompt).run({}).strip()
     return response
