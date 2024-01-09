@@ -525,15 +525,21 @@ app.post('/getConversation', async (req, res) => {
     console.log('personEmailpopup', personEmail);
   
     try {
-      const query = 'SELECT COUNT(*) AS rowCount FROM user_agents_info WHERE personemail = $1 AND report IS NOT NULL';
-      const result = await pool.query(query, [personEmail]);
+      const query = 'SELECT report FROM user_agents_info WHERE personemail = $1';
+      const reports = await pool.query(query, [personEmail]);
 
-      console.log('result', result);
-      
-      const rowCount = result.rows[0].rowcount;
-      console.log('rowCount', rowCount);
-  
-      res.json({ rowCount });
+      if (reports && Array.isArray(reports)) {
+        const hasReportsArray = reports.map(report => report.report !== null && report.report !== undefined);
+        res.status(200).json({ hasReports: hasReportsArray });
+    } else if (reports && reports.length === 1 && reports[0].hasOwnProperty('report')) {
+        // Scenario 2: One row (a single report)
+        const hasReport = reports[0].report !== null && reports[0].report !== undefined;
+        res.status(200).json({ hasReport });
+    } else {
+        console.error('Reports not found');
+        res.status(404).send('Reports not found');
+    }
+
     } catch (error) {
       res.status(500).json({ error: 'Error occurred while fetching row count' });
     }

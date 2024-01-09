@@ -18,6 +18,8 @@ function Interviews() {
     const [agentJob, setAgentJob] = useState('');
     const [agentLastInterviews, setAgentLastInterviews] = useState([]);
     const [agentLastInterview, setAgentLastInterview] = useState('');
+    const [agentReportVals, setAgentReportVals] = useState([]);
+    const [agentReportVal, setAgentReportVal] = useState('');
     const [isButtonEnabled, setIsButtonEnabled] = useState(false);
 
 //     const apiBaseUrl = process.env.NODE_ENV === 'production'
@@ -44,23 +46,38 @@ function Interviews() {
         // Further actions to save the name or navigate to a different page with this data
       };
 
-      const checkReports = async () => {
-        try {
-          const response = await fetch(`https://alias-node-9851227f2446.herokuapp.com/check-reports?personEmail=${userObject.email}`);
-          const data = await response.json();
-    
-          // Enable the button if the rowCount is greater than 0
-          console.log(data.rowCount)
-          setIsButtonEnabled(data.rowCount > 0);
-        } catch (error) {
-          console.error('Error checking reports:', error);
-          // Handle error if needed
-        }
-      };   
 
     useEffect(() => {
 
-        checkReports();
+
+        fetch(`https://alias-node-9851227f2446.herokuapp.com/check-reports`, {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ personEmail: userObject.email })
+        })
+
+        .then((response) => response.json()) // Try parsing response as JSON
+        .then((data) => {
+        
+    
+            if (data.hasReportsArray) {
+                console.log('Multiple report vals:', data.hasReportsArray);
+                // Store the array in the state or variable
+                setAgentReportVals(data.hasReportsArray);
+                setAgentReportVal('');
+            } else if (data.hasReport) {
+                console.log('Single report val:', data.hasReport);
+                // Handle a single name separately
+                setAgentReportVal(data.hasReport);
+                setAgentReportVals([]);
+            } else {
+                console.error('Error:', data); // Log any unexpected response
+            } 
+        })    
+        .catch((error) => console.error('Error:', error));
+
         fetch(`https://alias-node-9851227f2446.herokuapp.com/getAgentName`, {
             method: 'POST',
             headers: {
@@ -290,7 +307,7 @@ function Interviews() {
                                 <button className='repButton'>New Interview</button>
                             </Link>
                             <Link to="/reports" onClick={() => handleInterviewClick(name)}>
-                                <button className={`repButton two ${isButtonEnabled ? '' : 'disabled'}`} disabled={!isButtonEnabled}>
+                                <button className={`repButton two ${agentReportVals[index] ? '' : 'disabled'}`} disabled={!agentReportVals[index]}>
                                 View Interview
                                 </button>
                             </Link>
