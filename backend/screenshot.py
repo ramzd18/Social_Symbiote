@@ -458,6 +458,9 @@ def navigate(agent,url,website_context,key,user_context):
   chrome_options.binary_location = GOOGLE_CHROME_PATH
   print("OS PARTH"+ str(os.environ.get("GOOGLE_CHROME_BIN")))
   chrome_options.add_argument("--headless")
+  chrome_options.add_argument("--disable-gpu")
+  chrome_options.add_argument("--disable-dev-shm-usage")
+  chrome_options.add_argument("--no-sandbox")
 #   chrome_options.add_argument("--disable-dev-shm-usage")
 #   chrome_options.add_argument("--no-sandbox")
   print("AFTER OPTIONS")
@@ -484,7 +487,7 @@ def navigate(agent,url,website_context,key,user_context):
 #   max_height = driver.execute_script("return document.body.scrollHeight;")
 #   print("max height"+ str(max_height))
   counter = 1      
-  while counter< 2: 
+  while counter< 7: 
     time.sleep(4)
     count1=0
     document_height=driver.execute_script("return document.body.scrollHeight")
@@ -494,28 +497,31 @@ def navigate(agent,url,website_context,key,user_context):
     # all_str=[]
     imgs=[]
     while count1<2 and current_height<document_height-700 and past_height!=current_height: 
-        print("loop iteration")
-        heihgt=-500
-        elslist=get_all_clickable_elements(driver)
-        print(str(len(elslist)))
-        screenshot= driver.get_screenshot_as_base64()
-        driver.save_screenshot(f'screenshots/scroll_{count1*counter}.png')
-        imgs.append(screenshot)
-        all_els.append(elslist)
-        # all_str.append(strlist)
-        popup=detect_popup(driver)
-        if popup is not None:
-            driver.execute_script("""
-var popup = arguments[0];
-popup.scrollTop += popup.clientHeight;
-""", popup)
-        else:
-            print("POPUP")
-            driver.execute_script("window.scrollBy(0, window.innerHeight*1);")
-        past_height=current_height
-        current_height = driver.execute_script("return window.pageYOffset;")
-        print(count1)
-        count1+=1
+        try:
+            print("loop iteration")
+            heihgt=-500
+            elslist=get_all_clickable_elements(driver)
+            print(str(len(elslist)))
+            screenshot= driver.get_screenshot_as_base64()
+            driver.save_screenshot(f'screenshots/scroll_{count1*counter}.png')
+            imgs.append(screenshot)
+            all_els.append(elslist)
+            # all_str.append(strlist)
+            popup=detect_popup(driver)
+            if popup is not None:
+                driver.execute_script("""
+    var popup = arguments[0];
+    popup.scrollTop += popup.clientHeight;
+    """, popup)
+            else:
+                print("POPUP")
+                driver.execute_script("window.scrollBy(0, window.innerHeight*1);")
+            past_height=current_height
+            current_height = driver.execute_script("return window.pageYOffset;")
+            print(count1)
+            count1+=1
+        except:
+            continue
     driver.execute_script("window.scrollBy(0, window.innerHeight*-2);")
     print("Finished looping")
     all_els=[item for sublist in all_els for item in sublist]
@@ -554,13 +560,19 @@ popup.scrollTop += popup.clientHeight;
 
     print("Length of unique element list"+ str(len(unique_els)))
     if tup[0]==True: 
+      try:
        browser_click(tup[1],driver,False,all_els)
        context+=" Button Click: "+ str(tup[1])
        feedback+=tup[2] +"\n"
+      except:
+          print("CONTe")
     else: 
+      try: 
        browser_search(driver,tup[1])
        context+= "Searched up"+ str(tup[1])
        feedback+=tup[2] +"\n"
+      except: 
+          print("EXCEPTION")
     counter+=1
     print("Context "+ context)
     print("FEEDBACK"+feedback)
@@ -587,7 +599,7 @@ Analyze the following user feedback on a website and provide a detailed analysis
 User Feedback: {feedback}
 
 Based on the analysis, evaluate the user's experience in terms of Clarity, Functionality, Usability, and Retention. Provide scores for each category on a scale from 0 to 1, where 1 represents the highest level of satisfaction and 0 the lowest. Return the evaluation in the form of a list with each metric in the order they were presented here.
-In this list in the end also return analysis of the user's feedback. Make it in similair length to their feedback and provide detailed analysis of the uesr's pain points and thoughts when interacting with the product. So for example you could return [.65,.43,.81,.92, User feedback here.]. Only return the list. Make sure you only return a list and nothing else.
+In this list in the end also return analysis of the user's feedback. Provide detailed analysis of the uesr's pain points and thoughts when interacting with the product. So for example you could return [.65,.43,.81,.92, User feedback here.]. Only return the list. Make sure you only return a list and nothing else. Ensure the return follolws the exact format of the list where the first four values are scores and the next value is the user feedback.
 """)
     response = chain3(prompt).run({}).strip()
     return response

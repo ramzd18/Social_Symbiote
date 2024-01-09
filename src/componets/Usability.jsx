@@ -46,9 +46,11 @@ function Usabillity() {
             //   const reportdata = fetch(`https://alias-testing-130265f16331.herokuapp.com/checkval?key=${checkkey}`)
             //   console.log("report data complete")
             const arrayval = data.data;
+            const arrayval1 = JSON.parse(arrayval)
             console.log("array data", arrayval)
+            console.log("FIRST VALUE", arrayval[0])
             console.log("LAST RESPONSE", arrayval[4])
-            setButtonInfo(<Marketstat clarity={arrayval[0]} personalization={arrayval[1]} impact={arrayval[2]} retention={arrayval[3]} message={arrayval[4]} />);
+            setButtonInfo(<Marketstat clarity={arrayval1[0]} personalization={arrayval1[1]} impact={arrayval1[2]} retention={arrayval1[3]} message={arrayval1[4]} />);
             setIsLoading(false);
 
 
@@ -151,7 +153,7 @@ function Usabillity() {
       <div className="col-md-8 big">
         <div className="big-inner-child">
           <h2 className='pb-5'>Usabillity Testing</h2>
-          <div className="mark-big-inner-interviews">
+          <div className="big-inner-interviews1">
             <div className="int">
               <h4>Test your software with our agents</h4>
               <div style={{ padding: '10px', }}>
@@ -185,7 +187,7 @@ function Usabillity() {
                 </button>
               </div>
               {isLoading &&
-                <p>Loading...</p>
+                <p>Loading...  (Expected to take 5 mins)</p>
               }
             </div>
             {show && buttonInfo}
