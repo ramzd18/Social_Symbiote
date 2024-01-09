@@ -520,7 +520,7 @@ app.post('/getConversation', async (req, res) => {
     }
   });
 
-  app.get('/check-reports', async (req, res) => {
+  app.post('/check-reports', async (req, res) => {
     const { personEmail } = req.query;
     console.log('personEmailpopup', personEmail);
   
