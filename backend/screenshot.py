@@ -451,7 +451,7 @@ def navigate(agent,url,website_context,key,user_context):
   options.add_argument("--disable-gpu")
   options.set_capability("pageLoadStrategy", "normal")
   print("AFTER OPTIONS")
-  driver = CustomChrome(options=options)
+  driver = CustomChrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=options)
   
   # Navigate to the website
   driver.get(url)
