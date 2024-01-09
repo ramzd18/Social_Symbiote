@@ -46,9 +46,11 @@ function Usabillity() {
             //   const reportdata = fetch(`https://alias-testing-130265f16331.herokuapp.com/checkval?key=${checkkey}`)
             //   console.log("report data complete")
             const arrayval = data.data;
+            const arrayval1 = JSON.parse(arrayval)
             console.log("array data", arrayval)
+            console.log("FIRST VALUE", arrayval[0])
             console.log("LAST RESPONSE", arrayval[4])
-            setButtonInfo(<Marketstat clarity={arrayval[0]} personalization={arrayval[1]} impact={arrayval[2]} retention={arrayval[3]} message={arrayval[4]} />);
+            setButtonInfo(<Marketstat clarity={arrayval1[0]} personalization={arrayval1[1]} impact={arrayval1[2]} retention={arrayval1[3]} message={arrayval1[4]} />);
             setIsLoading(false);
 
 
