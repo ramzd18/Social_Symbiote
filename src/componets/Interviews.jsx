@@ -50,33 +50,7 @@ function Interviews() {
     useEffect(() => {
 
 
-        fetch(`https://alias-node-9851227f2446.herokuapp.com/check-reports`, {
-            method: 'POST',
-            headers: {
-            'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ personEmail: userObject.email })
-        })
-
-        .then((response) => response.json()) // Try parsing response as JSON
-        .then((data) => {
         
-    
-            if (data.hasReportsArray) {
-                console.log('Multiple report vals:', data.hasReportsArray);
-                // Store the array in the state or variable
-                setAgentReportVals(data.hasReportsArray);
-                setAgentReportVal('');
-            } else if (data.hasReport) {
-                console.log('Single report val:', data.hasReport);
-                // Handle a single name separately
-                setAgentReportVal(data.hasReport);
-                setAgentReportVals([]);
-            } else {
-                console.error('Error:', data); // Log any unexpected response
-            } 
-        })    
-        .catch((error) => console.error('Error:', error));
 
         fetch(`https://alias-node-9851227f2446.herokuapp.com/getAgentName`, {
             method: 'POST',
@@ -105,6 +79,34 @@ function Interviews() {
             }
             // ... rest of your code
         })
+        .catch((error) => console.error('Error:', error));
+
+        fetch(`https://alias-node-9851227f2446.herokuapp.com/check-reports`, {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ personEmail: userObject.email })
+        })
+
+        .then((response) => response.json()) // Try parsing response as JSON
+        .then((data) => {
+        
+    
+            if (data.hasReportsArray) {
+                console.log('Multiple report vals:', data.hasReportsArray);
+                // Store the array in the state or variable
+                setAgentReportVals(data.hasReportsArray);
+                setAgentReportVal('');
+            } else if (data.hasReport) {
+                console.log('Single report val:', data.hasReport);
+                // Handle a single name separately
+                setAgentReportVal(data.hasReport);
+                setAgentReportVals([]);
+            } else {
+                console.error('Error:', data); // Log any unexpected response
+            } 
+        })    
         .catch((error) => console.error('Error:', error));
 
         fetch(`https://alias-node-9851227f2446.herokuapp.com/getAgentPic`, {
