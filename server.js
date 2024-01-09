@@ -546,6 +546,7 @@ app.post('/getConversation', async (req, res) => {
   });
 
   async function getReports(email) {
+    console.log("reports email", email)
     const { rows } = await pool.query('SELECT report FROM user_agents_info WHERE personemail = $1', [email]);
     return rows;
   }
