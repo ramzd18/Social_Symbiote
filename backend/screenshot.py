@@ -440,29 +440,20 @@ def detect_popup(driver):
 
 
 def navigate(agent,url,website_context,key,user_context):
-#   options = uc.ChromeOptions()
-#   options=webdriver.ChromeOptions()
-#   print("BEFORE CHROME OPTIONS")
-#   options.binary_location = os.getenv('GOOGLE_CHROME_BIN')
-
-#   options.add_argument("enable-automation")
-#   options.add_argument("--headless")
-#   options.add_argument("--window-size=1920,1080")
-#   options.add_argument("--no-sandbox")
-#   options.add_argument("--disable-extensions")
-#   options.add_argument("--dns-prefetch-disable")
-#   options.add_argument("--disable-gpu")
-#   options.set_capability("pageLoadStrategy", "normal")
-  chrome_options = webdriver.ChromeOptions()
-  chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-  chrome_options.add_argument("--headless")
-  chrome_options.add_argument("--disable-dev-shm-usage")
-  chrome_options.add_argument("--no-sandbox")
+  options = uc.ChromeOptions()
+  print("BEFORE CHROME OPTIONS")
+  options.add_argument("enable-automation")
+  options.add_argument("--headless")
+  options.add_argument("--window-size=1920,1080")
+  options.add_argument("--no-sandbox")
+  options.add_argument("--disable-extensions")
+  options.add_argument("--dns-prefetch-disable")
+  options.add_argument("--disable-gpu")
+  options.set_capability("pageLoadStrategy", "normal")
   print("AFTER OPTIONS")
-
-  driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+  driver = CustomChrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=options)
   
-  print("DRIVER BEFORE GETTING")
+  # Navigate to the website
   driver.get(url)
   print("DRIVER GETTING")
   context=""
@@ -581,7 +572,7 @@ Analyze the following user feedback on a website and provide a detailed analysis
 User Feedback: {feedback}
 
 Based on the analysis, evaluate the user's experience in terms of Clarity, Functionality, Usability, and Retention. Provide scores for each category on a scale from 0 to 1, where 1 represents the highest level of satisfaction and 0 the lowest. Return the evaluation in the form of a list with each metric in the order they were presented here.
-In this list in the end also return analysis of the user's feedback. Make it in similair length to their feedback and provide detailed analysis of the uesr's pain points and thoughts when interacting with the product. So for example you could return [.65,.43,.81,.92, User feedback here.]. Only return the list. Make sure you only return a list and nothing else.
+In this list in the end also return analysis of the user's feedback. Make it in similair length to their feedback and provide detailed analysis of the uesr's pain points and thoughts when interacting with the product. So for example you could return [.65,.43,.81,.92, User feedback here.]
 """)
     response = chain3(prompt).run({}).strip()
     return response
