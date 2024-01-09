@@ -88,15 +88,24 @@ def generate_interviewdoc(agent,problem,product):
   interviewdoc=""
   interviewlist=[]
   for question in listquestions:
-    print("question iteration")
-    interviewdoc+=f"Question: {question}" 
-    response=agent.generate_question_response_interview(question,contextdoc)
-    interviewdoc+=f"Anwser: {response}"
-    interviewlist.append(response)
-    if counter>2: 
-      contextdoc+=f"Question: {question}" 
-      contextdoc+=f"Anwser: {response}"
-    counter+=1
+   try: 
+      print("question iteration")
+      interviewdoc+=f"Question: {question}" 
+      response=agent.generate_question_response_interview(question,contextdoc)
+      interviewdoc+=f"Anwser: {response}"
+      interviewlist.append(response)
+      if counter>2: 
+         contextdoc+=f"Question: {question}" 
+         contextdoc+=f"Anwser: {response}"
+      counter+=1
+   except Exception as e:
+      print("ERROr", e)
+      interviewdoc+=f"Question: {question}"
+      interviewdoc+=f"Anwser: NO response"
+
+      interviewlist.append("NO ANWSER") 
+
+
   dict={}
   dict["Tell me about yourself"]=interviewlist[0]
   dict["Interests & hobbies"]=interviewlist[1]
