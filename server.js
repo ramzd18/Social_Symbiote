@@ -522,11 +522,11 @@ app.post('/getConversation', async (req, res) => {
 
   app.post('/check-reports', async (req, res) => {
     const { personEmail } = req.query;
-    console.log('personEmailpopup', personEmail);
   
     try {
       const query = 'SELECT report FROM user_agents_info WHERE personemail = $1';
       const reports = await pool.query(query, [personEmail]);
+      console.log('Fetched reports:', reports)
 
       if (reports && Array.isArray(reports)) {
         const hasReportsArray = reports.map(report => report.report !== null && report.report !== undefined);
