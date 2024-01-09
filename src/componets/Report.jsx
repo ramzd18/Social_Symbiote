@@ -157,9 +157,7 @@ return (
                         {dictionaryLength > 0 ? (
                             <div>
                             {Array.from(reportFinal["Scores"]).map((score, index) => (
-                                <div key={index} className="progress-circle">
-                                    {parseFloat(score).toFixed(2)}
-                                </div>
+                                <ProgressCircle key={index} progress={parseFloat(score).toFixed(2)} />
                             ))}
                         </div>
                     ) : (
