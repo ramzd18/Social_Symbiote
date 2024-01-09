@@ -156,7 +156,7 @@ return (
                         <h5>Summary</h5>
                         {dictionaryLength > 0 ? (
                             <div>
-                            {reportFinal["Scores"].map((score, index) => (
+                            {Array.from(reportFinal["Scores"]).map((score, index) => (
                                 <div key={index} className="progress-circle">
                                     {score.toFixed(2)}
                                 </div>
