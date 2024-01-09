@@ -153,7 +153,7 @@ function Usabillity() {
       <div className="col-md-8 big">
         <div className="big-inner-child">
           <h2 className='pb-5'>Usabillity Testing</h2>
-          <div className="mark-big-inner-interviews">
+          <div className="big-inner-interviews">
             <div className="int">
               <h4>Test your software with our agents</h4>
               <div style={{ padding: '10px', }}>
@@ -187,7 +187,7 @@ function Usabillity() {
                 </button>
               </div>
               {isLoading &&
-                <p>Loading...</p>
+                <p>Loading...  (Expected to take 5 mins)</p>
               }
             </div>
             {show && buttonInfo}

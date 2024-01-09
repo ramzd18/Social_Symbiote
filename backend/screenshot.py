@@ -487,7 +487,7 @@ def navigate(agent,url,website_context,key,user_context):
 #   max_height = driver.execute_script("return document.body.scrollHeight;")
 #   print("max height"+ str(max_height))
   counter = 1      
-  while counter< 2: 
+  while counter< 7: 
     time.sleep(4)
     count1=0
     document_height=driver.execute_script("return document.body.scrollHeight")
