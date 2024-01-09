@@ -15,7 +15,7 @@ from concurrent.futures import ThreadPoolExecutor, wait
 from backend import target_market
 import time
 from backend import screenshot
-
+import re 
 app = Flask(__name__, static_folder='../build', static_url_path='/')
 app.secret_key = "super secret key"
 cors = CORS(app)
@@ -108,6 +108,10 @@ def create_database_agent(email,job,description,age):
         return "true"
 def ustest(name,context,email,url):
     feedback=screenshot.total_usabillity_test(name,context,email,url)
+    feedback= feedback.replace("\n", "\\n").replace("\r", "\\r").replace("\t", "\\t")
+    
+    # Remove or replace other non-printable characters
+    feedback = re.sub(r'[^\x20-\x7E]', '', feedback)
     initialized[name+context]=feedback
     print("FINISHED")
 
