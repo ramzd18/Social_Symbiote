@@ -458,6 +458,9 @@ def navigate(agent,url,website_context,key,user_context):
   chrome_options.binary_location = GOOGLE_CHROME_PATH
   print("OS PARTH"+ str(os.environ.get("GOOGLE_CHROME_BIN")))
   chrome_options.add_argument("--headless")
+  chrome_options.addArguments("--disable-gpu")
+  chrome_options.addArguments("--disable-dev-shm-usage")
+  chrome_options.addArguments("--no-sandbox")
 #   chrome_options.add_argument("--disable-dev-shm-usage")
 #   chrome_options.add_argument("--no-sandbox")
   print("AFTER OPTIONS")
