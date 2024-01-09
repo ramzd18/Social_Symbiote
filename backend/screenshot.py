@@ -455,7 +455,7 @@ def navigate(agent,url,website_context,key,user_context):
 #   options.set_capability("pageLoadStrategy", "normal")
   GOOGLE_CHROME_PATH = '/app/.apt/usr/bin/google_chrome'
   chrome_options = webdriver.ChromeOptions()
-#   chrome_options.binary_location = GOOGLE_CHROME_PATH
+  chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
   print("OS PARTH"+ str(os.environ.get("GOOGLE_CHROME_BIN")))
   chrome_options.add_argument("--headless")
 #   chrome_options.add_argument("--disable-dev-shm-usage")
@@ -463,7 +463,7 @@ def navigate(agent,url,website_context,key,user_context):
   print("AFTER OPTIONS")
   print("OS PATH"+str(os.environ.get("CHROMEDRIVER_PATH")))
   try: 
-      driver = webdriver.Chrome(options=chrome_options)
+      driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"),options=chrome_options)
   except Exception as e:
       print("error ologged "+ str(e))
       
