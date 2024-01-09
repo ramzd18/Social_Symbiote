@@ -86,7 +86,7 @@ function Interviews() {
             headers: {
             'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ personEmail: userObject.email })
+            body: JSON.stringify({ email: userObject.email })
         })
 
         .then((response) => response.json()) // Try parsing response as JSON
@@ -94,7 +94,7 @@ function Interviews() {
         
     
             if (data.hasReportsArray) {
-                console.log('Multiple report vals:', data.hasReportsArray);
+                console.log('Multiple report vals:', data.hasReports);
                 // Store the array in the state or variable
                 setAgentReportVals(data.hasReportsArray);
                 setAgentReportVal('');

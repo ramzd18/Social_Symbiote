@@ -521,11 +521,11 @@ app.post('/getConversation', async (req, res) => {
   });
 
   app.post('/check-reports', async (req, res) => {
-    const { personEmail } = req.query;
+    const { email } = req.query;
   
     try {
-      const query = 'SELECT report FROM user_agents_info WHERE personemail = $1';
-      const reports = await pool.query(query, [personEmail]);
+      const reports = await getReports(email);
+
       console.log('Fetched reports:', reports)
 
       if (reports && Array.isArray(reports)) {
@@ -544,6 +544,11 @@ app.post('/getConversation', async (req, res) => {
       res.status(500).json({ error: 'Error occurred while fetching row count' });
     }
   });
+
+  async function getReports(email) {
+    const { rows } = await pool.query('SELECT report FROM user_agents_info WHERE personemail = $1', [email]);
+    return rows;
+  }
 
 
 
