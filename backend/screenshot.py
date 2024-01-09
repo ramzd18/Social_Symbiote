@@ -497,28 +497,31 @@ def navigate(agent,url,website_context,key,user_context):
     # all_str=[]
     imgs=[]
     while count1<2 and current_height<document_height-700 and past_height!=current_height: 
-        print("loop iteration")
-        heihgt=-500
-        elslist=get_all_clickable_elements(driver)
-        print(str(len(elslist)))
-        screenshot= driver.get_screenshot_as_base64()
-        driver.save_screenshot(f'screenshots/scroll_{count1*counter}.png')
-        imgs.append(screenshot)
-        all_els.append(elslist)
-        # all_str.append(strlist)
-        popup=detect_popup(driver)
-        if popup is not None:
-            driver.execute_script("""
-var popup = arguments[0];
-popup.scrollTop += popup.clientHeight;
-""", popup)
-        else:
-            print("POPUP")
-            driver.execute_script("window.scrollBy(0, window.innerHeight*1);")
-        past_height=current_height
-        current_height = driver.execute_script("return window.pageYOffset;")
-        print(count1)
-        count1+=1
+        try:
+            print("loop iteration")
+            heihgt=-500
+            elslist=get_all_clickable_elements(driver)
+            print(str(len(elslist)))
+            screenshot= driver.get_screenshot_as_base64()
+            driver.save_screenshot(f'screenshots/scroll_{count1*counter}.png')
+            imgs.append(screenshot)
+            all_els.append(elslist)
+            # all_str.append(strlist)
+            popup=detect_popup(driver)
+            if popup is not None:
+                driver.execute_script("""
+    var popup = arguments[0];
+    popup.scrollTop += popup.clientHeight;
+    """, popup)
+            else:
+                print("POPUP")
+                driver.execute_script("window.scrollBy(0, window.innerHeight*1);")
+            past_height=current_height
+            current_height = driver.execute_script("return window.pageYOffset;")
+            print(count1)
+            count1+=1
+        except:
+            continue
     driver.execute_script("window.scrollBy(0, window.innerHeight*-2);")
     print("Finished looping")
     all_els=[item for sublist in all_els for item in sublist]
