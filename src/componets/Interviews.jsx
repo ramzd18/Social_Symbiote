@@ -93,10 +93,10 @@ function Interviews() {
         .then((data) => {
         
     
-            if (data.hasReportsArray) {
+            if (data.hasReports) {
                 console.log('Multiple report vals:', data.hasReports);
                 // Store the array in the state or variable
-                setAgentReportVals(data.hasReportsArray);
+                setAgentReportVals(data.hasReports);
                 setAgentReportVal('');
             } else if (data.hasReport) {
                 console.log('Single report val:', data.hasReport);
