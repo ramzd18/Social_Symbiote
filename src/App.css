@@ -822,7 +822,7 @@ p:after {
 }
 
 .subheadtwo div {
-  flex: 1;
+  flex: 0.8;
 }
 
 .subheadtwo h5 {
