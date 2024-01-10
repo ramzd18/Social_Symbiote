@@ -12,7 +12,7 @@ import json
 from peopledatalabs import PDLPY
 from backend import promptLLMmemories
 
-def get_person(year,job ):
+def get_person(year,job):
   CLIENT = PDLPY(
       api_key="f5075ad903d0a727d3807e8baa6cb167ecee2e7f0cc39b6a695a2c06e860d2a2",
   )
@@ -25,7 +25,6 @@ def get_person(year,job ):
               {'term': {'location_country': "united states"}},
               {'term': {'job_title_sub_role': str(job).strip()}},
               {'term': {'birth_year': year}},
-              {'exists': {'field': "twitter_username"}},
               {'exists':{'field':"skills"}},
               {'exists':{'field':"interests"}},
               {'exists':{'field':"job_title_role"}},
