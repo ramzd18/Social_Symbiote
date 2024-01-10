@@ -213,7 +213,7 @@ def find_search_field(driver):
     flattened_list = [item for sublist in returnlist for item in sublist]
     return flattened_list
 def browser_search(driver,searchterm):
- driver.implicitly_wait(25)
+ driver.implicitly_wait(2)
  try:
     textbox=driver.find_element(By.TAG_NAME,"input")
     type=textbox.get_attribute('aria-label')
@@ -461,6 +461,8 @@ def navigate(agent,url,website_context,key,user_context):
   chrome_options.add_argument("--disable-gpu")
   chrome_options.add_argument("--disable-dev-shm-usage")
   chrome_options.add_argument("--no-sandbox")
+  chrome_options.add_argument("--window-size=1920,1080")
+
 #   chrome_options.add_argument("--disable-dev-shm-usage")
 #   chrome_options.add_argument("--no-sandbox")
   print("AFTER OPTIONS")
@@ -488,7 +490,7 @@ def navigate(agent,url,website_context,key,user_context):
 #   print("max height"+ str(max_height))
   counter = 1      
   while counter< 7: 
-    time.sleep(4)
+    time.sleep(2)
     count1=0
     document_height=driver.execute_script("return document.body.scrollHeight")
     current_height=-700
@@ -584,7 +586,7 @@ def navigate(agent,url,website_context,key,user_context):
   return feedback
 
 def chain3( prompt: PromptTemplate) -> LLMChain:
-        llm1 = ChatOpenAI(model_name='gpt-3.5-turbo',temperature=0.5,api_key="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")
+        llm1 = ChatOpenAI(model_name='gpt-4-1106-preview',temperature=0.6,api_key="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")
         return LLMChain(
             llm=llm1, prompt=prompt,
         )
