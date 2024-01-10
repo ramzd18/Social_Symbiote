@@ -59,8 +59,8 @@ return (
                 <div className="big-inner-reports">
                     <div className="int">
                         <div className="intimg">
-                            {/* <img src={`${process.env.PUBLIC_URL}/avatars/${selectedAgentGender}/${selectedAgentPic}.svg`} alt="" /> */}
-                            <img src={`${process.env.PUBLIC_URL}/avatars/M/1.svg`} alt="" />
+                            <img src={`${process.env.PUBLIC_URL}/avatars/${selectedAgentGender}/${selectedAgentPic}.svg`} alt="" />
+                            {/* <img src={`${process.env.PUBLIC_URL}/avatars/M/1.svg`} alt="" /> */}
                         </div>
                         <div className="inttext">
                             <h4>{selectedAgentName}</h4>
@@ -169,7 +169,7 @@ return (
                         {dictionaryLength > 0 ? (
                             <div style={{ display: 'flex', justifyContent: 'center' }}>
                                 {Array.from(JSON.parse(reportFinal["Scores"])).map((score, index) => (
-                                    <div key={index} style={{ marginRight: index === 1 ? '20px' : '70px', textAlign: 'center' }}>
+                                    <div key={index} style={{ marginRight: index === 1 ? '20px' : '120px', textAlign: 'center' }}>
                                         <ProgressCircle progress={parseFloat(score).toFixed(2)} />
                                         <p style={{ marginTop: '5px' }}>
                                             {parseFloat(score).toFixed(2)} - {getMetricName(index)}
