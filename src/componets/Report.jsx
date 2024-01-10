@@ -161,14 +161,14 @@ return (
                     <div className="sum">
                         <h5>Summary</h5>
                         {dictionaryLength > 0 ? (
-                            <div>
-                            {Array.from(JSON.parse(reportFinal["Scores"])).map((score, index) => (
-                                <div key={index} style={{ marginRight: '20px', textAlign: 'center' }}>
-                                <ProgressCircle progress={parseFloat(score).toFixed(2)} />
-                                <p style={{ marginTop: '5px' }}>{parseFloat(score).toFixed(2)}</p>
-                                </div>
-                            ))}
-                        </div>
+                            <div style={{ display: 'flex' }}>
+                                {Array.from(JSON.parse(reportFinal["Scores"])).map((score, index) => (
+                                    <div key={index} style={{ marginRight: '20px', textAlign: 'center' }}>
+                                        <ProgressCircle progress={parseFloat(score).toFixed(2)} />
+                                        <p style={{ marginTop: '5px' }}>{parseFloat(score).toFixed(2)}</p>
+                                    </div>
+                                ))}
+                            </div>
                     ) : (
                         <p>No report available</p>
                     )}

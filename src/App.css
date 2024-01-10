@@ -822,7 +822,7 @@ p:after {
 }
 
 .subheadtwo div {
-  flex: 0.8;
+  flex: 1;
 }
 
 .subheadtwo h5 {
@@ -834,6 +834,7 @@ p:after {
 .subheadtwo p {
   font-size: 1.6rem;
   font-weight: 500;
+  margin-right: 10px;
 }
 
 .subheadtwo ul {
