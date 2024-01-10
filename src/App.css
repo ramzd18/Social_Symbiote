@@ -448,7 +448,7 @@ p:after {
 .left-sidebar .active button span {
   font-size: 18px;
   font-style: normal;
-  font-weight: 644;
+  font-weight: 600;
   margin-left: 0px;
 }
 
@@ -470,7 +470,7 @@ p:after {
 }
 
 .left-sidebar button span {
-  font-size: 20px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 600;
   padding-right: 200px;
