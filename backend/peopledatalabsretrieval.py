@@ -117,6 +117,58 @@ def get_person_no_twitter(year,job):
   else:
     print("NOTE: The carrier pigeons lost motivation in flight. See error and try again.")
     print("Error:", response)
+    return "Error"
+  
+def get_person_no_job(year):
+  CLIENT = PDLPY(
+      api_key="f5075ad903d0a727d3807e8baa6cb167ecee2e7f0cc39b6a695a2c06e860d2a2",
+  )
+
+  # Create an Elasticsearch query
+  ES_QUERY = {
+    'query': {
+      'bool': {
+          'must': [
+              {'term': {'location_country': "united states"}},
+              {'term': {'birth_year': year}},
+              # {'exists': {'field': "twitter_username"}},
+              {'exists':{'field':"skills"}},
+              {'exists':{'field':"interests"}},
+              {'exists':{'field':"job_title_role"}},
+              {'exists':{'field':"education"}},
+              {'exists':{'field':"first_name"}},
+              {'exists':{'field':"gender"}}
+        ]
+      }
+    }
+  }
+
+  # Create a parameters JSON object
+  PARAMS = {
+    'query': ES_QUERY,
+    'size': 1,
+    'pretty': True
+  }
+
+  # Pass the parameters object to the Person Search API
+  response = CLIENT.person.search(**PARAMS).json()
+
+  # Check for successful response
+  if response["status"] == 200:
+    data = response['data']
+    print(type(data))
+   
+    return data[0]
+    # Write out each profile found to file
+    for record in data:
+      print(type(record))
+      print(record)
+      print(f"Successfully grabbed {len(data)} records from PDL.")
+      print(f"{response['total']} total PDL records exist matching this query.")
+  else:
+    print("NOTE: The carrier pigeons lost motivation in flight. See error and try again.")
+    print("Error:", response)
+    return "Error"
 
 
 #### Takes in people data labs json from api request and returns a dict only contains the fields for their name, gender, industry, currentrole, twitterusername, redditusername, education,skills and interests
@@ -206,6 +258,8 @@ def initialize_person(description,age,job):
   persondict=get_person(age,job)
   if(str(persondict)=="error"):
     persondict=get_person_no_twitter(age,job)
+    if(str(persondict)=="error"):
+      persondict=get_person_no_job(age)
   parsed_dict= parsepeopledata(persondict)
   print(parsed_dict)
   return (parsed_dict,job,status,product)
