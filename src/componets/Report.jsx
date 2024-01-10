@@ -18,6 +18,12 @@ function Report() {
     const { user: userObject } = decoded;
     console.log(userObject);
 
+    const getMetricName = (index) => {
+        const metricNames = ['Usability', 'Value Proposition', 'Likelihood to Recommend'];
+        return metricNames[index] || '';
+      };
+      
+
     useEffect(() => {
         fetch(`https://alias-node-9851227f2446.herokuapp.com/get-report`, {
             method: 'POST',
@@ -161,11 +167,13 @@ return (
                     <div className="sum">
                         <h5>Summary</h5>
                         {dictionaryLength > 0 ? (
-                            <div style={{ display: 'flex' }}>
+                            <div style={{ display: 'flex', justifyContent: 'center' }}>
                                 {Array.from(JSON.parse(reportFinal["Scores"])).map((score, index) => (
                                     <div key={index} style={{ marginRight: '20px', textAlign: 'center' }}>
                                         <ProgressCircle progress={parseFloat(score).toFixed(2)} />
-                                        <p style={{ marginTop: '5px' }}>{parseFloat(score).toFixed(2)}</p>
+                                        <p style={{ marginTop: '5px' }}>
+                                            {parseFloat(score).toFixed(2)} - {getMetricName(index)}
+                                        </p>
                                     </div>
                                 ))}
                             </div>
