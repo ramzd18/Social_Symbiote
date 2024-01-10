@@ -52,7 +52,7 @@ function Home() {
             <h3>Getting Started</h3>
 
             <iframe
-              src="https://www.loom.com/share/8b7c53b9d00040ec99ea4da7573d7de9?sid=97f25077-e08c-4b01-b688-b73323788d97"
+              src="https://www.loom.com/embed/8b7c53b9d00040ec99ea4da7573d7de9?sid=53c845b5-cb3a-464c-9381-524d5ad097dc"
               allowFullScreen
               style={{ width: '521px', height: '246px' }}
             ></iframe>
