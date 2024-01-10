@@ -18,7 +18,7 @@ const LeftSidebar = () => {
         <button><img src="./chatblack.svg" /> <span> User interviews</span></button>
       </Link>
       <Link to="/testing">
-        <button><img src="./testingblack.svg" /> <span> User Testing</span></button>
+        <button><img src="./testingblack.svg" /> <span> User testing</span></button>
       </Link>
 
 
