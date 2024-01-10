@@ -20,7 +20,7 @@ const LeftSidebarmarketing = () => {
       </Link>
 
       <div className='active'>
-        <button disabled><img src="./chatwhite.svg" /> <span> User Testing</span></button>
+        <button disabled><img src="./testingwhite.svg" /> <span> User Testing</span></button>
       </div>
 
 

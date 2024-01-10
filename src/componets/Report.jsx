@@ -18,6 +18,12 @@ function Report() {
     const { user: userObject } = decoded;
     console.log(userObject);
 
+    const getMetricName = (index) => {
+        const metricNames = ['Usability', 'Value Proposition', 'Likelihood to Recommend'];
+        return metricNames[index] || '';
+      };
+      
+
     useEffect(() => {
         fetch(`https://alias-node-9851227f2446.herokuapp.com/get-report`, {
             method: 'POST',
@@ -53,8 +59,8 @@ return (
                 <div className="big-inner-reports">
                     <div className="int">
                         <div className="intimg">
-                            {/* <img src={`${process.env.PUBLIC_URL}/avatars/${selectedAgentGender}/${selectedAgentPic}.svg`} alt="" /> */}
-                            <img src={`${process.env.PUBLIC_URL}/avatars/M/1.svg`} alt="" />
+                            <img src={`${process.env.PUBLIC_URL}/avatars/${selectedAgentGender}/${selectedAgentPic}.svg`} alt="" />
+                            {/* <img src={`${process.env.PUBLIC_URL}/avatars/M/1.svg`} alt="" /> */}
                         </div>
                         <div className="inttext">
                             <h4>{selectedAgentName}</h4>
@@ -136,7 +142,13 @@ return (
                     <div className="subheadsix">
                         <div>
                             <h5>Questions & concerns</h5>
-                            <ul>
+                            {dictionaryLength > 0 ? (
+                            <p>{reportFinal["Concerns about product"]}</p>
+                            ) : (
+                            <p>No report available</p>
+                            )}
+                            
+                            {/* <ul>
                                 <li>Playing video games since a child</li>
                                 <li>Stock trading with college friends</li>
                                 <li>Testing new products after buying first iPhone</li>
@@ -148,29 +160,40 @@ return (
                                 <li>Introverted</li>
                                 <li>Apprehensive to new experiences</li>
                                 <li>Compassionate</li>
-                            </ul>
+                            </ul> */}
                         </div>
                     </div>
 
                     <div className="sum">
                         <h5>Summary</h5>
                         {dictionaryLength > 0 ? (
-                            <div>
-                            {Array.from(reportFinal["Scores"]).map((score, index) => (
-                                <div key={index} className="progress-circle">
-                                    {parseFloat(score).toFixed(2)}
+                            Array.isArray(JSON.parse(reportFinal["Scores"])) ? (
+                                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                    {Array.from(JSON.parse(reportFinal["Scores"])).map((score, index) => (
+                                        <div key={index} style={{ marginLeft: index === 0 ? '100px' : '0', marginRight: index === 1 ? '130px' : '150px', textAlign: 'center' }}>
+                                            <ProgressCircle progress={parseFloat(score).toFixed(2)} />
+                                            <p style={{ marginTop: '5px' }}>
+                                                {parseFloat(score).toFixed(2)} - {getMetricName(index)}
+                                            </p>
+                                        </div>
+                                    ))}
                                 </div>
-                            ))}
-                        </div>
-                    ) : (
-                        <p>No report available</p>
-                    )}
+                            ) : (
+                                <p>Scores cannot be displayed.</p>
+                            )
+                        ) : (
+                            <p>No report available</p>
+                        )}
                        
                     </div>
 
                     <Link to="/interface" className="link-no-underline"> 
                     <div className='reportbutton'>
-                            <button>Open Chat</button>
+                        <button
+                        disabled={true}
+                        >
+                        Chat Coming Soon
+                        </button>
                     </div>        
                     </Link>
                     

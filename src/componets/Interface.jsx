@@ -307,7 +307,7 @@ function Interface() {
     </div>
         {/*<div class="border-line"></div> */}
        <div className="col-md-8 big-interface">
-            <Link to="/interviews" onClick={handleBack}>
+            <Link to="/reports" onClick={handleBack}>
               <button className="backarrowinterface"> <img src= "./Arrow-Left.svg" /> </button>
       
             </Link>

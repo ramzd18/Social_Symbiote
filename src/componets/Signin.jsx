@@ -58,23 +58,24 @@ function Signin() {
           })
           .then((data) => {
             console.log('Response:', data);
-            const checkInitialization = () => {
-              fetch(`https://alias-testing-130265f16331.herokuapp.com/check?key=initial`)
-                .then(response => response.json())
-                .then(data => {
-                  if (data && data.status === 'finished') {
-                    setisInitialized(false);
-                  } else {
-                    setTimeout(checkInitialization, 1000);
-                  }
-                })
-                .catch((error) => {
-                  console.error('Error:', error);
-                });
-            };
+            // const checkInitialization = () => {
+            //   fetch(`https://alias-testing-130265f16331.herokuapp.com/check?key=initial`)
+            //     .then(response => response.json())
+            //     .then(data => {
+            //       if (data && data.status === 'finished') {
+            //         setisInitialized(false);
+            //       } else {
+            //         setTimeout(checkInitialization, 1000);
+            //       }
+            //     })
+            //     .catch((error) => {
+            //       console.error('Error:', error);
+            //     });
+            // };
 
-            // Start the recursive call
-            checkInitialization();
+            // // Start the recursive call
+            // checkInitialization();
+            setisInitialized(false);
           })
           .catch((error) => {
             console.error('Error initializing agent:', error);

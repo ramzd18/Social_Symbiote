@@ -20,7 +20,7 @@ const LeftSidebarinterviews = () => {
         <button disabled><img src="./chatwhite.svg" /> <span> User interviews</span></button>
       </div>
       <Link to="/testing">
-        <button><img src="./personablack.svg" /> <span> User Testing</span></button>
+        <button><img src="./testingblack.svg" /> <span> User Testing</span></button>
       </Link>
 
 
