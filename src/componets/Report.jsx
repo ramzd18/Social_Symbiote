@@ -167,16 +167,20 @@ return (
                     <div className="sum">
                         <h5>Summary</h5>
                         {dictionaryLength > 0 ? (
-                            <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                {Array.from(JSON.parse(reportFinal["Scores"])).map((score, index) => (
-                                    <div key={index} style={{ marginLeft: index === 0 ? '100px' : '0', marginRight: index === 1 ? '100px' : '150px', textAlign: 'center' }}>
-                                        <ProgressCircle progress={parseFloat(score).toFixed(2)} />
-                                        <p style={{ marginTop: '5px' }}>
-                                            {parseFloat(score).toFixed(2)} - {getMetricName(index)}
-                                        </p>
-                                    </div>
-                                ))}
-                            </div>
+                            Array.isArray(JSON.parse(reportFinal["Scores"])) ? (
+                                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                    {Array.from(JSON.parse(reportFinal["Scores"])).map((score, index) => (
+                                        <div key={index} style={{ marginLeft: index === 0 ? '100px' : '0', marginRight: index === 1 ? '130px' : '150px', textAlign: 'center' }}>
+                                            <ProgressCircle progress={parseFloat(score).toFixed(2)} />
+                                            <p style={{ marginTop: '5px' }}>
+                                                {parseFloat(score).toFixed(2)} - {getMetricName(index)}
+                                            </p>
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <p>Scores cannot be displayed.</p>
+                            )
                         ) : (
                             <p>No report available</p>
                         )}
