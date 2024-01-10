@@ -82,18 +82,34 @@ return (
                         <h5>About me</h5>
                         {/* <p>I am a Gen Z recent college graduate living in New York City. I work in software engineering and earn above $200,000/yr. I’m originally from Chicago and attended Cornell.</p> */}
                         {dictionaryLength > 0 ? (
-                        <p>{reportFinal["Tell me about yourself"]}</p>
+                            <div>
+                                {reportFinal["Tell me about yourself"].split('\n\n').map((paragraph, index) => (
+                                    <div key={index}>
+                                        {paragraph.split('\n').map((line, lineIndex) => (
+                                            <p key={lineIndex}>{line}</p>
+                                        ))}
+                                    </div>
+                                ))}
+                            </div>
                         ) : (
-                        <p>No report available</p>
+                            <p>No report available</p>
                         )}
                     </div>
                     <div className="subheadtwo">
                         <div>
                             <h5>Interests & hobbies</h5>
                             {dictionaryLength > 0 ? (
-                            <p>{reportFinal["Interests & hobbies"]}</p>
+                                <div>
+                                    {reportFinal["Interests & hobbies"].split('\n\n').map((paragraph, index) => (
+                                        <div key={index}>
+                                            {paragraph.split('\n').map((line, lineIndex) => (
+                                                <p key={lineIndex}>{line}</p>
+                                            ))}
+                                        </div>
+                                    ))}
+                                </div>
                             ) : (
-                            <p>No report available</p>
+                                <p>No report available</p>
                             )}
                             {/* <ul>
                                 <li>Playing video games since a child</li>
@@ -105,9 +121,17 @@ return (
                         <div>
                             <h5>Personality traits</h5>
                             {dictionaryLength > 0 ? (
-                            <p>{reportFinal["Personality traits"]}</p>
+                                <div>
+                                    {reportFinal["Personality traits"].split('\n\n').map((paragraph, index) => (
+                                        <div key={index}>
+                                            {paragraph.split('\n').map((line, lineIndex) => (
+                                                <p key={lineIndex}>{line}</p>
+                                            ))}
+                                        </div>
+                                    ))}
+                                </div>
                             ) : (
-                            <p>No report available</p>
+                                <p>No report available</p>
                             )}
                             {/* <ul>
                                 <li>Introverted</li>
@@ -121,20 +145,36 @@ return (
                         <h5>Pain points</h5>
                         {/* <p>I am a Gen Z recent college graduate living in New York City. I work in software engineering and earn above $200,000/yr. I’m originally from Chicago and attended Cornell.</p> */}
                         {dictionaryLength > 0 ? (
-                        <p>{reportFinal['Thoughts on problem']}</p>
-                        ) : (
-                        <p>No report available</p>
-                        )}
+                                <div>
+                                    {reportFinal['Thoughts on problem'].split('\n\n').map((paragraph, index) => (
+                                        <div key={index}>
+                                            {paragraph.split('\n').map((line, lineIndex) => (
+                                                <p key={lineIndex}>{line}</p>
+                                            ))}
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <p>No report available</p>
+                            )}
                     </div>
 
                     <div className="subheadfour">
                         <h5>Analysis of your competitors</h5>
                         {/* <p>I am a Gen Z recent college graduate living in New York City. I work in software engineering and earn above $200,000/yr. I’m originally from Chicago and attended Cornell.</p> */}
                         {dictionaryLength > 0 ? (
-                        <p>{reportFinal["Competitors"]}</p>
-                        ) : (
-                        <p>No report available</p>
-                        )}
+                                <div>
+                                    {reportFinal["Competitors"].split('\n\n').map((paragraph, index) => (
+                                        <div key={index}>
+                                            {paragraph.split('\n').map((line, lineIndex) => (
+                                                <p key={lineIndex}>{line}</p>
+                                            ))}
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <p>No report available</p>
+                            )}
                     </div>
 
 
@@ -142,19 +182,35 @@ return (
                         <h5>Thoughts on your product</h5>
                         {/* <p>I am a Gen Z recent college graduate living in New York City. I work in software engineering and earn above $200,000/yr. I’m originally from Chicago and attended Cornell.</p> */}
                         {dictionaryLength > 0 ? (
-                        <p>{reportFinal["Thoughts on product"]}</p>
-                        ) : (
-                        <p>No report available</p>
-                        )}
+                                <div>
+                                    {reportFinal["Thoughts on product"].split('\n\n').map((paragraph, index) => (
+                                        <div key={index}>
+                                            {paragraph.split('\n').map((line, lineIndex) => (
+                                                <p key={lineIndex}>{line}</p>
+                                            ))}
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <p>No report available</p>
+                            )}
                     </div>
 
                     <div className="subheadsix">
                         <div>
                             <h5>Questions & concerns</h5>
                             {dictionaryLength > 0 ? (
-                            <p>{reportFinal["Concerns about product"]}</p>
+                                <div>
+                                    {reportFinal["Concerns about product"].split('\n\n').map((paragraph, index) => (
+                                        <div key={index}>
+                                            {paragraph.split('\n').map((line, lineIndex) => (
+                                                <p key={lineIndex}>{line}</p>
+                                            ))}
+                                        </div>
+                                    ))}
+                                </div>
                             ) : (
-                            <p>No report available</p>
+                                <p>No report available</p>
                             )}
                             
                             {/* <ul>
@@ -179,7 +235,7 @@ return (
                             canParseJSON(reportFinal["Scores"]) ? (
                                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                                     {Array.from(JSON.parse(reportFinal["Scores"])).map((score, index) => (
-                                        <div key={index} style={{ marginLeft: index === 0 ? '100px' : '0', marginRight: index === 1 ? '130px' : '150px', textAlign: 'center' }}>
+                                        <div key={index} style={{ marginLeft: index === 0 ? '150px' : '0', marginRight: index === 1 ? '130px' : '150px', textAlign: 'center' }}>
                                             <ProgressCircle progress={parseFloat(score).toFixed(2)} />
                                             <p style={{ marginTop: '5px' }}>
                                                 {parseFloat(score).toFixed(2)} - {getMetricName(index)}
