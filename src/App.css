@@ -709,6 +709,19 @@ p:after {
   margin-bottom: 30px;
 }
 
+.big-inner-interviews1 button {
+  background-color: #7E8FE7;
+  border: none;
+  color: #fff;
+  padding: 1rem 2rem;
+  border-radius: 15px;
+  margin-top: -20px;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
 .big-inner-reports {
   padding: 2rem;
   width: 100rem;
