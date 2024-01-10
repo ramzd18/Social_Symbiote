@@ -165,11 +165,10 @@ return (
                     </div>
 
                     <div className="sum">
-                        <h5>Summary</h5>
                         {dictionaryLength > 0 ? (
                             <div style={{ display: 'flex', justifyContent: 'center' }}>
                                 {Array.from(JSON.parse(reportFinal["Scores"])).map((score, index) => (
-                                    <div key={index} style={{ marginRight: index === 1 ? '150px' : '120px', textAlign: 'center' }}>
+                                    <div key={index} style={{ marginRight: index === 1 ? '100px' : '150px', textAlign: 'center' }}>
                                         <ProgressCircle progress={parseFloat(score).toFixed(2)} />
                                         <p style={{ marginTop: '5px' }}>
                                             {parseFloat(score).toFixed(2)} - {getMetricName(index)}
@@ -177,9 +176,9 @@ return (
                                     </div>
                                 ))}
                             </div>
-                    ) : (
-                        <p>No report available</p>
-                    )}
+                        ) : (
+                            <p>No report available</p>
+                        )}
                        
                     </div>
 
