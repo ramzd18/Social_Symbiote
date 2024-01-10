@@ -22,6 +22,15 @@ function Report() {
         const metricNames = ['Usability', 'Value Proposition', 'Likelihood to Recommend'];
         return metricNames[index] || '';
       };
+
+    const canParseJSON = (str) => {
+        try {
+            JSON.parse(str);
+            return true;
+        } catch (error) {
+            return false;
+        }
+    };
       
 
     useEffect(() => {
@@ -167,7 +176,7 @@ return (
                     <div className="sum">
                         <h5>Summary</h5>
                         {dictionaryLength > 0 ? (
-                            Array.isArray(JSON.parse(reportFinal["Scores"])) ? (
+                            canParseJSON(reportFinal["Scores"]) ? (
                                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                                     {Array.from(JSON.parse(reportFinal["Scores"])).map((score, index) => (
                                         <div key={index} style={{ marginLeft: index === 0 ? '100px' : '0', marginRight: index === 1 ? '130px' : '150px', textAlign: 'center' }}>
@@ -179,7 +188,7 @@ return (
                                     ))}
                                 </div>
                             ) : (
-                                <p>Scores cannot be displayed.</p>
+                                <p>Scores cannot be displayed. Please check the data format.</p>
                             )
                         ) : (
                             <p>No report available</p>
