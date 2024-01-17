@@ -125,22 +125,24 @@ def browser_click(buttontext,driver,flag, els_list):
                     parent = element.find_element(By.XPATH,'..') # Gets the immediate parent element
                     distance = float(similar(parent.text, buttontext))
                     print(distance)
-                    if distance == closest_distance:
+                    # if distance == closest_distance:
+                    #     closest_element.append(element)
+                    # elif distance > closest_distance: 
+                    #     closest_element=[]
+                    #     closest_element.append(element)
+                    #     closest_distance=distance
+                    if str(parent.text).__contains__(buttontext): 
                         closest_element.append(element)
-                    elif distance > closest_distance: 
-                        closest_element=[]
-                        closest_element.append(element)
-                        closest_distance=distance
                 except: 
                  continue
            
         print("Closest element length is"+ str(len(closest_element)))
         for ele in closest_element: 
          try:
-            html_content = ele.get_attribute('outerHTML')
-            print("The element,"+ str(html_content) )
+            # html_content = ele.get_attribute('outerHTML')
+            # print("The element,"+ str(html_content) )
             ele.click()
-            print("super succesful")
+            print("super succesful "+ele.text)
             break
          except: 
            print("Nope failed")
@@ -154,24 +156,28 @@ def browser_click(buttontext,driver,flag, els_list):
                     # print(parent.text)
                     distance = float(similar(element.text, buttontext))
                     print(distance)
-                    if distance == closest_distance:
-                        closest_element.append(element)
-                    elif distance > closest_distance: 
-                        closest_element=[]
-                        closest_element.append(element)
-                        closest_distance=distance
-                    elif element.text.contains(buttontext): 
+                    # if distance == closest_distance:
+                    #     closest_element.append(element)
+                    # elif distance > closest_distance: 
+                    #     closest_element=[]
+                    #     closest_element.append(element)
+                    #     closest_distance=distance
+                    # elif element.text.contains(buttontext): 
+                    #     closest_element.append(element)
+                    if distance>.8 or str(element.text).__contains__(buttontext):
                         closest_element.append(element)
              except: 
                  continue
+        
         for ele in closest_element: 
          try:
             # print("The element,"+ str(html_content) )
             ele.click()
-            print("super succesful")
+            print("super succesful"+ ele.text)
             break
          except: 
-           print("Nope failed")
+           
+           print("Nope failed"+ele.text)
            
     print("Done")
   time.sleep(1)
@@ -212,6 +218,16 @@ def find_search_field(driver):
             continue
     flattened_list = [item for sublist in returnlist for item in sublist]
     return flattened_list
+    # placeholders = []
+    # for element in flattened_list:
+    #     try:
+    #         # Retrieve the placeholder attribute
+    #         placeholder_text = element.get_attribute("placeholder")
+    #         if placeholder_text:
+    #             placeholders.append(str(placeholder_text))
+    #     except Exception as e:
+    #         print(f"Error retrieving placeholder for element: {e}")
+    # return placeholders
 def browser_search(driver,searchterm):
  driver.implicitly_wait(2)
  try:
@@ -251,9 +267,24 @@ def browser_search(driver,searchterm):
             print("failed")
     
 
- time.sleep(1)
+#  time.sleep(1)
+def find_closest_element_by_placeholder(elements, target_placeholder):
+    closest_element = None
+    highest_similarity = 0
 
-def decode_vision_json(dict1): 
+    for element in elements:
+        try:
+            element_placeholder = element.get_attribute("placeholder")
+            similarity =similar(element_placeholder.lower(), target_placeholder.lower())
+
+            if similarity > highest_similarity:
+                highest_similarity = similarity
+                closest_element = element
+        except Exception as e:
+            print(f"Error processing element: {e}")
+
+    return closest_element
+def decode_vision_json(dict1,actions): 
     # dict= json.loads(dict)
     print(dict1)
     message=dict1['choices'][0]['message']
@@ -266,17 +297,90 @@ def decode_vision_json(dict1):
        content= json.loads(content)
        for key in content:
         if key=='button':
-            return (True,content[key],content['feedback'])
-        else: 
-            return (False, content[key],content['feedback'])
-    except:
-        json_string = '\n'.join(content.split('\n')[1:-1])
-        data = json.loads(json_string)
-        for key in data:
-            if key=='button':
-                return (True,data[key],data['feedback'])
+            if(len(actions)>=1):
+                buttonval=str('button:'+content[key]).replace(" ", "")
+                actionstr=actions[-1].replace(" ","")
+                if(actionstr==buttonval):
+                    continue
+                else:
+                    return ('button',content[key],content['feedback'],content['reasoning'])
             else: 
-                return (False, data[key],data['feedback'])
+
+                return ('button',content[key],content['feedback'],content['reasoning'])
+
+        elif key=='search': 
+
+            return ('search', content[key],content['feedback'],content['reasoning'])
+        else: 
+            if(len(actions)>=3):
+                if(actions[-3]=='scroll' and actions[-2]=='scroll' and actions[-1]=='scroll'):
+                    continue
+            else:
+
+                return ('scroll', content[key],content['feedback'],content['reasoning'])
+
+
+    except:
+        try:
+            json_string = '\n'.join(content.split('\n')[1:-1])
+            data = json.loads(json_string)
+            for key in data:
+                if key=='button':
+                    if(len(actions)>=1):
+                        buttonval=str('button:'+content[key]).replace(" ", "")
+                        actionstr=actions[-1].replace(" ","")
+                        if(actionstr==buttonval):
+                            continue
+                        else: 
+                             return ('button',data[key],data['feedback'],data['reasoning'])
+                    else: 
+                        return ('button',data[key],data['feedback'],data['reasoning'])
+
+                elif key=='search': 
+                    return ('search', data[key],data['feedback'],data['reasoning'])
+                else: 
+                  if(len(actions)>=3):
+                      if(actions[-3]=='scroll' and actions[-2]=='scroll' and actions[-1]=='scroll'):
+                         continue
+                      else: 
+                        return ('scroll', data[key],data['feedback'],data['reasoning'])
+                  else: 
+                      return ('scroll', data[key],data['feedback'],data['reasoning'])
+        except:
+            start = content.find('{')
+            end = content.find('}') + 1
+            if '}' not in content :
+                content+='}'
+                end=len(content)
+            dict_string = content[start:end]
+            dictionary = json.loads(dict_string)
+            for key in dictionary: 
+                if key=='button':
+                    if(len(actions)>=1):
+                        buttonval=str('button:'+dictionary[key]).replace(" ", "")
+                        actionstr=actions[-1].replace(" ","")
+                        if(actionstr==buttonval):
+                            continue
+                        else: 
+                            return ('button',dictionary[key],dictionary['feedback'],dictionary['reasoning'])
+
+                    else:
+                     return ('button',dictionary[key],dictionary['feedback'],dictionary['reasoning'])
+                    # return ('button',dictionary[key],dictionary['feedback'],dictionary['reasoning'])
+                elif key=='search': 
+                    return ('search', dictionary[key],dictionary['feedback'],dictionary['reasoning'])
+                else: 
+                    if(len(actions)>=3):
+                      if(actions[-3]=='scroll' and actions[-2]=='scroll' and actions[-1]=='scroll'):
+                         continue
+                      else: 
+                        return ('scroll', dictionary[key],dictionary['feedback'],dictionary['reasoning'])
+                    else: 
+                        return ('scroll', dictionary[key],dictionary['feedback'],dictionary['reasoning'])
+                    # return ('scroll', dictionary[key],dictionary['feedback'],dictionary['reasoning'])
+
+
+
     
 
     # content=json.loads(content)
@@ -309,7 +413,7 @@ return elementsInViewPort;
    return elements_in_viewport
 
 
-def is_element_clickable(element,driver):
+def is_element_clickable(element,driver,flag):
     try:
         # Check if the element is displayed and enabled
         if not (element.is_displayed() and element.is_enabled()):
@@ -322,11 +426,24 @@ def is_element_clickable(element,driver):
 
         if element == top_element:
                 return True
-        else:
-                False 
-      
+        if flag: 
+            return False
+        else: 
+            return True
+#         if flag: 
+        
+#             script="""
+# var elem = arguments[0];
+# var rect = elem.getBoundingClientRect();
+# var x = rect.left + (rect.width / 2);
+# var y = rect.top + (rect.height / 2);
+# var elementAtPoint = document.elementFromPoint(x, y);
+# return elementAtPoint === elem;
+# """
 
-        return True
+#             overlapped= driver.execute_script(script,element)
+#             return overlapped
+      
     except :
         # Element is no longer attached to the DOM
         return False    
@@ -363,26 +480,116 @@ def compare_texts(text1, text2, similarity_threshold):
         return True
     return False
 
+# def remove_similar_strings(elements, similarity_threshold=80):
+#     element_texts = get_element_texts(elements)
+#     to_remove = set()
+
+#     # Create a thread pool for parallel processing
+#     with ThreadPoolExecutor() as executor:
+#         future_to_pair = {executor.submit(compare_texts, text1, text2, similarity_threshold): (i, j) 
+#                           for i, text1 in enumerate(element_texts)
+#                           for j, text2 in enumerate(element_texts) if i < j}
+
+#         for future in concurrent.futures.as_completed(future_to_pair):
+#             if future.result():
+#                 i, j = future_to_pair[future]
+#                 shorter_index = i if len(element_texts[i]) < len(element_texts[j]) else j
+#                 to_remove.add(shorter_index)
+
+#     results = [element for i, element in enumerate(elements) if i not in to_remove]
+#     return results
 def remove_similar_strings(elements, similarity_threshold=80):
     element_texts = get_element_texts(elements)
     to_remove = set()
 
+    # Precompute string lengths
+    lengths = [len(text) for text in element_texts]
+
     # Create a thread pool for parallel processing
     with ThreadPoolExecutor() as executor:
-        future_to_pair = {executor.submit(compare_texts, text1, text2, similarity_threshold): (i, j) 
-                          for i, text1 in enumerate(element_texts)
-                          for j, text2 in enumerate(element_texts) if i < j}
+        future_to_pair = {
+            executor.submit(compare_texts, element_texts[i], element_texts[j], similarity_threshold): (i, j)
+            for i in range(len(element_texts))
+            for j in range(i + 1, len(element_texts))
+            if i not in to_remove and j not in to_remove  # Avoid redundant comparisons
+        }
 
         for future in concurrent.futures.as_completed(future_to_pair):
             if future.result():
                 i, j = future_to_pair[future]
-                shorter_index = i if len(element_texts[i]) < len(element_texts[j]) else j
+                shorter_index = i if lengths[i] < lengths[j] else j
                 to_remove.add(shorter_index)
 
     results = [element for i, element in enumerate(elements) if i not in to_remove]
     return results
+def batch_check_clickable_elements(elements, driver, flag):
+    # script = """
+    # var elements = arguments[0];
+    # var results = [];
+    # for (var i = 0; i < elements.length; i++) {
+    #     var el = elements[i];
+    #     var rect = el.getBoundingClientRect();
+    #     var x = rect.left + (rect.width / 2);
+    #     var y = rect.top + (rect.height / 2);
+    #     var elemFromPoint = document.elementFromPoint(x, y);
+    #     var isVisible = el.offsetWidth > 0 || el.offsetHeight > 0;
+    #     var isEnabled = !el.disabled;
+    #     var isInViewport = rect.bottom > 0 && rect.right > 0 &&
+    #                        rect.left < (window.innerWidth || document.documentElement.clientWidth) &&
+    #                        rect.top < (window.innerHeight || document.documentElement.clientHeight);
 
-def get_all_clickable_elements(driver):
+    #     // Enhanced interactive element check
+    #     var interactiveTags = ['A', 'BUTTON', 'INPUT', 'SELECT', 'TEXTAREA', 'LABEL', 'AREA', 'DETAILS'];
+    #     var hasInteractiveRole = el.hasAttribute('role') && ['button', 'link', 'checkbox', 'menuitem', 'tab'].includes(el.getAttribute('role').toLowerCase());
+    #     var isStylizedInteractive = getComputedStyle(el).cursor === 'pointer';
+    #     var isInteractive = interactiveTags.includes(el.tagName) || hasInteractiveRole || isStylizedInteractive;
+
+    #     var isClickable = elemFromPoint === el && isVisible && isEnabled && isInViewport && isInteractive;
+    #     results.push(isClickable ? 'true' : 'false');
+    # }
+    # return results;
+    # """
+    
+    script = """
+    var elements = arguments[0];
+    var results = [];
+    for (var i = 0; i < elements.length; i++) {
+        var el = elements[i];
+        var rect = el.getBoundingClientRect();
+        var x = rect.left + (rect.width / 2);
+        var y = rect.top + (rect.height / 2);
+        var elemFromPoint = document.elementFromPoint(x, y);
+        var isVisible = el.offsetWidth > 0 || el.offsetHeight > 0;
+        var isEnabled = !el.disabled;
+        var isInViewport = rect.bottom > 0 && rect.right > 0 &&
+                           rect.left < (window.innerWidth || document.documentElement.clientWidth) &&
+                           rect.top < (window.innerHeight || document.documentElement.clientHeight);
+
+        // Enhanced interactive element check
+        var interactiveTags = ['A', 'BUTTON', 'INPUT', 'SELECT', 'TEXTAREA', 'LABEL', 'AREA', 'DETAILS'];
+        var hasInteractiveRole = el.hasAttribute('role') && ['button', 'link', 'checkbox', 'menuitem', 'tab'].includes(el.getAttribute('role').toLowerCase());
+        var isStylizedInteractive = getComputedStyle(el).cursor === 'pointer';
+        var isInteractive = interactiveTags.includes(el.tagName) || hasInteractiveRole || isStylizedInteractive;
+
+        var isClickable = elemFromPoint === el && isVisible && isEnabled && isInViewport && isInteractive;
+        results.push(isClickable ? 'true' : 'false');
+    }
+    return results;
+    """
+    clickable_results = driver.execute_script(script, elements)
+
+    # Process the results
+    if flag:
+        clickable_elements = [el for el, result in zip(elements, clickable_results) if result == 'true']
+
+    # If flag is set, filter further
+    else:
+        clickable_elements = [el for el, result in zip(elements, clickable_results)]
+
+
+    return clickable_elements
+
+def get_all_clickable_elements(driver,flag):
     wait = WebDriverWait(driver, 5)
     # wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "body")))
 
@@ -392,12 +599,14 @@ def get_all_clickable_elements(driver):
     split_elements= split_list(elements,split_size)
 
     print("COMPLETE ELEMENTS LENGTH: "+ str(len(elements)))
-    clickable_elements=[]
-    with ThreadPoolExecutor(max_workers=8) as executor:
-      for sublist in split_elements:
-            # Execute is_clickable for each element in the sublist
-            results = executor.map(lambda el: is_element_clickable(el, driver), sublist)
-            clickable_elements.extend([el for el, is_click in zip(sublist, results) if is_click])
+    clickable_elements = batch_check_clickable_elements(elements, driver, flag)
+
+    # clickable_elements=[]
+    # with ThreadPoolExecutor(max_workers=8) as executor:
+    #   for sublist in split_elements:
+    #         # Execute is_clickable for each element in the sublist
+    #         results = executor.map(lambda el: is_element_clickable(el, driver,flag), sublist)
+    #         clickable_elements.extend([el for el, is_click in zip(sublist, results) if is_click])
     print("DONE COMPILING ALL THIS INFORMATION"+ str(len(clickable_elements)))
     # filtered_els = [element for element in clickable_elements if element.text and (len(element.text.strip())>1 and len(element.text.strip()) <= 90)]
     filtered_els=filter_elements_by_text(driver,clickable_elements)
@@ -405,19 +614,23 @@ def get_all_clickable_elements(driver):
     updated_els_list= remove_similar_strings(filtered_els)
     text_list=get_texts_of_elements(driver,updated_els_list)
     print("UPDATING")
-    return updated_els_list
+    return updated_els_list,filtered_els
 
 
-def findtext():
-    driver = webdriver.Chrome()
-    driver.get("https://airbnb.com")
-    # It's better to use explicit waits instead of time.sleep
-    time.sleep(10)  # Consider replacing with WebDriverWait for better efficiency
-
-    els = get_all_clickable_elements(driver)
-  
-    for textval in els:
-        print("Example Text: " + textval.text)
+def get_search_field_text(driver):
+    search_elements=find_search_field(driver)
+    parentstring=""
+    placeholders = []
+    for element in search_elements:
+        try:
+            # Retrieve the placeholder attribute
+            placeholder_text = element.get_attribute("placeholder")
+            if placeholder_text:
+                placeholders.append(element)
+                parentstring+=str(placeholder_text) +"\n"
+        except Exception as e:
+            print(f"Error retrieving placeholder for element: {e}")
+    return (parentstring,placeholders)
 
 
 
@@ -437,38 +650,34 @@ def detect_popup(driver):
             return overlays[0]
         else: 
             return None
+def detect_popup_list(driver):
+    overlay_selectors = [
+       '[role="dialog"]',
+    '[aria-modal="true"]',
+    'div[style*="display: block"]',
+    'div[style*="position: fixed"]',
+]
+
+    for selector in overlay_selectors:
+        overlays = driver.find_elements(By.CSS_SELECTOR,selector)
+        print("LENGTH OF OVERLAYS"+ str(len(overlays)))
+        if overlays and any(overlay.is_displayed() for overlay in overlays):
+            return overlays
+        else: 
+            return None
 
 
 def navigate(agent,url,website_context,key,user_context):
-#   options = uc.ChromeOptions()
-#   options=webdriver.ChromeOptions()
-#   print("BEFORE CHROME OPTIONS")
-#   options.binary_location = os.getenv('GOOGLE_CHROME_BIN')
 
-#   options.add_argument("enable-automation")
-#   options.add_argument("--headless")
-#   options.add_argument("--window-size=1920,1080")
-#   options.add_argument("--no-sandbox")
-#   options.add_argument("--disable-extensions")
-#   options.add_argument("--dns-prefetch-disable")
-#   options.add_argument("--disable-gpu")
-#   options.set_capability("pageLoadStrategy", "normal")
-  GOOGLE_CHROME_PATH = '/app/.apt/usr/bin/google_chrome'
-  chrome_options = webdriver.ChromeOptions()
-  chrome_options.binary_location = GOOGLE_CHROME_PATH
-  print("OS PARTH"+ str(os.environ.get("GOOGLE_CHROME_BIN")))
+  chrome_options = uc.ChromeOptions()
+
   chrome_options.add_argument("--headless")
   chrome_options.add_argument("--disable-gpu")
   chrome_options.add_argument("--disable-dev-shm-usage")
   chrome_options.add_argument("--no-sandbox")
-  chrome_options.add_argument("--window-size=1920,1080")
-
-#   chrome_options.add_argument("--disable-dev-shm-usage")
-#   chrome_options.add_argument("--no-sandbox")
-  print("AFTER OPTIONS")
-  print("OS PATH"+str(os.environ.get("CHROMEDRIVER_PATH")))
+  chrome_options.add_argument("--window-size=1600,1080")
   try: 
-      driver = webdriver.Chrome(options=chrome_options)
+      driver = CustomChrome(options=chrome_options)
   except Exception as e:
       print("error ologged "+ str(e))
       
@@ -483,48 +692,60 @@ def navigate(agent,url,website_context,key,user_context):
   height = window_size['height']
 
   driver.set_window_size(width, height)
+  totalcounter=0
+  imgslist=[]
+  past_actions=[]
 
-
-#   last_height = driver.execute_script("return document.body.scrollHeight")
-#   max_height = driver.execute_script("return document.body.scrollHeight;")
-#   print("max height"+ str(max_height))
   counter = 1      
-  while counter< 7: 
-    time.sleep(2)
+  while counter< 14: 
+    time.sleep(1)
     count1=0
     document_height=driver.execute_script("return document.body.scrollHeight")
     current_height=-700
     all_els=[]
-    past_height=1
+    past_height=-1
     # all_str=[]
     imgs=[]
-    while count1<2 and current_height<document_height-700 and past_height!=current_height: 
+    while count1<1 and current_height<document_height-700 and past_height!=current_height: 
         try:
             print("loop iteration")
-            heihgt=-500
-            elslist=get_all_clickable_elements(driver)
-            print(str(len(elslist)))
+            popup=detect_popup(driver)
+            # heihgt=-500
+            flag= (popup is not None)
+            print("FLAG"+str(flag))
+            elslist,unelslist=get_all_clickable_elements(driver,flag)
+            print("DONE ALL ELS")
+            (searchstring,searchlist)=get_search_field_text(driver)
+            print("DONE TEXT")
+            # print(str(len(elslist)))
             screenshot= driver.get_screenshot_as_base64()
-            driver.save_screenshot(f'screenshots/scroll_{count1*counter}.png')
+            driver.save_screenshot(f'screenshots/scroll_{totalcounter}.png')
+            totalcounter+=1
             imgs.append(screenshot)
+            imgslist.append(screenshot)
             all_els.append(elslist)
             # all_str.append(strlist)
-            popup=detect_popup(driver)
-            if popup is not None:
-                driver.execute_script("""
-    var popup = arguments[0];
-    popup.scrollTop += popup.clientHeight;
-    """, popup)
-            else:
-                print("POPUP")
-                driver.execute_script("window.scrollBy(0, window.innerHeight*1);")
-            past_height=current_height
-            current_height = driver.execute_script("return window.pageYOffset;")
-            print(count1)
-            count1+=1
+            # popup=detect_popup(driver)
+            past_height=current_height=driver.execute_script("return window.pageYOffset;")
+
+            # if popup is not None:
+            #     past_height=driver.execute_script("return arguments[0].scrollTop;", popup)
+    #             driver.execute_script("""
+    # var popup = arguments[0];
+    # popup.scrollTop += popup.clientHeight;
+    # """, popup)
+                # current_height=driver.execute_script("return arguments[0].scrollTop;", popup)
+            
+            # else:
+            #     print("POPUP")
+            #     # driver.execute_script("window.scrollBy(0, window.innerHeight*1);")
+            #     current_height = driver.execute_script("return window.pageYOffset;")
+            # print("past heihgt"+ str(past_height))
+            # print("current height"+str(current_height))
+            # count1+=1
         except:
             continue
-    driver.execute_script("window.scrollBy(0, window.innerHeight*-2);")
+    # driver.execute_script("window.scrollBy(0, window.innerHeight*-2);")
     print("Finished looping")
     all_els=[item for sublist in all_els for item in sublist]
     # all_str=[item for sublist in all_str for item in sublist]
@@ -552,29 +773,62 @@ def navigate(agent,url,website_context,key,user_context):
     flag3=(len(imgs)==3)
     img2=None
     img3=None
-    if flag2 or flag3: 
-       img2=imgs[1]
+    if flag2 or flag3 and len(imgslist)>1: 
+       print("ttwo imges")
+       if(len(imgslist)==1):
+           img2=imgslist[-1]
+       else:
+           img2=imgslist[-2]
     if flag3: 
        img3=imgs[2]
     img1=imgs[0]
-    tup= decode_vision_json(agent.vision_test(key,img1,img2,img3,flag2,flag3,website_context,context,totalstr,user_context))
+    tup= decode_vision_json(agent.vision_test(key,img1,img2,img3,flag2,flag3,website_context,context,totalstr,user_context,searchstring,feedback),past_actions)
     print("Length of regular list"+ str(len(all_els)))
 
     print("Length of unique element list"+ str(len(unique_els)))
-    if tup[0]==True: 
+    if tup[0]=='button': 
       try:
-       browser_click(tup[1],driver,False,all_els)
-       context+=" Button Click: "+ str(tup[1])
+       browser_click(tup[1],driver,False,unelslist)
+       context+=" Button Click: "+ str(tup[1]) + " Reasoning:"+ str(tup[3])+ "\n"
+       past_actions.append("button:"+str(tup[1]))
        feedback+=tup[2] +"\n"
       except:
           print("CONTe")
-    else: 
+    elif tup[0]=='search': 
       try: 
-       browser_search(driver,tup[1])
-       context+= "Searched up"+ str(tup[1])
+       complete_search_value=tup[1]
+       placeholder, searchvalue =complete_search_value.split(":", 1)
+       past_actions.append('search:'+placeholder+':'+searchvalue)
+       closest_element=find_closest_element_by_placeholder(searchlist,placeholder)
+       closest_element.send_keys(searchvalue)
+       closest_element.send_keys(Keys.ENTER)
+
+    #    browser_search(driver,tup[1])
+       context+= "Searched up"+ str(searchvalue + "In element "+ str(placeholder)) + " Reasoning: "+ str(tup[3])+ "\n"
        feedback+=tup[2] +"\n"
       except: 
           print("EXCEPTION")
+    else: 
+        context+= "Scroll Down \n"
+        past_actions.append('scroll')
+        feedback+=tup[2] +"\n"
+        if popup is not None: 
+
+            potential_scrollable_elements = popup.find_elements(By.TAG_NAME,'div')
+
+            scrollable_elements = []
+            print("SCROLLIGN NOW")
+            for element in potential_scrollable_elements:
+                overflow_value = driver.execute_script('return window.getComputedStyle(arguments[0]).overflow', element)
+                if overflow_value == 'auto' or overflow_value == 'scroll':
+                    scrollable_elements.append(element)
+            for scrollable in scrollable_elements:
+                driver.execute_script('arguments[0].scrollTop += arguments[0].clientHeight', scrollable)
+        else: 
+
+            driver.execute_script("window.scrollBy(0, window.innerHeight*1);")
+
+            
     counter+=1
     print("Context "+ context)
     print("FEEDBACK"+feedback)
@@ -586,7 +840,7 @@ def navigate(agent,url,website_context,key,user_context):
   return feedback
 
 def chain3( prompt: PromptTemplate) -> LLMChain:
-        llm1 = ChatOpenAI(model_name='gpt-4-1106-preview',temperature=0.6,api_key="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")
+        llm1 = ChatOpenAI(model_name='gpt-4-1106-preview',temperature=0.5,api_key="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")
         return LLMChain(
             llm=llm1, prompt=prompt,
         )
@@ -609,9 +863,9 @@ In this list in the end also return analysis of the user's feedback. Provide det
 def total_usabillity_test(agent_name,website_context,email,url):
   agent=load_agent_database.LoadAgent(email,agent_name)
   print("BEFORE USER CONTECT")
-  questionstring= f"What would you want from a product whose description is this:{website_context}. Think about what features and desings you would want on the software."
+  questionstring= f"Here is the conext for a website you are going to be using:{website_context}. I want you to create a usage scenario that fits your profile and is realisitic for you. For example if you are an avid weightlifter and you are evaluating a fitness website your usage scenario might be figuring out how the webiste will augment your weightlifting and help keep track of your necessary metrics. Make this scenario as specific as possible. By hyper specific and include very specific details to have an extremely specific scenario that will help navigate this website. Use as much detail as you possibly can."
   user_context=str(agent.generate_question_response(questionstring))
-  print("BEFORE AFTER USER CONTECT")
+  print(user_context)
   feedback=str(navigate(agent,url,website_context,"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",user_context))
   print(feedback)
   finalfeedback=feedbackprompt(feedback)
